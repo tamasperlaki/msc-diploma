@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex: 1;
+}
+
+.content {
+  padding: 12px;
+}
+
+.flex-fill-remaining-space {
+  flex: 1 1 auto;
+}

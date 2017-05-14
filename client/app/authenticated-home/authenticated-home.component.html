@@ -1,0 +1,28 @@
+<div fxLayout="column" fxFlex>
+
+  <md-toolbar id="main-toolbar" color="primary">
+    <span>{{title}}</span>
+    <!--<span class="flex-fill-remaining-space"></span>
+    <button
+      md-raised-button
+      (click)="attemptSignIn()">Sign Out</button>-->
+  </md-toolbar>
+
+  <md-sidenav-container fxFlex>
+    <nav id="main-nav-bar" md-tab-nav-bar>
+      <a md-tab-link
+        *ngFor="let routeLink of routeLinks"
+        [routerLink]="routeLink.link"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [active]="rla.isActive">
+          {{routeLink.label}}
+      </a>
+    </nav>
+
+    <div class="main-container">
+      <router-outlet></router-outlet>
+    </div>
+  </md-sidenav-container>
+
+</div>
