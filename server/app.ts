@@ -31,7 +31,7 @@ app.use(session({
 
 // routes
 const routeModules = require('require-all')({
-  dirname: __dirname + '/routes',
+  dirname: __dirname + '/controller',
   filter: (filename: string) => {
     filename = filename.toLowerCase();
     if ((filename.endsWith('.ts') && !filename.endsWith('.spec.ts'))

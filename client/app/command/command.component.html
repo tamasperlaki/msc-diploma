@@ -1,3 +1,50 @@
-<p>
-  command works!
-</p>
+<div fxLayout="row">
+
+  <div fxFlex="70" fxLayout="column">
+
+    <md-card>
+      <md-card-header>
+        <md-card-title>Commands</md-card-title>
+      </md-card-header>
+      <md-list>
+        <md-list-item *ngFor="let command of commands">!{{command.name}} - {{command.text}}</md-list-item>
+      </md-list>
+    </md-card>
+
+  </div>
+
+  <div fxFlex></div>
+
+  <div fxFlex="28" fxLayout="column">
+
+    <md-card>
+      <md-card-header>
+        <md-card-title>Add Command</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <form (ngSubmit)="onCommandFormSubmit()" #commandForm="ngForm">
+          <md-input-container class="command-form-input">
+            <span mdPrefix>!</span>
+            <input
+              mdInput
+              id="name"
+              name="name"
+              placeholder="Name"
+              [(ngModel)]="command.name">
+          </md-input-container>
+          <md-input-container class="command-form-input">
+            <input
+              mdInput
+              id="text"
+              name="text"
+              placeholder="Text"
+              [(ngModel)]="command.text">
+          </md-input-container>
+          <button type="submit" md-raised-button>Add</button>
+        </form>
+      </md-card-content>
+    </md-card>
+
+  </div>
+
+</div>

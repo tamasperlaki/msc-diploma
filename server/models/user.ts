@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { ICommand } from "./command";
 
 export interface IUser {
   name: string;
@@ -9,6 +10,7 @@ export interface IUser {
   email_verified: boolean;
   notifications: object;
   token: string;
+  commands: ICommand[]
 };
 
 const userSchema = new mongoose.Schema({
@@ -19,7 +21,11 @@ const userSchema = new mongoose.Schema({
   updated_at: String,
   email_verified: Boolean,
   notifications: Object,
-  token: String
+  token: String,
+  commands: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Command'
+  }]
 });
 
 interface IUserModel extends IUser, mongoose.Document { }

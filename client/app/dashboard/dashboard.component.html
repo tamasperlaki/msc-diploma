@@ -1,27 +1,31 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
+<div fxLayout="row">
 
-  <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
+  <div fxFlex="70" fxLayout="column">
 
-    <md-card fxFlex>
-      <md-card-title>Chat</md-card-title>
+    <md-card class="card-chat">
+      <md-card-header>
+        <md-card-title>Chat</md-card-title>
+      </md-card-header>
 
       <iframe frameborder="0"
               scrolling="no"
-              src="http://www.twitch.tv/hebo/chat">
+              [src]="chatSource">
       </iframe>
     </md-card>
 
-    <md-card fxFlex>
+    <md-card style="display: none">
     </md-card>
 
   </div>
 
-  <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
+  <div fxFlex></div>
 
-    <md-card fxFlex>
+  <div fxFlex="28" fxLayout="column">
+
+    <md-card>
     </md-card>
 
-    <md-card fxFlex>
+    <md-card style="display: none">
     </md-card>
 
   </div>

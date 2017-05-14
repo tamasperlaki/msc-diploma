@@ -5,7 +5,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import { UserService } from "./user/user.service";
+import { AuthService } from "./auth/auth.service";
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
     FlexLayoutModule,
     BrowserAnimationsModule
   ],
-  providers: [UserService],
+  providers: [AuthService],
   declarations: [PageNotFoundComponent],
   exports: [
     PageNotFoundComponent,

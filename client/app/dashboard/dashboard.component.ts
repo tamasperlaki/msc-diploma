@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../shared/user/user.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'tankika-dashboard',
@@ -8,14 +9,16 @@ import { UserService } from '../shared/user/user.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  chatSource: SafeUrl;
+  user: Object;
+
+  constructor(private activatedRouter : ActivatedRoute, private domSanitizer : DomSanitizer) { }
 
   ngOnInit() {
-    this.getUser();
-  }
-
-  getUser() {
-    this.userService.getUser().then(console.log);
+      this.activatedRouter.data.subscribe((data: { user: any }) => {
+        this.chatSource = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://www.twitch.tv/${data.user.name}/chat`);
+        this.user = data.user;
+      });
   }
 
 }

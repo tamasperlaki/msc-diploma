@@ -7,12 +7,17 @@ import { DashboardComponent } from "../dashboard/dashboard.component";
 import { CommandComponent } from "../command/command.component";
 
 import { AuthGuard } from "./auth.guard";
+import { UserResolverGuard } from "./user-resolver.guard";
+import { CommandsResolverGuard } from "../command/commands-resolver.guard";
 
 const routes: Routes = [
   {
     path: 'center',
     component: AuthenticatedHomeComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      user: UserResolverGuard
+    },
     children: [
       {
         path: '',
@@ -20,7 +25,10 @@ const routes: Routes = [
       },
       {
         path: 'command',
-        component: CommandComponent
+        component: CommandComponent,
+        resolve: {
+          commands: CommandsResolverGuard
+        }
       }
     ]
   }
@@ -28,6 +36,6 @@ const routes: Routes = [
 @NgModule({
   imports: [ RouterModule.forChild(routes) ],
   exports: [ RouterModule ],
-  providers: [ AuthGuard ]
+  providers: [ AuthGuard, UserResolverGuard ]
 })
 export class AuthenticatedHomeRoutingModule { }

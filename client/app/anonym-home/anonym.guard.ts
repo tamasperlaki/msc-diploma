@@ -5,7 +5,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angul
 import { AuthService } from '../shared/auth/auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AnonymGuard implements CanActivate {
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -13,10 +13,10 @@ export class AuthGuard implements CanActivate {
     return this.authService.getUser()
       .then((user) => {
         if(user) {
-          return true;
-        } else {
-          this.router.navigate(['/welcome']);
+          this.router.navigate(['/center']);
           return false;
+        } else {
+          return true;
         }
       })
       .catch((error) => {

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Command } from "./command";
+import { CommandService } from "./command.service";
 
 @Component({
   selector: 'tankika-command',
@@ -7,9 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommandComponent implements OnInit {
 
-  constructor() { }
+  commands: Command[];
+  command: Command;
+
+  constructor(private activatedRouter : ActivatedRoute, private commandService: CommandService) {
+    this.command = new Command();
+  }
 
   ngOnInit() {
+      this.activatedRouter.data.subscribe((data: { commands: Command[] }) => {
+        this.commands = data.commands;
+      });
+  }
+
+  onCommandFormSubmit() {
+    this.commandService.createCommand(this.command);
   }
 
 }
