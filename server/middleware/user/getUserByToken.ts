@@ -1,17 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 import twitch from "../../helper/twitch";
-import User from "../../models/user";
+import botManager from "../../helper/botManager";
+import { User, IUser } from "../../models/user";
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    if(req.session.user) {
-      res.send(JSON.stringify(req.session.user));
+    if(req.session.userId) {
+      User.findById(req.session.userId)
+        .then((user) => {
+          res.send(JSON.stringify(user));
+        })
     } else {
       twitch.getUser(req.session.twitchToken)
         .then((response) => {
           return new Promise((resolve, reject) => {
             User.findOne({
-              email: response.email
+              name: response.name
             }).then((user) => {
               if(user) {
                 resolve(user);
@@ -31,9 +35,13 @@ export default () => {
             });
           });
         })
-        .then((user) => {
-          req.session.user = user;
-          res.send(JSON.stringify(user))
+        .then((user: IUser) => {
+          req.session.userId = user._id;
+          return user;
+        })
+        .then((user: IUser) => {
+          botManager.createBot(user);
+          res.send(JSON.stringify(user));
         })
         .catch((errorCode) => {
           if(errorCode === 401) {

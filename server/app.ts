@@ -3,16 +3,13 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as logger from 'morgan';
 import * as session from "express-session";
-import './config/db';
-
-// import index from './routes/index';
-// import users from './routes/users';
+import { User } from "./models/user";
+import botManager from "./helper/botManager";
+import mongoose from "./config/db";
+import * as connectMongo from "connect-mongo";
 
 const app: express.Express = express();
-
-// // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+const MongoStore = connectMongo(session);
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -23,11 +20,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
-
-// app.use('/', index);
-// app.use('/users', users);
 
 // routes
 const routeModules = require('require-all')({
@@ -99,6 +94,12 @@ app.use((req, res) => {
 const port = normalizePort(process.env.PORT || '3000');
 
 app.listen(port);
+
+User.find()
+  .populate("commands")
+  .then((users) => {
+    botManager.startBots(users);
+  });
 
 /**
  * Normalize a port into a number, string, or false.

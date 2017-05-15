@@ -8,7 +8,7 @@ const clientId = "vavdv2xlcwtdolf46py3yi3dskvdp3",
 export default {
 
   getToken(authCode): Promise<any> {
-      const redirectUrl = `http://localhost:3000/api/twitchAuth/callback`,
+      const redirectUrl = `http://localhost:4200/api/twitchAuth/callback`,
             tokenAuthPath = `/oauth2/token?client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&redirect_uri=${redirectUrl}&grant_type=authorization_code`;
 
       return callTwitchApi('POST', tokenAuthPath);

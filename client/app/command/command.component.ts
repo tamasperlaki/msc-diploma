@@ -25,7 +25,13 @@ export class CommandComponent implements OnInit {
   }
 
   onCommandFormSubmit() {
-    this.commandService.createCommand(this.command);
+    this.commandService.createCommand(this.command)
+      .then((command) => {
+        this.commands.push(command);
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
 }

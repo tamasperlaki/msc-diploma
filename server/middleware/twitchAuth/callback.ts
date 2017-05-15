@@ -9,7 +9,8 @@ export default () => {
         res.redirect("http://localhost:4200");
       })
       .catch((error) => {
-        res.sendStatus(500);
+        console.error(error);
+        res.redirect("http://localhost:4200/welcome");
       });
   }
 };

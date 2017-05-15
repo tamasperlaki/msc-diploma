@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import { IUser } from './user';
 
-export interface ICommand {
+export interface ICommand extends mongoose.Document {
   name: string;
   text: string;
   enabled: boolean;
@@ -18,8 +18,6 @@ const commandSchema = new mongoose.Schema({
   }
 });
 
-interface ICommandModel extends ICommand, mongoose.Document { }
+const Command = mongoose.model<ICommand>('Command', commandSchema);
 
-const Command = mongoose.model<ICommandModel>('Command', commandSchema);
-
-export default Command;
+export { Command };

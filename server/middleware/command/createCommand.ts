@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import Command from "../../models/command";
-import User from "../../models/user";
-import * as async from "async";
+import { Command } from "../../models/command";
+import { User } from "../../models/user";
+import botManager from "../../helper/botManager";
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -10,15 +10,18 @@ export default () => {
       command.name = req.body.name;
       command.text = req.body.text;
       command.enabled = true;
-      command.user = req.session.user._id;
+      command.user = req.session.userId;
 
       command.save()
         .then((command) => {
-          return User.findById(req.session.user._id);
+          return User.findById(req.session.userId);
         })
         .then((user) => {
           user.commands.push(command._id);
           return user.save();
+        })
+        .then((user) => {
+          botManager.addCommand(user, command);
         })
         .then(() => {
           res.send(JSON.stringify(command));
@@ -28,7 +31,7 @@ export default () => {
           res.sendStatus(500);
         });
     } else {
-      res.sendStatus(400);
+      res.status(400).send("A command was already defined with this name");
     }
   }
 };

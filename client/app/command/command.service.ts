@@ -26,19 +26,21 @@ export class CommandService {
         });
   }
 
-  createCommand(command: Command): Promise<any> {
-    return this.http
-      .post(`${this.commandsUrl}/commands`, command)
-        .toPromise()
-        .then(response => {
-          var commands = response.json() as Object;
+  createCommand(command: Command): Promise<Command> {
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(`${this.commandsUrl}/commands`, command)
+          .toPromise()
+          .then(response => {
+            var command = response.json() as Command;
 
-          return commands;
-        })
-        .catch(error => {
-          console.error(error);
-          return null;
-        });
+            resolve(command);
+          })
+          .catch(error => {
+            console.error(error);
+            reject(error._body);
+          });
+    });
   }
 
 }
