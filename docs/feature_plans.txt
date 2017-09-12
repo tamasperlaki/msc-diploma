@@ -1,0 +1,21 @@
+- Dashboard
+	- Event Log
+		- Felhasználói beállításokról logolás, pl: command beállítása, command törlése, bot újra chatbe küldése
+		- Bot események, pl: Command futtatása, filter alkalmazása
+		- (Beállítások: Felhasználói események be/ki, Bot események be/ki)
+	- Chat
+	- Polls
+	- Raffles
+	- Quick Controls
+		- Join, Remove, Rejoin
+		- Permit user (Minden filterre immunis az adott user egy rövid ideig)
+		- Command futtatása
+		- (Quick blacklist: kifejezés tiltása megadott ideig)
+- Commands
+	- List
+	- Timers
+	- Alias
+- Filters
+- Statistics
+	- Top Command By Channel
+- Notifications

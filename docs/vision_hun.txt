@@ -1,0 +1,20 @@
+Az ötlet a Twitch nevű oldalhoz kapcsolódik. Ez egy olyan oldal, ahol élő közvetítéseket lehet sugározni és nézni, főleg számítógépes játékokról.
+Ehhez szorosan kapcsolódik, hogy minden csatornához tartozik egy-egy IRC chat szoba is, ahol a nézők és a közvetítő tud beszélgetni.
+Ezekben a szobákban szokás botokat használni főleg moderációra, automatizálásra, vagy bármilyen egyéb funkcióra, például szórakoztatásra.
+
+A konkrét alkalmazásterv tehát a következő:
+	Egy saját IRC bot fejlesztése, ami csatlakozni tud ehhez a chat hálózathoz és képes parancsokat felismerni,
+		önálló tevékenységeket végezni az üzenetek figyelésével, ütemezéssel.
+		Ilyenre természetesen több példa is van már a piacon,
+		de ki szeretném volna próbálni milyen egyet elkészíten, pl Nightbot
+	Ehhez a bothoz egy node / angular 2 webes alkalmazás fejlesztése,
+		amivel a botokat karban lehet tartani / irányítani, tehát például meg lehet nekik mondani melyik csatornába menjenek,
+		állapotot lehet figyelni, parancsokat tanítani nekik.
+		Ezen az oldalon meg tudnám valósítani azokat a dolgokat, amiket beszéltünk, például:
+			felhasználó rendszer
+			OWASP top 10 biztonsági hibák elleni védekezés, ezek bemutatása, stb
+			unit és end-to-end tesztek
+			+1, amiről nem beszéltünk: böngészős értesítések
+	Összetettebb funkció lehetne még az általad említett statisztikák gyűjtése,
+		amiket aztán a weboldalon meg lehet jeleníteni akár diagrammokkal is (ehhez akár ki lehetne próbálni a redist is).
+	Ezen kívül a teljes felügyeleti alkalmazás felhő alapú lehetne.
