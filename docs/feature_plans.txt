@@ -5,7 +5,11 @@
 		- (Beállítások: Felhasználói események be/ki, Bot események be/ki)
 	- Chat
 	- Polls
-	- Raffles
+	- Raffles:
+		- Chat Raffle
+			- Azonnali húzás a chaten lévőkből
+		- Application raffle:
+			- Jelentkezés alapú
 	- Quick Controls
 		- Join, Remove, Rejoin
 		- Permit user (Minden filterre immunis az adott user egy rövid ideig)
