@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./anonym-home.component.scss']
 })
 export class AnonymHomeComponent implements OnInit {
-
+  title = 'Welcome to Tankika Bot!';
+  
   constructor() { }
 
   ngOnInit() {

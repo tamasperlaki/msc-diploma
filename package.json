@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "postinstall": "npm run build",
-    "build": "rimraf dist && ng build --prod && tsc --project server/tsconfig.app.json",
+    "build": "rimraf dist && ng build --env=prod && tsc --project server/tsconfig.app.json",
     "start": "pm2 start dist/app.js --no-daemon",
     "build-start": "npm run build && npm start",
     "dev": "concurrently \"ng serve --progress false --proxy-config proxy.conf.json\" \"npm run api\" ",
@@ -20,16 +20,18 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^4.1.2",
+    "@angular/cdk": "^2.0.0-beta.10",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/flex-layout": "^2.0.0-beta.8",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
-    "@angular/material": "^2.0.0-beta.3",
+    "@angular/material": "^2.0.0-beta.10",
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@types/mongodb": "^2.2.11",
     "async": "^2.4.0",
     "body-parser": "^1.17.1",
     "connect-mongo": "^1.3.2",
@@ -71,6 +73,6 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0"
+    "typescript": "~2.5.0"
   }
 }
