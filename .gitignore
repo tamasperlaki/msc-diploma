@@ -11,4 +11,13 @@ e2e/**/*.js
 e2e/**/*.js.map
 _test-output
 _temp
-dist/
+dist
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+!.elasticbeanstalk/*.cfg.yml
+
+!.elasticbeanstalk/*.global.yml
+
