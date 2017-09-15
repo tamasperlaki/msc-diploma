@@ -9,8 +9,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
+    "types": [
+      "jasmine",
+      "node"
     ],
     "lib": [
       "es2016",

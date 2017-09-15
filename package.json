@@ -14,6 +14,10 @@
     "test-ng": "ng test",
     "test-server": "cd server && nodemon --ext ts --exec jasmine-ts **/*[!.api].spec.ts",
     "test-api": "cd server && nodemon --ext ts --exec jasmine-ts **/*.api.spec.ts",
+    "test:once": "concurrently \"npm run test-ng:once\" \"npm run test-server:once\" \"npm run test-api:once\" ",
+    "test-ng:once": "ng test -sr",
+    "test-server:once": "cd server && jasmine-ts **/*[!.api].spec.ts",
+    "test-api:once": "cd server && jasmine-ts **/*.api.spec.ts",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -62,6 +66,7 @@
     "concurrently": "^3.4.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
+    "jasmine-ts": "^0.2.1",
     "karma": "~1.4.1",
     "karma-chrome-launcher": "~2.1.1",
     "karma-cli": "~1.0.1",
