@@ -3,7 +3,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'tankika-dashboard',
+  selector: 'app-tankika-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit {
   chatSource: SafeUrl;
   user: Object;
 
-  constructor(private activatedRouter : ActivatedRoute, private domSanitizer : DomSanitizer) { }
+  constructor(private activatedRouter: ActivatedRoute, private domSanitizer: DomSanitizer) { }
 
   ngOnInit() {
       this.activatedRouter.data.subscribe((data: { user: any }) => {

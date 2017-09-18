@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { ICommand } from "./command";
+import { ICommand } from './command';
 
 export interface IUser extends mongoose.Document {
   name: string;
@@ -10,7 +10,7 @@ export interface IUser extends mongoose.Document {
   email_verified: boolean;
   notifications: object;
   token: string;
-  commands: ICommand[]
+  commands: ICommand[];
 };
 
 const userSchema = new mongoose.Schema({

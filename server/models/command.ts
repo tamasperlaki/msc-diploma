@@ -5,7 +5,7 @@ export interface ICommand extends mongoose.Document {
   name: string;
   text: string;
   enabled: boolean;
-  user: IUser
+  user: IUser;
 };
 
 const commandSchema = new mongoose.Schema({

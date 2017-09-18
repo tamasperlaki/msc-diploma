@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Command } from "./command";
-import { CommandService } from "./command.service";
+import { Command } from './command';
+import { CommandService } from './command.service';
 
 @Component({
-  selector: 'tankika-command',
+  selector: 'app-tankika-command',
   templateUrl: './command.component.html',
   styleUrls: ['./command.component.scss']
 })
@@ -14,7 +14,7 @@ export class CommandComponent implements OnInit {
   commands: Command[];
   command: Command;
 
-  constructor(private activatedRouter : ActivatedRoute, private commandService: CommandService) {
+  constructor(private activatedRouter: ActivatedRoute, private commandService: CommandService) {
     this.command = new Command();
   }
 

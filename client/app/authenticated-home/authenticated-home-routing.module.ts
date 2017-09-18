@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthenticatedHomeComponent } from "./authenticated-home.component";
-import { DashboardComponent } from "../dashboard/dashboard.component";
-import { CommandComponent } from "../command/command.component";
+import { AuthenticatedHomeComponent } from './authenticated-home.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
+import { CommandComponent } from '../command/command.component';
 
-import { AuthGuard } from "./auth.guard";
-import { UserResolverGuard } from "./user-resolver.guard";
-import { CommandsResolverGuard } from "../command/commands-resolver.guard";
+import { AuthGuard } from './auth.guard';
+import { UserResolverGuard } from './user-resolver.guard';
+import { CommandsResolverGuard } from '../command/commands-resolver.guard';
 
 const routes: Routes = [
   {

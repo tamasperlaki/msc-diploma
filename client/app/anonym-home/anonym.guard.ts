@@ -12,7 +12,7 @@ export class AnonymGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.authService.getUser()
       .then((user) => {
-        if(user) {
+        if (user) {
           this.router.navigate(['/center']);
           return false;
         } else {

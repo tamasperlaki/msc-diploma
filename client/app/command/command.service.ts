@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http } from "@angular/http";
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { Command } from "./command";
+import { Command } from './command';
 
 @Injectable()
 export class CommandService {
 
-  private commandsUrl = "/api/commands";
+  private commandsUrl = '/api/commands';
 
   constructor(private http: Http) { }
 
@@ -15,11 +15,7 @@ export class CommandService {
     return this.http
       .get(`${this.commandsUrl}/commands/currentUser`)
         .toPromise()
-        .then(response => {
-          var commands = response.json() as Command[];
-
-          return commands;
-        })
+        .then(response => response.json() as Command[])
         .catch(error => {
           console.error(error);
           return null;
@@ -31,11 +27,7 @@ export class CommandService {
       this.http
         .post(`${this.commandsUrl}/commands`, command)
           .toPromise()
-          .then(response => {
-            var command = response.json() as Command;
-
-            resolve(command);
-          })
+          .then(response => response.json() as Command)
           .catch(error => {
             console.error(error);
             reject(error._body);

@@ -6,7 +6,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { AuthService } from './auth.service';
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -22,7 +22,7 @@ fdescribe('AuthService', () => {
   it('should be created', inject([AuthService], (authService: AuthService) => {
     expect(authService).toBeTruthy();
   }));
-  
+
   it('should be created', fakeAsync(inject([AuthService, MockBackend], (authService: AuthService, backend: MockBackend) => {
     authService.getUser().then(user => console.log(user));
     mockRespond(backend, {

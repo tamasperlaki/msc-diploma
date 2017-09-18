@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import getUserByTokenMW from "../../../middleware/user/getUserByToken";
+import getUserByTokenMW from '../../../middleware/user/getUserByToken';
 
-var routing = Router()
+const routing = Router()
   .get('/authenticate', getUserByTokenMW());
 
 export default routing;

@@ -1,15 +1,21 @@
-import { IncomingMessage } from "http";
-import * as https from "https";
-import * as _ from "lodash";
+import { IncomingMessage } from 'http';
+import * as https from 'https';
+import * as _ from 'lodash';
 
-const clientId = "vavdv2xlcwtdolf46py3yi3dskvdp3",
-      clientSecret = "nhzj6jrbzonw67poseygbz6e2pk1qt";
+const clientId = 'vavdv2xlcwtdolf46py3yi3dskvdp3',
+      clientSecret = 'nhzj6jrbzonw67poseygbz6e2pk1qt';
 
 export default {
 
   getToken(authCode): Promise<any> {
       const redirectUrl = `http://localhost:4200/api/twitchAuth/callback`,
-            tokenAuthPath = `/oauth2/token?client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&redirect_uri=${redirectUrl}&grant_type=authorization_code`;
+            tokenAuthPath =
+              '/oauth2/token'
+              + `?client_id=${clientId}`
+              + `&client_secret=${clientSecret}`
+              + `&code=${authCode}`
+              + `&redirect_uri=${redirectUrl}`
+              + `&grant_type=authorization_code`;
 
       return callTwitchApi('POST', tokenAuthPath);
   },
@@ -42,19 +48,19 @@ function callTwitchApi(method, path, token = null): Promise<any> {
     request.end();
 
     function responseHandler(response: IncomingMessage) {
-      var data = "";
+      let data = '';
 
       console.log(`Twitch API call - response STATUS: ${response.statusCode}`);
       console.log(`Twitch API call - response HEADERS: ${JSON.stringify(response.headers)}`);
       response.setEncoding('utf8');
-      response.on('data', (chunk) => {
+      response.on('data', chunk => {
         console.log(`Twitch API call - response CHUNK: ${chunk}`);
         data += chunk;
       });
       response.on('end', () => {
         console.log(`Twitch API call - response DATA: ${data}`);
 
-        if(response.statusCode !== 200) {
+        if (response.statusCode !== 200) {
           reject(response.statusCode);
         } else {
           resolve(JSON.parse(data));

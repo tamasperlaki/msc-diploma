@@ -2,11 +2,11 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as logger from 'morgan';
-import * as session from "express-session";
-import { User } from "./models/user";
-import botManager from "./helper/botManager";
-import mongoose from "./config/db";
-import * as connectMongo from "connect-mongo";
+import * as session from 'express-session';
+import { User } from './models/user';
+import botManager from './helper/botManager';
+import mongoose from './config/db';
+import * as connectMongo from 'connect-mongo';
 
 const app: express.Express = express();
 const MongoStore = connectMongo(session);
@@ -96,7 +96,7 @@ const port = normalizePort(process.env.PORT || '3000');
 app.listen(port);
 
 User.find()
-  .populate("commands")
+  .populate('commands')
   .then((users) => {
     botManager.startBots(users);
   });

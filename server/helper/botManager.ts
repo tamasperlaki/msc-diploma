@@ -1,17 +1,17 @@
-import Bot from "msc-diploma-bot";
-import { IUser } from "../models/user";
-import { ICommand } from "../models/command";
+import Bot from 'msc-diploma-bot';
+import { IUser } from '../models/user';
+import { ICommand } from '../models/command';
 
-var bots = {};
+const bots = {};
 
 function startBots(users: IUser[]) {
   users.forEach(user => createBot(user));
 }
 
 function createBot(user: IUser) {
-  var bot = bots[user._id];
+  let bot = bots[user._id];
 
-  if(!bot) {
+  if (!bot) {
     bot =  new Bot(user.name);
     user.commands.forEach(command => bot.addCommand(command.name, command.text));
 
@@ -20,9 +20,9 @@ function createBot(user: IUser) {
 }
 
 function addCommand(user: IUser, command: ICommand) {
-  var bot = bots[user._id];
+  const bot = bots[user._id];
 
-  if(bot) {
+  if (bot) {
     bot.addCommand(command.name, command.text);
   } else {
     throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
@@ -30,9 +30,9 @@ function addCommand(user: IUser, command: ICommand) {
 }
 
 function resetBot(user: IUser) {
-  var bot = bots[user._id];
+  const bot = bots[user._id];
 
-  if(bot) {
+  if (bot) {
     bot.resetCommands();
     user.commands.forEach(command => bot.addCommand(command.name, command.text));
   } else {
@@ -45,4 +45,4 @@ export default {
   createBot: createBot,
   addCommand: addCommand,
   resetBot: resetBot
-}
+};

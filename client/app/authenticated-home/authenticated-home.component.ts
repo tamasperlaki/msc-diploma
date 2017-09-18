@@ -15,7 +15,7 @@ export class AuthenticatedHomeComponent implements OnInit {
     {label: 'Command', link: 'command'}
   ];
 
-  constructor(private activatedRouter : ActivatedRoute) { }
+  constructor(private activatedRouter: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRouter.data.subscribe((data: { user: any }) => {

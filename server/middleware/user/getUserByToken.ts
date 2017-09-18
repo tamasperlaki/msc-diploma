@@ -1,36 +1,34 @@
 import { Request, Response, NextFunction } from 'express';
-import twitch from "../../helper/twitch";
-import botManager from "../../helper/botManager";
-import { User, IUser } from "../../models/user";
+import twitch from '../../helper/twitch';
+import botManager from '../../helper/botManager';
+import { User, IUser } from '../../models/user';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    if(req.session.userId) {
+    if (req.session.userId) {
       User.findById(req.session.userId)
-        .then((user) => {
-          res.send(JSON.stringify(user));
-        })
+        .then(user => res.send(JSON.stringify(user)));
     } else {
       twitch.getUser(req.session.twitchToken)
-        .then((response) => {
+        .then(response => {
           return new Promise((resolve, reject) => {
             User.findOne({
               name: response.name
-            }).then((user) => {
-              if(user) {
+            }).then(user => {
+              if (user) {
                 resolve(user);
               } else {
-                var user = new User();
-                user.token = req.session.twitchToken;
-                user.name = response.name;
-                user.display_name = response.display_name;
-                user.email = response.email;
-                user.created_at = response.created_at;
-                user.updated_at = response.updated_at;
-                user.email_verified = response.email_verified;
-                user.notifications = response.notifications;
+                const newUser = new User();
+                newUser.token = req.session.twitchToken;
+                newUser.name = response.name;
+                newUser.display_name = response.display_name;
+                newUser.email = response.email;
+                newUser.created_at = response.created_at;
+                newUser.updated_at = response.updated_at;
+                newUser.email_verified = response.email_verified;
+                newUser.notifications = response.notifications;
 
-                resolve(user.save());
+                resolve(newUser.save());
               }
             });
           });
@@ -44,12 +42,12 @@ export default () => {
           res.send(JSON.stringify(user));
         })
         .catch((errorCode) => {
-          if(errorCode === 401) {
+          if (errorCode === 401) {
             res.sendStatus(404);
           } else {
             res.sendStatus(500);
           }
         });
-      }
     }
+  };
 };
