@@ -26,7 +26,7 @@ deploy:
   region: "eu-central-1"  
   app: "msc-diploma"
   env: "msc-diploma-env"
-  bucket_name: "elasticbeanstalk-eu-central-1-993962261169"
+  bucket: "elasticbeanstalk-eu-central-1-993962261169"
   skip_cleanup: true
   on:
     branch: master
