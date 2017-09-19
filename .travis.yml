@@ -19,14 +19,14 @@ script:
 deploy:
   provider: elasticbeanstalk
   edge: true
-  access_key_id: 
+  access_key_id:
     secure: "odWqpczoH5JWP847CrrEgtz7btmpWDyyXsPmZpWdBUhJX+cLbTuOHsY/2a3Z4QrKsGGNmnrpx8iyQ7ZN9xuvX52PWA7WO7e3TaVnzZiPraS4UmOXH6MoM9D4eynIXo54LmLXY4j2TNwlyeUpU0TLEOBFB0vbMBttIFrzIEyAH7FdW1cCYYlSLfhAmg3recglWGcgYyD0A9p5k/RIsaG/3ZQg+s8e7UbWlglW0ZLovq9fxWNQfE5bomGGRn7GIBMxX5U2Yg7t/uXDToNoApuazFc3qn+OD4OUZfMmaehXRT4HXFXzxWCSygnLKQHl9O7uCUeHippPr1UU0FSq2aAAOpj19ePb1pl+I1MnhWkHZLnqUzCMVcjcy2SB5/Fw/wAdgqy62tKKCkHI5asOqvrqL6To5PUP978G+mcidHRKL598JBipcDmU3H5d4aJfixlmnsdOfB++CV2ETon0LgF/Pk1/WvtPoagEHxeruDNllstlxKaJVLv6TUCICKMrgmRjmMf/S8g2heGubFy5YN9r1vzW174ULhQfLOYJZ/0RR1TvcRRW7lHvgmLlPkAabvWIfFkttK8fktI3XjZ4GisN+stAkZ7n4Xy1UeGUrSdmvG18VAgFEpHCnk4yWSqBoZPOp1k2ZkYQC2/o/gjW/7fBQSPqGlGWalMrlLWbFz5Q1dM="
   secret_access_key:
     secure: "ZV7ogx4ZP07obaaweAkzw0JDV/cgcrVh7heJiobhtoCubaSj9p07Y2AnrtGmOW/9tJsSu1e1uRBsqgraVRlGua3cQdlIxVWubGoV0jI6xkvmsvHMgAr4mZuSZnsPLRpSLotoJUxlDgmvsJSlQZ+qSvCHVwvGcFmqSJ67pDVEIDRxKQ5SaBS7q/+DvsvRc8ZpMY+Rw2yeSfU98M/yas9fXAn0fIOX5GS+1oO8mKsjX2Leb6NSZGebM9BK5mDc5xLGdiSO1xAMZWHCi2iMGzD2siwDK6vdaOidw4+oAR9fmirEQcQEQm3tk116TPpaCot6G+6E9OS9UFCF7m0jC6S2Pe80PcldCZ1h/3p3VaSJ18kYTtPViLcT5a0IRgssb/xAUASytWp7+uyt1sbdohcmMmG3pPJNPTfSyX+fCOniSVeayohgnflKglWOJWg860IUrb1lb/FMWTXKcFx5nt7AFiTA+VEZvK/jJOjTpSly6dE0gE2BNVAzNr92q2tOeZomqU0Azg4fwgALXX1lSFfclzCkBl+A70tvMRbxD87VkPaQe42UZQdp+OsrOVlotkVwMDg2Q+cjmh36XlDSM7SzIjQ81tG2Yv2bgBrpbzgLK79N+0FzHklyyynwc8JBnBtgAuubqXStmRGYI+BEu9uA5vQpWdRoyEMOIdt9vtZcERc="
-  region: "eu-central-1"  
+  region: "eu-central-1"
   app: "msc-diploma"
   env: "msc-diploma-env"
-  bucket: "elasticbeanstalk-eu-central-1-993962261169"
+  bucket_name: "elasticbeanstalk-eu-central-1-993962261169"
   skip_cleanup: true
   on:
     branch: master
