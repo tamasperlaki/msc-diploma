@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose';
 
-mongoose.connect('mongodb://localhost/lwjw7e-diploma');
+mongoose.connect(process.env.MONGODB, {
+  useMongoClient: true
+});
 
 (<any>mongoose).Promise = global.Promise;
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
