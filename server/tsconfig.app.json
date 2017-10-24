@@ -5,7 +5,7 @@
     "module": "commonjs",
     "baseUrl": "",
     "types": [
-      "node"
+      "mongoose"
     ]
   },
   "exclude": [

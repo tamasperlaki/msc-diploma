@@ -5,8 +5,7 @@
     "module": "commonjs",
     "baseUrl": "",
     "types": [
-      "jasmine",
-      "node"
+      "jasmine"
     ]
   },
   "include": [
