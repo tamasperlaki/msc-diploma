@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "postinstall": "npm run build",
+    "heroku-postbuild": "npm run build",
     "start": "pm2 start dist/app.js --no-daemon",
     "clean": "rimraf dist",
     "build": "ng build --env=prod && tsc --project server/tsconfig.app.json",
@@ -26,6 +26,8 @@
   "dependencies": {
     "@angular/animations": "^4.4.1",
     "@angular/cdk": "^2.0.0-beta.10",
+    "@angular/cli": "1.4.2",
+    "@angular/compiler-cli": "^4.4.1",
     "@angular/common": "^4.4.1",
     "@angular/compiler": "^4.4.1",
     "@angular/core": "^4.4.1",
@@ -55,8 +57,6 @@
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
-    "@angular/cli": "1.4.2",
-    "@angular/compiler-cli": "^4.4.1",
     "@types/async": "^2.0.40",
     "@types/express": "^4.0.35",
     "@types/express-session": "^1.15.3",
