@@ -2,31 +2,24 @@ dist: trusty
 sudo: required
 language: node_js
 node_js:
-  - "node"
+- node
 os:
-  - linux
+- linux
 env:
   global:
-    - DBUS_SESSION_BUS_ADDRESS=/dev/null
-    - DISPLAY=:99.0
-    - CHROME_BIN=chromium-browser
+  - DBUS_SESSION_BUS_ADDRESS=/dev/null
+  - DISPLAY=:99.0
+  - CHROME_BIN=chromium-browser
 before_script:
-  - sh -e /etc/init.d/xvfb start
+- sh -e /etc/init.d/xvfb start
 install:
-  - npm install
+- npm install
 script:
-  - npm run lint
+- npm run lint
 deploy:
-  provider: elasticbeanstalk
-  edge: true
-  access_key_id:
-    secure: "odWqpczoH5JWP847CrrEgtz7btmpWDyyXsPmZpWdBUhJX+cLbTuOHsY/2a3Z4QrKsGGNmnrpx8iyQ7ZN9xuvX52PWA7WO7e3TaVnzZiPraS4UmOXH6MoM9D4eynIXo54LmLXY4j2TNwlyeUpU0TLEOBFB0vbMBttIFrzIEyAH7FdW1cCYYlSLfhAmg3recglWGcgYyD0A9p5k/RIsaG/3ZQg+s8e7UbWlglW0ZLovq9fxWNQfE5bomGGRn7GIBMxX5U2Yg7t/uXDToNoApuazFc3qn+OD4OUZfMmaehXRT4HXFXzxWCSygnLKQHl9O7uCUeHippPr1UU0FSq2aAAOpj19ePb1pl+I1MnhWkHZLnqUzCMVcjcy2SB5/Fw/wAdgqy62tKKCkHI5asOqvrqL6To5PUP978G+mcidHRKL598JBipcDmU3H5d4aJfixlmnsdOfB++CV2ETon0LgF/Pk1/WvtPoagEHxeruDNllstlxKaJVLv6TUCICKMrgmRjmMf/S8g2heGubFy5YN9r1vzW174ULhQfLOYJZ/0RR1TvcRRW7lHvgmLlPkAabvWIfFkttK8fktI3XjZ4GisN+stAkZ7n4Xy1UeGUrSdmvG18VAgFEpHCnk4yWSqBoZPOp1k2ZkYQC2/o/gjW/7fBQSPqGlGWalMrlLWbFz5Q1dM="
-  secret_access_key:
-    secure: "ZV7ogx4ZP07obaaweAkzw0JDV/cgcrVh7heJiobhtoCubaSj9p07Y2AnrtGmOW/9tJsSu1e1uRBsqgraVRlGua3cQdlIxVWubGoV0jI6xkvmsvHMgAr4mZuSZnsPLRpSLotoJUxlDgmvsJSlQZ+qSvCHVwvGcFmqSJ67pDVEIDRxKQ5SaBS7q/+DvsvRc8ZpMY+Rw2yeSfU98M/yas9fXAn0fIOX5GS+1oO8mKsjX2Leb6NSZGebM9BK5mDc5xLGdiSO1xAMZWHCi2iMGzD2siwDK6vdaOidw4+oAR9fmirEQcQEQm3tk116TPpaCot6G+6E9OS9UFCF7m0jC6S2Pe80PcldCZ1h/3p3VaSJ18kYTtPViLcT5a0IRgssb/xAUASytWp7+uyt1sbdohcmMmG3pPJNPTfSyX+fCOniSVeayohgnflKglWOJWg860IUrb1lb/FMWTXKcFx5nt7AFiTA+VEZvK/jJOjTpSly6dE0gE2BNVAzNr92q2tOeZomqU0Azg4fwgALXX1lSFfclzCkBl+A70tvMRbxD87VkPaQe42UZQdp+OsrOVlotkVwMDg2Q+cjmh36XlDSM7SzIjQ81tG2Yv2bgBrpbzgLK79N+0FzHklyyynwc8JBnBtgAuubqXStmRGYI+BEu9uA5vQpWdRoyEMOIdt9vtZcERc="
-  region: "eu-central-1"
-  app: "msc-diploma"
-  env: "msc-diploma-env"
-  bucket_name: "elasticbeanstalk-eu-central-1-993962261169"
+  provider: heroku
   skip_cleanup: true
-  on:
-    branch: master
+  app: msc-diploma
+  on: master
+  api_key:
+    secure: NVgYzzIIshepZo+krbN8Vf4j9k9eW4Z92KaiTPT5SJZ+NlZ/D19oVkLD7dkaCg1ZKZfldqI10LCkrNRFHRRYdatD86c8sWctVFhGrG+3ioW1uK/asPa71GKVLqmvFEGwMs2c5eRMHFG+VxG/Jx5Zrjw2c58yyUMa6eDRBnQ0lBCykIGBdVSSkYsgCLH9hLo0K6EbslHR3Q6l+lKX7oHq3aRtBvwOyMC5UbL0kXAbehCZjZ9opCK0Uuh53hi2BAUL8KWspbN4ELdDa1xU/nLDINJLfxwbXbBbXtxXEKaxazFbLbriJ25357vJX6pHIZxI3H+bqwxWKTj24utMwiwznOg9/QAFYdJuppZ2U5NtsAb/gk8dvXJDLVFg4z1EeYFl4mo6c13LIU/hDYnGjlKSvO+pilsaq0sRrgz34N5C1dv+mSEkKCaroURzPIdELPWTghqkKz1IoVJu8PaiGtSLB19vrpoJP59Ft0nVqPwB7IwZixXq+fqhJr95cYmeBgTw6QEQrWcGby1met42hq3PQ1XEjeUc2DDpVcf0t14u3vyVVkf+2uYGhtpaSsdt717N0U/lzzO4JgVjx2Yg25XfhMk1i1/1q2+xoUPZ6f9eV7qtOWu9Trhgt4Q7OIkNeeWSoHYx27jU2xA+3PMdqeiMhYu2nuAf/WcDU9IB50jWo1g=
