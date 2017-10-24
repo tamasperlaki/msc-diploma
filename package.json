@@ -5,9 +5,10 @@
   "scripts": {
     "ng": "ng",
     "postinstall": "npm run build",
-    "build": "rimraf dist && ng build --env=prod && tsc --project server/tsconfig.app.json",
     "start": "pm2 start dist/app.js --no-daemon",
-    "build-start": "npm run build && npm start",
+    "clean": "rimraf dist",
+    "build": "ng build --env=prod && tsc --project server/tsconfig.app.json",
+    "build-start": "npm run clean && npm run build && npm start",
     "dev": "concurrently \"ng serve --progress false --proxy-config proxy.conf.json\" \"npm run api\" ",
     "api": "cd server && nodemon --ext ts --ignore *.spec.ts --exec ts-node app",
     "test": "concurrently \"ng test --progress false\" \"npm run test-server\" ",
