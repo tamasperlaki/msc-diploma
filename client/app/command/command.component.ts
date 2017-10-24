@@ -5,7 +5,7 @@ import { Command } from './command';
 import { CommandService } from './command.service';
 
 @Component({
-  selector: 'app-tankika-command',
+  selector: 'app-command',
   templateUrl: './command.component.html',
   styleUrls: ['./command.component.scss']
 })
