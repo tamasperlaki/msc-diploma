@@ -18,7 +18,6 @@ script:
 - npm run lint
 deploy:
   provider: heroku
-  skip_cleanup: true
   app: msc-diploma
   on: master
   api_key:
