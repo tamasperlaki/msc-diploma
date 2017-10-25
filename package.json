@@ -9,7 +9,7 @@
     "clean": "rimraf dist",
     "build": "ng build --env=prod && tsc --project server/tsconfig.app.json",
     "build-start": "npm run clean && npm run build && npm start",
-    "dev": "cross-env NODE_ENV=development concurrently \"ng serve --progress false --proxy-config proxy.conf.json\" \"npm run api\" ",
+    "dev": "cross-env PORT=3000 concurrently \"ng serve --port 4200 --progress false --proxy-config proxy.conf.json\" \"npm run api\" ",
     "api": "cd server && nodemon --ext ts --ignore *.spec.ts --exec ts-node app",
     "test": "concurrently \"ng test --progress false\" \"npm run test-server\" ",
     "test-ng": "ng test",

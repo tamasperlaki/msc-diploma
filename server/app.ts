@@ -91,7 +91,7 @@ app.use((req, res) => {
 //   return null;
 // });
 
-const port = normalizePort(process.env.NODE_ENV === 'development' ? '3000' : (process.env.PORT || '4200'));
+const port = normalizePort(process.env.PORT || '4200');
 
 app.listen(port);
 
