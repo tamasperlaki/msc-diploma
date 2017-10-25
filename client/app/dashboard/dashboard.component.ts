@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
       this.activatedRouter.data.subscribe((data: { user: any }) => {
-        this.chatSource = this.domSanitizer.bypassSecurityTrustResourceUrl(`http://www.twitch.tv/${data.user.name}/chat`);
+        this.chatSource = this.domSanitizer.bypassSecurityTrustResourceUrl(`https://www.twitch.tv/${data.user.name}/chat`);
         this.user = data.user;
       });
   }
