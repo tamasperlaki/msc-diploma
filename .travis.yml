@@ -16,9 +16,3 @@ install:
 - npm install
 script:
 - npm run lint
-deploy:
-  provider: heroku
-  app: msc-diploma
-  on: master
-  api_key:
-    secure: NVgYzzIIshepZo+krbN8Vf4j9k9eW4Z92KaiTPT5SJZ+NlZ/D19oVkLD7dkaCg1ZKZfldqI10LCkrNRFHRRYdatD86c8sWctVFhGrG+3ioW1uK/asPa71GKVLqmvFEGwMs2c5eRMHFG+VxG/Jx5Zrjw2c58yyUMa6eDRBnQ0lBCykIGBdVSSkYsgCLH9hLo0K6EbslHR3Q6l+lKX7oHq3aRtBvwOyMC5UbL0kXAbehCZjZ9opCK0Uuh53hi2BAUL8KWspbN4ELdDa1xU/nLDINJLfxwbXbBbXtxXEKaxazFbLbriJ25357vJX6pHIZxI3H+bqwxWKTj24utMwiwznOg9/QAFYdJuppZ2U5NtsAb/gk8dvXJDLVFg4z1EeYFl4mo6c13LIU/hDYnGjlKSvO+pilsaq0sRrgz34N5C1dv+mSEkKCaroURzPIdELPWTghqkKz1IoVJu8PaiGtSLB19vrpoJP59Ft0nVqPwB7IwZixXq+fqhJr95cYmeBgTw6QEQrWcGby1met42hq3PQ1XEjeUc2DDpVcf0t14u3vyVVkf+2uYGhtpaSsdt717N0U/lzzO4JgVjx2Yg25XfhMk1i1/1q2+xoUPZ6f9eV7qtOWu9Trhgt4Q7OIkNeeWSoHYx27jU2xA+3PMdqeiMhYu2nuAf/WcDU9IB50jWo1g=
