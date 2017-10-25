@@ -2,19 +2,15 @@ import { IncomingMessage } from 'http';
 import * as https from 'https';
 import * as _ from 'lodash';
 
-const clientId = 'vavdv2xlcwtdolf46py3yi3dskvdp3',
-      clientSecret = 'nhzj6jrbzonw67poseygbz6e2pk1qt';
-
 export default {
 
   getToken(authCode): Promise<any> {
-      const redirectUrl = `http://localhost:4200/api/twitchAuth/callback`,
-            tokenAuthPath =
+      const tokenAuthPath =
               '/oauth2/token'
-              + `?client_id=${clientId}`
-              + `&client_secret=${clientSecret}`
+              + `?client_id=${process.env.TWITCH_CLIENT_ID}`
+              + `&client_secret=${process.env.TWITCH_CLIENT_SECRET}`
               + `&code=${authCode}`
-              + `&redirect_uri=${redirectUrl}`
+              + `&redirect_uri=${process.env.TWITCH_REDIRECT_URI}`
               + `&grant_type=authorization_code`;
 
       return callTwitchApi('POST', tokenAuthPath);
@@ -35,7 +31,7 @@ function callTwitchApi(method, path, token = null): Promise<any> {
       path: `/kraken${path}`,
       headers: {
         'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': clientId,
+        'Client-ID': process.env.TWITCH_CLIENT_ID,
         'Authorization': `OAuth ${token}`
       }
     },

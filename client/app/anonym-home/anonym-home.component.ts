@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-anonym-home',
@@ -16,8 +17,8 @@ export class AnonymHomeComponent implements OnInit {
   attemptSignIn = function() {
     window.location.href =
       'https://api.twitch.tv/kraken/oauth2/authorize'
-        + '?client_id=vavdv2xlcwtdolf46py3yi3dskvdp3'
-        + '&redirect_uri=http://localhost:4200/api/twitchAuth/callback'
+        + `?client_id=${environment.clientId}`
+        + `&redirect_uri=${environment.twitchRedirectUri}`
         + '&response_type=code'
         + '&scope=user_read';
   };

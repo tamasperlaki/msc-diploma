@@ -6,11 +6,11 @@ export default () => {
     twitch.getToken(req.query.code)
       .then((token) => {
         req.session['twitchToken'] = token.access_token;
-        res.redirect('http://localhost:4200');
+        res.redirect('/');
       })
       .catch((error) => {
         console.error(error);
-        res.redirect('http://localhost:4200/welcome');
+        res.redirect('/welcome');
       });
   };
 };

@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  clientId: 'vavdv2xlcwtdolf46py3yi3dskvdp3',
-  twitchRedirectUri: 'http://localhost:4200/api/twitchAuth/callback'
+  clientId: 'zmelnmpqfky5wv2fy2hf2v28vomp9e',
+  twitchRedirectUri: 'https://msc-diploma.herokuapp.com/api/twitchAuth/callback'
 };
