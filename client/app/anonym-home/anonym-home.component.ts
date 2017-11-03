@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class AnonymHomeComponent implements OnInit {
   title = 'Welcome to Tankika Bot!';
+  description = "In order to use the site, please sign in using your Twitch credentials."
 
   constructor() { }
 

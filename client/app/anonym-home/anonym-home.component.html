@@ -1,17 +1,17 @@
 <div fxLayout="column" fxFlex>
 
-  <md-toolbar id="main-toolbar" color="primary">
-    <span>{{title}}</span>
-    <span class="flex-fill-remaining-space"></span>
-    <button
-      md-raised-button
-      (click)="attemptSignIn()">Sign In</button>
-  </md-toolbar>
+    <mat-toolbar id="main-toolbar" color="primary">
+      <span>{{title}}</span>
+      <span class="flex-fill-remaining-space"></span>
+      <button
+        mat-raised-button
+        (click)="attemptSignIn()">Sign In</button>
+    </mat-toolbar>
 
-  <md-sidenav-container fxFlex>
-    <div class="main-container">
+    <mat-sidenav-container fxFlex>
+      <div class="main-container">
+        <h1>{{description}}</h1>
+      </div>
+    </mat-sidenav-container>
 
-    </div>
-  </md-sidenav-container>
-
-</div>
+  </div>

@@ -1,16 +1,16 @@
 <div fxLayout="column" fxFlex>
 
-  <md-toolbar id="main-toolbar" color="primary">
+  <mat-toolbar id="main-toolbar" color="primary">
     <span>{{title}}</span>
     <span class="flex-fill-remaining-space"></span>
-    <!--<button
-      md-raised-button
-      (click)="attemptSignIn()">Sign Out</button>-->
-  </md-toolbar>
+    <button
+      mat-raised-button
+      (click)="attemptSignIn()">Sign Out</button>
+  </mat-toolbar>
 
-  <md-sidenav-container fxFlex>
-    <nav id="main-nav-bar" md-tab-nav-bar>
-      <a md-tab-link
+  <mat-sidenav-container fxFlex>
+    <nav id="main-nav-bar" mat-tab-nav-bar>
+      <a mat-tab-link
         *ngFor="let routeLink of routeLinks"
         [routerLink]="routeLink.link"
         routerLinkActive
@@ -23,6 +23,6 @@
     <div class="main-container">
       <router-outlet></router-outlet>
     </div>
-  </md-sidenav-container>
+  </mat-sidenav-container>
 
 </div>

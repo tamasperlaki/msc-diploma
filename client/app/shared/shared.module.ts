@@ -2,7 +2,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MaterialModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import { AuthService } from './auth/auth.service';
@@ -12,7 +11,6 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
   imports: [
     CommonModule,
     FormsModule,
-    MaterialModule,
     FlexLayoutModule,
     BrowserAnimationsModule
   ],
@@ -22,7 +20,6 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
     PageNotFoundComponent,
     CommonModule,
     FormsModule,
-    MaterialModule,
     FlexLayoutModule,
     BrowserAnimationsModule
   ]
