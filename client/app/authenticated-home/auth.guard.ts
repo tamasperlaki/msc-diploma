@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.authService.getUser()
-      .then((user) => {
+      .then(user => {
         if (user) {
           return true;
         } else {
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
           return false;
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return false;
       });

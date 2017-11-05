@@ -11,7 +11,7 @@ export class AnonymGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     return this.authService.getUser()
-      .then((user) => {
+      .then(user => {
         if (user) {
           this.router.navigate(['/center']);
           return false;
@@ -19,7 +19,7 @@ export class AnonymGuard implements CanActivate {
           return true;
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         return false;
       });

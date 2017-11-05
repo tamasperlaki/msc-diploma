@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { Command } from '../../models/command';
-import { User } from '../../models/user';
+import { Command } from '../../../models/command';
+import { User } from '../../../models/user';
 import botManager from '../../helper/botManager';
 
 export default () => {

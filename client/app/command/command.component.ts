@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
-import { Command } from './command';
+import { ICommand } from '../../../models/command';
 import { CommandService } from './command.service';
 import { CommandDataSource } from './commandDataSource';
 
@@ -17,15 +17,15 @@ import { DeleteDialogComponent as DeleteDialog } from '../shared/components/dele
 export class CommandComponent implements OnInit {
 
   commandsDataSource: CommandDataSource;
-  newCommand: Command;
+  newCommand: ICommand;
   displayedColumns = ['name', 'text', 'enabled', 'actions'];
 
   constructor(private activatedRouter: ActivatedRoute, private commandService: CommandService, private dialog: MatDialog, private loadmask: LoadmaskService) {
-    this.newCommand = new Command();
+    this.newCommand = <ICommand>{};
   }
 
   ngOnInit() {
-    this.activatedRouter.data.subscribe((data: { commands: Command[] }) => {
+    this.activatedRouter.data.subscribe((data: { commands: ICommand[] }) => {
       this.commandsDataSource = new CommandDataSource(data.commands);
     });
   }
@@ -33,7 +33,7 @@ export class CommandComponent implements OnInit {
   onCommandFormSubmit() {
     this.loadmask.start(this.commandService.createCommand(this.newCommand))
       .then(command => {
-        this.newCommand = new Command();
+        this.newCommand = <ICommand>{};
 
         return this.commandService.getCommands();
       })
@@ -43,7 +43,7 @@ export class CommandComponent implements OnInit {
       });
   }
 
-  onCommandDelete(command: Command) {
+  onCommandDelete(command: ICommand) {
     let dialogRef = this.dialog.open(DeleteDialog, {
       data: {
         name: command.name

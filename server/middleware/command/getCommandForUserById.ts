@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { isNumber } from 'lodash';
-import { Command } from '../../models/command';
+import { Command } from '../../../models/command';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {

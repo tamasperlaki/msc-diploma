@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as logger from 'morgan';
 import * as session from 'express-session';
-import { User } from './models/user';
+import { User } from '../models/user';
 import botManager from './helper/botManager';
 import mongoose from './config/db';
 import * as connectMongo from 'connect-mongo';

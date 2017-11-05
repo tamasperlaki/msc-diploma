@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { Command } from './command';
+import { ICommand } from '../../../models/command';
 
 @Injectable()
 export class CommandService {
@@ -11,23 +11,23 @@ export class CommandService {
 
   constructor(private http: Http) { }
 
-  getCommands = () : Promise<Command[]> => {
+  getCommands = () : Promise<ICommand[]> => {
     return this.http
       .get(`${this.commandsUrl}/commands/currentUser`)
         .toPromise()
-        .then(response => response.json() as Command[])
+        .then(response => response.json() as ICommand[])
         .catch(error => {
           console.error(error);
           return null;
         });
   }
 
-  createCommand = (newCommand: Command): Promise<Command> => {
+  createCommand = (newCommand: ICommand): Promise<ICommand> => {
     return new Promise((resolve, reject) => {
       this.http
         .post(`${this.commandsUrl}/commands`, newCommand)
           .toPromise()
-          .then(response => response.json() as Command)
+          .then(response => response.json() as ICommand)
           .then(command => resolve(command))
           .catch(error => {
             console.error(error);
@@ -36,12 +36,12 @@ export class CommandService {
     });
   }
 
-  deleteCommand = (id: String): Promise<Command> => {
+  deleteCommand = (id: String): Promise<ICommand> => {
     return new Promise((resolve, reject) => {
       this.http
         .delete(`${this.commandsUrl}/commands?id=${id}`)
           .toPromise()
-          .then(response => response.json() as Command)
+          .then(response => response.json() as ICommand)
           .then(command => resolve(command))
           .catch(error => {
             console.error(error);

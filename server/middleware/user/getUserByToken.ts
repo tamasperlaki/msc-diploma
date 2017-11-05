@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import twitch from '../../helper/twitch';
 import botManager from '../../helper/botManager';
-import { User, IUser } from '../../models/user';
+import { User, IUser } from '../../../models/user';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {

@@ -1,6 +1,6 @@
 import Bot from 'msc-diploma-bot';
-import { IUser } from '../models/user';
-import { ICommand } from '../models/command';
+import { IUser } from '../../models/user';
+import { ICommand } from '../../models/command';
 
 const bots = {};
 

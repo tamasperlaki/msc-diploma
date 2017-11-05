@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Command } from '../../models/command';
+import { Command } from '../../../models/command';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {

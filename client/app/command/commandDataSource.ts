@@ -3,20 +3,20 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
 
-import { Command } from './command';
+import { ICommand } from '../../../models/command';
 
-export class CommandDataSource extends DataSource<Command> {
-  commandsBehaviourSubject: BehaviorSubject<Command[]> = new BehaviorSubject<Command[]>([]);
+export class CommandDataSource extends DataSource<ICommand> {
+  commandsBehaviourSubject: BehaviorSubject<ICommand[]> = new BehaviorSubject<ICommand[]>([]);
 
-  set commands(commands: Command[]) { this.commandsBehaviourSubject.next(commands); }
+  set commands(commands: ICommand[]) { this.commandsBehaviourSubject.next(commands); }
 
-  constructor(commands: Command[]) {
+  constructor(commands: ICommand[]) {
     super();
 
     this.commandsBehaviourSubject.next(commands);
   }
 
-  connect(): Observable<Command[]> {
+  connect(): Observable<ICommand[]> {
     return this.commandsBehaviourSubject;
   }
 
