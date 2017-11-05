@@ -4,7 +4,10 @@ import { MatDialogModule, MatButtonModule, MatProgressSpinnerModule } from '@ang
 
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { LoadmaskComponent } from './loadmask/loadmask.component';
+import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
+
 import { LoadmaskService } from './loadmask/loadmask.service';
+import { AlertDialogService } from './alert-dialog/alert-dialog.service';
 
 @NgModule({
   imports: [
@@ -13,17 +16,22 @@ import { LoadmaskService } from './loadmask/loadmask.service';
     MatButtonModule,
     MatProgressSpinnerModule
   ],
-  providers: [LoadmaskService],
+  providers: [
+    LoadmaskService,
+    AlertDialogService
+  ],
   declarations: [
     DeleteDialogComponent,
-    LoadmaskComponent
+    LoadmaskComponent,
+    AlertDialogComponent
   ],
   exports: [
     DeleteDialogComponent
   ],
   entryComponents: [
     DeleteDialogComponent,
-    LoadmaskComponent
+    LoadmaskComponent,
+    AlertDialogComponent
   ]
 })
 export class ComponentsModule { }

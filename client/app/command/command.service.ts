@@ -17,7 +17,7 @@ export class CommandService {
         .toPromise()
         .then(response => response.json() as ICommand[])
         .catch(error => {
-          console.error(error);
+          console.log(error);
           return null;
         });
   }
@@ -30,7 +30,7 @@ export class CommandService {
           .then(response => response.json() as ICommand)
           .then(command => resolve(command))
           .catch(error => {
-            console.error(error);
+            console.log(error);
             reject(error._body);
           });
     });
@@ -44,7 +44,7 @@ export class CommandService {
           .then(response => response.json() as ICommand)
           .then(command => resolve(command))
           .catch(error => {
-            console.error(error);
+            console.log(error);
             reject(error._body);
           });
     });

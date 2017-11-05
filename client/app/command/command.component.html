@@ -60,7 +60,9 @@
               id="name"
               name="name"
               placeholder="Name"
-              [(ngModel)]="newCommand.name">
+              [(ngModel)]="newCommand.name"
+              class="form-control"
+              required>
           </mat-form-field>
           <mat-form-field class="command-form-input">
             <input
@@ -70,7 +72,7 @@
               placeholder="Text"
               [(ngModel)]="newCommand.text">
           </mat-form-field>
-          <button type="submit" mat-raised-button>Add</button>
+          <button type="submit" [disabled]="commandForm.form.invalid" mat-raised-button>Add</button>
         </form>
       </mat-card-content>
     </mat-card>
