@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
-  getUser(): Promise<any> {
+  getUser = () : Promise<any> => {
     if (this.user) {
       return Promise.resolve(this.user);
     } else {

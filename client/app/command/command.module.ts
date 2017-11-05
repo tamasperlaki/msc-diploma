@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
+import { MatCardModule, MatTableModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatIconModule, MatDialogModule } from '@angular/material';
 
 import { SharedModule } from '../shared/shared.module';
-import { MatCardModule, MatTableModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatIconModule } from '@angular/material';
 import { CommandComponent } from './command.component';
 import { CommandService } from './command.service';
 import { CommandsResolverGuard } from './commands-resolver.guard';
@@ -14,7 +14,8 @@ import { CommandsResolverGuard } from './commands-resolver.guard';
     MatInputModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   declarations: [CommandComponent],
   providers: [CommandService, CommandsResolverGuard]

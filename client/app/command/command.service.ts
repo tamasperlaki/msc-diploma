@@ -11,7 +11,7 @@ export class CommandService {
 
   constructor(private http: Http) { }
 
-  getCommands(): Promise<Command[]> {
+  getCommands = () : Promise<Command[]> => {
     return this.http
       .get(`${this.commandsUrl}/commands/currentUser`)
         .toPromise()
@@ -22,12 +22,13 @@ export class CommandService {
         });
   }
 
-  createCommand(command: Command): Promise<Command> {
+  createCommand = (newCommand: Command): Promise<Command> => {
     return new Promise((resolve, reject) => {
       this.http
-        .post(`${this.commandsUrl}/commands`, command)
+        .post(`${this.commandsUrl}/commands`, newCommand)
           .toPromise()
           .then(response => response.json() as Command)
+          .then(command => resolve(command))
           .catch(error => {
             console.error(error);
             reject(error._body);
@@ -35,4 +36,17 @@ export class CommandService {
     });
   }
 
+  deleteCommand = (id: String): Promise<Command> => {
+    return new Promise((resolve, reject) => {
+      this.http
+        .delete(`${this.commandsUrl}/commands?id=${id}`)
+          .toPromise()
+          .then(response => response.json() as Command)
+          .then(command => resolve(command))
+          .catch(error => {
+            console.error(error);
+            reject(error._body);
+          });
+    });
+  }
 }

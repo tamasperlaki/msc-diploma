@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
 
 import { Command } from './command';
 import { CommandService } from './command.service';
 import { CommandDataSource } from './commandDataSource';
+
+import { LoadmaskService } from '../shared/components/loadmask/loadmask.service';
+import { DeleteDialogComponent as DeleteDialog } from '../shared/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-command',
@@ -16,7 +20,7 @@ export class CommandComponent implements OnInit {
   newCommand: Command;
   displayedColumns = ['name', 'text', 'enabled', 'actions'];
 
-  constructor(private activatedRouter: ActivatedRoute, private commandService: CommandService) {
+  constructor(private activatedRouter: ActivatedRoute, private commandService: CommandService, private dialog: MatDialog, private loadmask: LoadmaskService) {
     this.newCommand = new Command();
   }
 
@@ -27,12 +31,34 @@ export class CommandComponent implements OnInit {
   }
 
   onCommandFormSubmit() {
-    /*this.commandService.createCommand(this.newCommand)
-      .then((command) => {
-        this.commands.push(command);
+    this.loadmask.start(this.commandService.createCommand(this.newCommand))
+      .then(command => {
+        this.newCommand = new Command();
+
+        return this.commandService.getCommands();
       })
-      .catch((error) => {
-        alert(error);
-      });*/
+      .then(commands => this.commandsDataSource.commands = commands)
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  onCommandDelete(command: Command) {
+    let dialogRef = this.dialog.open(DeleteDialog, {
+      data: {
+        name: command.name
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+
+      this.commandService.deleteCommand(command._id)
+        .then(command => this.commandService.getCommands())
+        .then(commands => this.commandsDataSource.commands = commands)
+        .catch(error => {
+          console.error(error);
+        });
+    });
   }
 }

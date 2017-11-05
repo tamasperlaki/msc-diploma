@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
+import { ComponentsModule } from './components/components.module';
+
 import { AuthService } from './auth/auth.service';
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 
@@ -12,16 +14,17 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
     CommonModule,
     FormsModule,
     FlexLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ComponentsModule
   ],
   providers: [AuthService],
   declarations: [PageNotFoundComponent],
   exports: [
-    PageNotFoundComponent,
     CommonModule,
     FormsModule,
     FlexLayoutModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    PageNotFoundComponent
   ]
 })
 export class SharedModule {
