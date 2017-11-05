@@ -36,10 +36,24 @@ export class CommandService {
     });
   }
 
-  deleteCommand = (id: String): Promise<ICommand> => {
+  deleteCommand = (id: string): Promise<ICommand> => {
     return new Promise((resolve, reject) => {
       this.http
-        .delete(`${this.commandsUrl}/commands?id=${id}`)
+        .delete(`${this.commandsUrl}/commands/${id}`)
+          .toPromise()
+          .then(response => response.json() as ICommand)
+          .then(command => resolve(command))
+          .catch(error => {
+            console.log(error);
+            reject(error._body);
+          });
+    });
+  }
+
+  updateCommand = (command: ICommand): Promise<ICommand> => {
+    return new Promise((resolve, reject) => {
+      this.http
+        .put(`${this.commandsUrl}/commands/${command._id}`, command)
           .toPromise()
           .then(response => response.json() as ICommand)
           .then(command => resolve(command))

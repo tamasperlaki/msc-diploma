@@ -20,6 +20,7 @@
           <mat-cell *matCellDef="let command">
             <mat-slide-toggle
               color="primary"
+              (change)="onEnabledChanged(command, $event.checked);"
               [checked]="command.enabled">
             </mat-slide-toggle>
           </mat-cell>

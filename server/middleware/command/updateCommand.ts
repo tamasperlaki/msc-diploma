@@ -1,17 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import { Command } from '../../../models/command';
+import { ICommand } from '../../../models/command';
 import botManager from '../../helper/botManager';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.command) {
-      res.locals.command.remove()
-        .then(command => res.send(command))
+      let paramCommand = req.body;
+      let storedCommand = <ICommand>res.locals.command;
+
+      storedCommand.enabled = paramCommand.enabled;
+      storedCommand.text = paramCommand.text;
+      storedCommand.save()
         .then(savedCommand => {
-          res.locals.user.commands = res.locals.user.commands.filter(c => c._id.equals(savedCommand._id));
-          return res.locals.user.save();
+          botManager.resetBot(res.locals.user);
+          return savedCommand;
         })
-        .then(user => botManager.resetBot(user))
+        .then(savedCommand => res.send(savedCommand))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

@@ -13,13 +13,12 @@ export default () => {
       command.user = req.session.userId;
 
       command.save()
-        .then(savedCommand => User.findById(req.session.userId))
-        .then(user => {
-          user.commands.push(command._id);
-          return user.save();
+        .then(savedCommand => {
+          res.locals.user.commands.push(command._id);
+          return res.locals.user.save();
         })
         .then(user => botManager.addCommand(user, command))
-        .then(() => res.send(JSON.stringify(command)))
+        .then(() => res.send(command))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

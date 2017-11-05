@@ -12,17 +12,19 @@ function createBot(user: IUser) {
   let bot = bots[user._id];
 
   if (!bot) {
-    bot =  new Bot(user.name);
+    bot = new Bot(user.name);
     user.commands.forEach(command => bot.addCommand(command.name, command.text));
 
     bots[user._id] = bot;
+  } else {
+    resetBot(user);
   }
 }
 
 function addCommand(user: IUser, command: ICommand) {
   const bot = bots[user._id];
 
-  if (bot) {
+  if (bot && command.enabled) {
     bot.addCommand(command.name, command.text);
   } else {
     throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);

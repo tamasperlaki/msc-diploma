@@ -6,10 +6,10 @@ export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     Command
       .findOne({
-        '_id': req.query.id,
+        '_id': req.params.id,
         'user': req.session.userId
       })
-      .then((command) => {
+      .then(command => {
         res.locals.command = command;
         next();
       })

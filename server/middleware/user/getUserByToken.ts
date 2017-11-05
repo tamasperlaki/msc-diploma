@@ -7,7 +7,7 @@ export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.session.userId) {
       User.findById(req.session.userId)
-        .then(user => res.send(JSON.stringify(user)));
+        .then(user => res.send(user));
     } else {
       twitch.getUser(req.session.twitchToken)
         .then(response => {

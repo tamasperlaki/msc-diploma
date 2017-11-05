@@ -52,6 +52,12 @@ export class CommandComponent implements OnInit {
       .catch(error => console.error(error));
   }
 
+  onEnabledChanged(command: ICommand, checked: boolean) {
+    command.enabled = checked;
+    this.loadmask.start(this.commandService.updateCommand(command))
+      .catch(error => console.error(error));
+  }
+
   onCommandDelete(command: ICommand) {
     let dialogRef = this.dialog.open(DeleteDialog, {
       data: {
