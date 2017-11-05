@@ -1,4 +1,4 @@
-.idea
+.vscode
 node_modules
 jspm_packages
 npm-debug.log
@@ -15,12 +15,3 @@ _temp
 dist
 out-tsc
 tmp
-
-# Elastic Beanstalk Files
-
-.elasticbeanstalk/*
-
-!.elasticbeanstalk/*.cfg.yml
-
-!.elasticbeanstalk/*.global.yml
-
