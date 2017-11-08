@@ -1,5 +1,13 @@
 import { NgModule } from '@angular/core';
-import { MatCardModule, MatTableModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatIconModule, MatDialogModule } from '@angular/material';
+import {
+  MatCardModule,
+  MatTableModule,
+  MatInputModule,
+  MatButtonModule,
+  MatSlideToggleModule,
+  MatIconModule,
+  MatDialogModule
+} from '@angular/material';
 
 import { SharedModule } from '../shared/shared.module';
 import { CommandComponent } from './command.component';

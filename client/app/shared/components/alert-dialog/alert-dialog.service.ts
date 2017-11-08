@@ -11,7 +11,7 @@ export class AlertDialogService {
   open = (header: String, message: String) => {
     this.dialog.closeAll();
 
-    let subscription = this.dialog.afterAllClosed.subscribe(() => {
+    const subscription = this.dialog.afterAllClosed.subscribe(() => {
       subscription.unsubscribe();
       this.dialog.open(AlertDialogComponent, {
         data: {
@@ -19,7 +19,7 @@ export class AlertDialogService {
           message: message
         }
       });
-    })
+    });
   }
 
 }

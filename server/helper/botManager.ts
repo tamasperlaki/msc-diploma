@@ -24,7 +24,9 @@ function createBot(user: IUser) {
 function addCommand(user: IUser, command: ICommand) {
   const bot = bots[user._id];
 
-  if(!bot) throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
+  if (!bot) {
+    throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
+  }
 
   if (command.enabled) {
     const text = command.text ? command.text : '';

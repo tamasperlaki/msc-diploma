@@ -56,7 +56,7 @@ export class CommandService {
         .put(`${this.commandsUrl}/commands/${command._id}`, command)
           .toPromise()
           .then(response => response.json() as ICommand)
-          .then(command => resolve(command))
+          .then(returnedCommand => resolve(returnedCommand))
           .catch(error => {
             console.log(error);
             reject(error._body);
