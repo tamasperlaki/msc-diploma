@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { ICommand } from '../../../models/command';
 import { CommandService } from './command.service';
+import { CommandEditorDialogComponent as CommandEditorDialog } from './command-editor-dialog/command-editor-dialog.component';
 import { CommandDataSource } from './commandDataSource';
 
 import { LoadmaskService } from '../shared/components/loadmask/loadmask.service';
@@ -16,6 +18,8 @@ import { AlertDialogService } from '../shared/components/alert-dialog/alert-dial
   styleUrls: ['./command.component.scss']
 })
 export class CommandComponent implements OnInit {
+
+  @ViewChild('commandForm') commandForm: NgForm;
 
   commandsDataSource: CommandDataSource;
   newCommand: ICommand;
@@ -41,6 +45,7 @@ export class CommandComponent implements OnInit {
     this.commandService.createCommand(this.newCommand)
       .then(command => {
         this.newCommand = <ICommand>{};
+        this.commandForm.reset();
 
         return this.commandService.getCommands();
       })
@@ -56,6 +61,31 @@ export class CommandComponent implements OnInit {
     command.enabled = checked;
     this.loadmask.start(this.commandService.updateCommand(command))
       .catch(error => console.error(error));
+  }
+
+  onCommandEdit(command: ICommand) {
+    let dialogRef = this.dialog.open(CommandEditorDialog, {
+      data: {
+        name: command.name,
+        text: command.text
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result || result === command.text) return;
+
+      const request = {
+        ...command
+      };
+      request.text = result;
+
+      this.loadmask.start(this.commandService.updateCommand(command))
+        .then(response => command.text = request.text)
+        .catch(error => {
+          console.error(error);
+          this.alertDialogService.open('Error', error);
+        });
+    });
   }
 
   onCommandDelete(command: ICommand) {

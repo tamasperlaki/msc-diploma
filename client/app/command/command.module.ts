@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CommandComponent } from './command.component';
 import { CommandService } from './command.service';
 import { CommandsResolverGuard } from './commands-resolver.guard';
+import { CommandEditorDialogComponent } from './command-editor-dialog/command-editor-dialog.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,16 @@ import { CommandsResolverGuard } from './commands-resolver.guard';
     MatIconModule,
     MatDialogModule
   ],
-  declarations: [CommandComponent],
-  providers: [CommandService, CommandsResolverGuard]
+  declarations: [
+    CommandComponent,
+    CommandEditorDialogComponent
+  ],
+  entryComponents: [
+    CommandEditorDialogComponent
+  ],
+  providers: [
+    CommandService,
+    CommandsResolverGuard
+  ]
 })
 export class CommandModule { }

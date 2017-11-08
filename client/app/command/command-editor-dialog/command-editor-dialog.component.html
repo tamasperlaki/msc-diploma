@@ -1,0 +1,32 @@
+<form (ngSubmit)="onSubmit();" #commandForm="ngForm">
+  <h1 mat-dialog-title>Edit Command</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="command-form-input">
+      <span matPrefix>!&nbsp;</span>
+      <input
+        matInput
+        id="name"
+        name="name"
+        #name="ngModel"
+        placeholder="Name"
+        [ngModel]="data.name"
+        class="form-control"
+        disabled
+        tabindex="-1">
+    </mat-form-field>
+    <mat-form-field class="command-form-input">
+      <input
+        matInput
+        id="text"
+        name="text"
+        #text="ngModel"
+        placeholder="Text"
+        [(ngModel)]="data.text"
+        tabindex="1">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button type="submit" mat-button (click)="onSubmit();" tabindex="2">Save</button>
+    <button mat-button [mat-dialog-close] tabindex="3">Cancel</button>
+  </div>
+</form>

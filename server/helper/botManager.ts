@@ -1,6 +1,6 @@
 import Bot from 'msc-diploma-bot';
 import { IUser } from '../../models/user';
-import { ICommand } from '../../models/command';
+import { ICommand, Command } from '../../models/command';
 
 const bots = {};
 
@@ -13,7 +13,7 @@ function createBot(user: IUser) {
 
   if (!bot) {
     bot = new Bot(user.name);
-    user.commands.forEach(command => bot.addCommand(command.name, command.text));
+    addUserCommands(user);
 
     bots[user._id] = bot;
   } else {
@@ -24,11 +24,19 @@ function createBot(user: IUser) {
 function addCommand(user: IUser, command: ICommand) {
   const bot = bots[user._id];
 
-  if (bot && command.enabled) {
-    bot.addCommand(command.name, command.text);
-  } else {
-    throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
+  if(!bot) throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
+
+  if (command.enabled) {
+    const text = command.text ? command.text : '';
+    bot.addCommand(command.name, text);
   }
+}
+
+function addUserCommands(user: IUser) {
+  Command.find({
+    user: user._id
+  })
+  .then(commands => commands.forEach(command => addCommand(user, command)));
 }
 
 function resetBot(user: IUser) {
@@ -36,7 +44,7 @@ function resetBot(user: IUser) {
 
   if (bot) {
     bot.resetCommands();
-    user.commands.forEach(command => bot.addCommand(command.name, command.text));
+    addUserCommands(user);
   } else {
     throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
   }

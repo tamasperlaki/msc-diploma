@@ -1,17 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 import { Command } from '../../../models/command';
 import botManager from '../../helper/botManager';
+import { reject } from 'lodash';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.command) {
+      let command;
+
       res.locals.command.remove()
-        .then(command => res.send(command))
-        .then(savedCommand => {
-          res.locals.user.commands = res.locals.user.commands.filter(c => c._id.equals(savedCommand._id));
+        .then(removedCommand => {
+          command = removedCommand;
+          res.locals.user.commands = reject(res.locals.user.commands, c => c.equals(removedCommand._id));
           return res.locals.user.save();
         })
         .then(user => botManager.resetBot(user))
+        .then(() => res.send(command))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);
