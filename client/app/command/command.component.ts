@@ -64,7 +64,7 @@ export class CommandComponent implements OnInit {
   }
 
   onCommandEdit(command: ICommand) {
-    let dialogRef = this.dialog.open(CommandEditorDialog, {
+    const dialogRef = this.dialog.open(CommandEditorDialog, {
       data: {
         name: command.name,
         text: command.text
@@ -72,7 +72,9 @@ export class CommandComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(!result || result === command.text) return;
+      if (!result || result === command.text) {
+        return;
+      }
 
       const request = {
         ...command
@@ -89,18 +91,20 @@ export class CommandComponent implements OnInit {
   }
 
   onCommandDelete(command: ICommand) {
-    let dialogRef = this.dialog.open(DeleteDialog, {
+    const dialogRef = this.dialog.open(DeleteDialog, {
       data: {
         name: command.name
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(!result) return;
+      if (!result) {
+        return;
+      }
 
       this.loadmask.start();
       this.commandService.deleteCommand(command._id)
-        .then(command => this.commandService.getCommands())
+        .then(() => this.commandService.getCommands())
         .then(commands => this.commandsDataSource.commands = commands)
         .then(() => this.loadmask.stop())
         .catch(error => {

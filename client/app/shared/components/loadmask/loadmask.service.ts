@@ -17,7 +17,7 @@ export class LoadmaskService {
       backdropClass: 'tankika-loadmask-backdrop'
     });
 
-    if(promise) {
+    if (promise) {
       promise
         .then(this.stop, this.stop)
         .catch(this.stop);
