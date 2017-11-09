@@ -1,16 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
-
-import { ICommand } from '../../../models/command';
-import { CommandService } from './command.service';
-import { CommandEditorDialogComponent as CommandEditorDialog } from './command-editor-dialog/command-editor-dialog.component';
-import { CommandDataSource } from './commandDataSource';
-
-import { LoadmaskService } from '../shared/components/loadmask/loadmask.service';
-import { DeleteDialogComponent as DeleteDialog } from '../shared/components/delete-dialog/delete-dialog.component';
-import { AlertDialogService } from '../shared/components/alert-dialog/alert-dialog.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-command',
@@ -19,98 +7,8 @@ import { AlertDialogService } from '../shared/components/alert-dialog/alert-dial
 })
 export class CommandComponent implements OnInit {
 
-  @ViewChild('commandForm') commandForm: NgForm;
+    constructor() { }
 
-  commandsDataSource: CommandDataSource;
-  newCommand: ICommand;
-  displayedColumns = ['name', 'text', 'enabled', 'actions'];
-
-  constructor(
-      private activatedRouter: ActivatedRoute,
-      private commandService: CommandService,
-      private dialog: MatDialog,
-      private loadmask: LoadmaskService,
-      private alertDialogService: AlertDialogService) {
-    this.newCommand = <ICommand>{};
-  }
-
-  ngOnInit() {
-    this.activatedRouter.data.subscribe((data: { commands: ICommand[] }) => {
-      this.commandsDataSource = new CommandDataSource(data.commands);
-    });
-  }
-
-  onCommandFormSubmit() {
-    this.loadmask.start();
-    this.commandService.createCommand(this.newCommand)
-      .then(command => {
-        this.newCommand = <ICommand>{};
-        this.commandForm.reset();
-
-        return this.commandService.getCommands();
-      })
-      .then(
-        commands => this.commandsDataSource.commands = commands,
-        reason => this.alertDialogService.open('Error', reason)
-      )
-      .then(() => this.loadmask.stop())
-      .catch(error => console.error(error));
-  }
-
-  onEnabledChanged(command: ICommand, checked: boolean) {
-    command.enabled = checked;
-    this.loadmask.start(this.commandService.updateCommand(command))
-      .catch(error => console.error(error));
-  }
-
-  onCommandEdit(command: ICommand) {
-    const dialogRef = this.dialog.open(CommandEditorDialog, {
-      data: {
-        name: command.name,
-        text: command.text
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result || result === command.text) {
-        return;
-      }
-
-      const request = {
-        ...command
-      };
-      request.text = result;
-
-      this.loadmask.start(this.commandService.updateCommand(command))
-        .then(response => command.text = request.text)
-        .catch(error => {
-          console.error(error);
-          this.alertDialogService.open('Error', error);
-        });
-    });
-  }
-
-  onCommandDelete(command: ICommand) {
-    const dialogRef = this.dialog.open(DeleteDialog, {
-      data: {
-        name: command.name
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
-        return;
-      }
-
-      this.loadmask.start();
-      this.commandService.deleteCommand(command._id)
-        .then(() => this.commandService.getCommands())
-        .then(commands => this.commandsDataSource.commands = commands)
-        .then(() => this.loadmask.stop())
-        .catch(error => {
-          console.error(error);
-          this.alertDialogService.open('Error', error);
-        });
-    });
-  }
+    ngOnInit() {
+    }
 }

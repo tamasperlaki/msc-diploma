@@ -1,0 +1,14 @@
+#commands-table {
+  .mat-column-name,
+  .mat-column-text {
+    flex: 0 0 39%;
+  }
+
+  .mat-column-enabled {
+    flex: 0 0 10%;
+
+    .mat-slide-toggle {
+      padding-top: 10px;
+    }
+  }
+}

@@ -11,9 +11,12 @@ import {
 
 import { SharedModule } from '../shared/shared.module';
 import { CommandComponent } from './command.component';
-import { CommandService } from './command.service';
-import { CommandsResolverGuard } from './commands-resolver.guard';
 import { CommandEditorDialogComponent } from './command-editor-dialog/command-editor-dialog.component';
+import { CommandsEditorService } from './commands-editor/commands-editor.service';
+import { CommandsEditorComponent } from './commands-editor/commands-editor.component';
+import { CommandTimersService } from './command-timers/command-timers.service';
+import { CommandTimersComponent } from './command-timers/command-timers.component';
+import { CommandsResolverGuard } from './commands-resolver.guard';
 
 @NgModule({
   imports: [
@@ -28,13 +31,15 @@ import { CommandEditorDialogComponent } from './command-editor-dialog/command-ed
   ],
   declarations: [
     CommandComponent,
-    CommandEditorDialogComponent
+    CommandEditorDialogComponent,
+    CommandsEditorComponent,
+    CommandTimersComponent
   ],
   entryComponents: [
     CommandEditorDialogComponent
   ],
   providers: [
-    CommandService,
+    CommandsEditorService,
     CommandsResolverGuard
   ]
 })
