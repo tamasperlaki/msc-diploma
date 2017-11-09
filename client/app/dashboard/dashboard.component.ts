@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
     this.commandCtrl = new FormControl();
     this.filteredCommands = this.commandCtrl.valueChanges
         .startWith(null)
-        .map(commandName => typeof commandName === "string" ? this.filterCommands(commandName) : this.commands.slice());
+        .map(commandName => typeof commandName === 'string' ? this.filterCommands(commandName) : this.commands.slice());
   }
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onCommandSelected(command: ICommand) {
-    this.commandCtrl.setValue("");
+    this.commandCtrl.setValue('');
     this.dashboardService.runCommand(command._id);
   }
 }
