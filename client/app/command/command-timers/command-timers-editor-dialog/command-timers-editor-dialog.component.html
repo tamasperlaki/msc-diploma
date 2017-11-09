@@ -1,0 +1,41 @@
+<form (ngSubmit)="onSubmit();" [formGroup]="timerForm">
+  <h1 mat-dialog-title>Edit Timer</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="full-width-form-input">
+      <span matPrefix>!&nbsp;</span>
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Name"
+        tabindex="-1">
+    </mat-form-field>
+    <mat-form-field class="full-width-form-input">
+      <input
+        matInput
+        formControlName="timeInMinutes"
+        type="number"
+        placeholder="Trigger Time In Minutes"
+        tabindex="1">
+    </mat-form-field>
+
+    Commands
+    <mat-list>
+      <mat-list-item *ngFor="let command of addedCommands"> {{command.name}} </mat-list-item>
+    </mat-list>
+    <mat-form-field class="full-width-form-input">
+      <mat-select
+        placeholder="Add Command"
+        (change)="onSelectCommand($event.value);"
+        formControlName="commands"
+        tabindex="2">
+        <mat-option *ngFor="let command of commands" [value]="command">
+          {{ command.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button type="submit" mat-button (click)="onSubmit();" tabindex="3">Save</button>
+    <button mat-button [mat-dialog-close] tabindex="4">Cancel</button>
+  </div>
+</form>

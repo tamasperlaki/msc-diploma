@@ -9,12 +9,13 @@ export default () => {
       const storedTimer = <ITimer>res.locals.timer;
 
       storedTimer.enabled = paramTimer.enabled;
+      storedTimer.timeInMinutes = paramTimer.timeInMinutes;
       storedTimer.save()
         .then(savedTimer => {
           //botManager.resetBot(res.locals.user._id);
           return savedTimer;
         })
-        .then(savedCommand => res.send(savedCommand))
+        .then(savedTimer => res.send(savedTimer))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

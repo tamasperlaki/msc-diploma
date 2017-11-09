@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material';
 
 import { ICommand } from '../../../../models/command';
 import { CommandsEditorService } from './../commands-editor/commands-editor.service';
-import { CommandEditorDialogComponent as CommandEditorDialog } from './../command-editor-dialog/command-editor-dialog.component';
+import { CommandEditorDialogComponent as CommandEditorDialog } from './command-editor-dialog/command-editor-dialog.component';
 import { CommandDataSource } from './commandDataSource';
 
 import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
@@ -76,13 +76,13 @@ export class CommandsEditorComponent implements OnInit {
         return;
       }
 
-      const request = {
+      const request = <ICommand>{
         ...command
       };
       request.text = result;
 
-      this.loadmask.start(this.CommandEditorService.updateCommand(command))
-        .then(response => command.text = request.text, reason => this.alertDialogService.open('Error', reason))
+      this.loadmask.start(this.CommandEditorService.updateCommand(request))
+        .then(response => command.text = response.text, reason => this.alertDialogService.open('Error', reason))
         .catch(error => this.alertDialogService.open('Error', error));
     });
   }
