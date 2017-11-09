@@ -14,7 +14,7 @@ export default () => {
           res.locals.user.commands = reject(res.locals.user.commands, c => c.equals(removedCommand._id));
           return res.locals.user.save();
         })
-        .then(user => botManager.resetBot(user))
+        .then(user => botManager.resetBot(user._id))
         .then(() => res.send(command))
         .catch(error => {
           console.error(error);

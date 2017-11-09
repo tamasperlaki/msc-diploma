@@ -66,30 +66,25 @@ app.use((req, res) => {
 // });
 
 // // error handlers
+if (app.get('env') === 'development') {
+  // development error handler
+  // will print stacktrace
+  app.use((error: any, req, res, next) => {
+    console.error(error);
+    res.status(error['status'] || 500);
+    res.send(error);
+  });
+} else {
+  // production error handler
+  // no stacktraces leaked to user
+  app.use((error: any, req, res, next) => {
+    console.error(error);
+    res.status(error['status'] || 500);
+    res.send(error.message);
 
-// // development error handler
-// // will print stacktrace
-// if (app.get('env') === 'development') {
-
-//   app.use((error: any, req, res, next) => {
-//     res.status(error['status'] || 500);
-//     res.render('error', {
-//       message: error.message,
-//       error
-//     });
-//   });
-// }
-
-// // production error handler
-// // no stacktraces leaked to user
-// app.use((error: any, req, res, next) => {
-//   res.status(error['status'] || 500);
-//   res.render('error', {
-//     message: error.message,
-//     error: {}
-//   });
-//   return null;
-// });
+    return null;
+  });
+}
 
 const port = normalizePort(process.env.PORT || '4200');
 

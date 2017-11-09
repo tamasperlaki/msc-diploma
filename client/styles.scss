@@ -11,6 +11,11 @@ html, body {
   height: 100%;
 }
 
+.full-width-form-input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
 .main-container,
 #main-toolbar .mat-toolbar-layout,
 #main-nav-bar .mat-tab-links {
@@ -45,4 +50,3 @@ html, body {
 .tankika-loadmask-backdrop {
   background: rgba(0,0,0,1);
 }
-

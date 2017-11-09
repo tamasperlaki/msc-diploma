@@ -12,7 +12,7 @@ export default () => {
       storedCommand.text = paramCommand.text;
       storedCommand.save()
         .then(savedCommand => {
-          botManager.resetBot(res.locals.user);
+          botManager.resetBot(res.locals.user._id);
           return savedCommand;
         })
         .then(savedCommand => res.send(savedCommand))

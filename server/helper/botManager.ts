@@ -13,7 +13,7 @@ function createBot(user: IUser) {
 
   if (!bot) {
     bot = new Bot(user.name);
-    addUserCommands(user);
+    addUserCommands(user._id);
 
     bots[user._id] = bot;
   } else {
@@ -21,11 +21,11 @@ function createBot(user: IUser) {
   }
 }
 
-function addCommand(user: IUser, command: ICommand) {
-  const bot = bots[user._id];
+function addCommand(userId: any, command: ICommand) {
+  const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
+    throw new Error(`addCommand - Bot does not exist for user with id: ${userId}`);
   }
 
   if (command.enabled) {
@@ -34,21 +34,31 @@ function addCommand(user: IUser, command: ICommand) {
   }
 }
 
-function addUserCommands(user: IUser) {
+function addUserCommands(userId: any) {
   Command.find({
-    user: user._id
+    user: userId
   })
-  .then(commands => commands.forEach(command => addCommand(user, command)));
+  .then(commands => commands.forEach(command => addCommand(userId, command)));
 }
 
-function resetBot(user: IUser) {
-  const bot = bots[user._id];
+function resetBot(userId: any) {
+  const bot = bots[userId];
 
   if (bot) {
     bot.resetCommands();
-    addUserCommands(user);
+    addUserCommands(userId);
   } else {
-    throw new Error(`Bot does not exist for user: ${user.name} with id: ${user._id}`);
+    throw new Error(`resetBot - Bot does not exist for user with id: ${userId}`);
+  }
+}
+
+function runCommand(userId: any, commandName: string) {
+  const bot = bots[userId];
+
+  if (bot) {
+    bot.runCommand(commandName);
+  } else {
+    throw new Error(`runCommand - Bot does not exist for user with id: ${userId}`);
   }
 }
 
@@ -56,5 +66,6 @@ export default {
   startBots: startBots,
   createBot: createBot,
   addCommand: addCommand,
-  resetBot: resetBot
+  resetBot: resetBot,
+  runCommand: runCommand
 };
