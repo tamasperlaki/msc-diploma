@@ -17,7 +17,7 @@ export default () => {
           res.locals.user.commands.push(command._id);
           return res.locals.user.save();
         })
-        .then(user => botManager.addCommand(user, command))
+        .then(user => botManager.addCommand(user._id, command))
         .then(() => res.send(command))
         .catch(error => {
           console.error(error);

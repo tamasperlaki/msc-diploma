@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
@@ -13,6 +14,7 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
     ComponentsModule
@@ -22,8 +24,10 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
   exports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
+    ComponentsModule,
     PageNotFoundComponent
   ]
 })

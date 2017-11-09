@@ -23,6 +23,25 @@
   <div fxFlex="28" fxLayout="column">
 
     <mat-card>
+      <mat-card-header>
+        <mat-card-title>Quick Controls</mat-card-title>
+      </mat-card-header>
+
+      <form>
+        <mat-form-field class="full-width-form-input">
+          <input
+            type="text"
+            matInput
+            placeholder="Run Command"
+            [formControl]="commandCtrl"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCommandSelected($event.option.value);">
+            <mat-option *ngFor="let command of filteredCommands | async" [value]="command">
+              {{ command.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
     </mat-card>
 
     <mat-card style="display: none">

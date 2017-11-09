@@ -5,6 +5,7 @@ import getCurrentUserCommandsMW from '../../../middleware/command/getCurrentUser
 import getCommandForUserByIdMW from '../../../middleware/command/getCommandForUserById';
 import deleteCommandMW from '../../../middleware/command/deleteCommand';
 import updateCommandMW from '../../../middleware/command/updateCommand';
+import runCommandMW from '../../../middleware/command/runCommand';
 
 import getCurrentUserMW from '../../../middleware/user/getCurrentUser';
 
@@ -27,5 +28,9 @@ routing.put('/commands/:id',
 
 routing.get('/commands/currentUser',
   getCurrentUserCommandsMW());
+
+routing.post('/commands/run/:id',
+  getCommandForUserByIdMW(),
+  runCommandMW());
 
 export default routing;
