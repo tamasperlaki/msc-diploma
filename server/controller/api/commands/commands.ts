@@ -13,7 +13,6 @@ const routing = Router();
 
 routing.post('/commands',
   getCommandForUserByNameMW(),
-  getCurrentUserMW(),
   createCommandMW());
 
 routing.delete('/commands/:id',

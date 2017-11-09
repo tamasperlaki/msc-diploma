@@ -23,7 +23,7 @@ function createBot(user: IUser) {
   }
 }
 
-function addCommand(userId: any, command: ICommand) {
+function setCommand(userId: any, command: ICommand) {
   const bot = bots[userId];
 
   if (!bot) {
@@ -33,6 +33,8 @@ function addCommand(userId: any, command: ICommand) {
   if (command.enabled) {
     const text = command.text ? command.text : '';
     bot.addCommand(command.name, text);
+  } else {
+    bot.removeCommand(command.name);
   }
 }
 
@@ -40,7 +42,7 @@ function addUserCommands(userId: any) {
   Command.find({
     user: userId
   })
-  .then(commands => commands.forEach(command => addCommand(userId, command)));
+  .then(commands => commands.forEach(command => setCommand(userId, command)));
 }
 
 function runCommand(userId: any, commandName: string) {
@@ -50,6 +52,16 @@ function runCommand(userId: any, commandName: string) {
     bot.runCommand(commandName);
   } else {
     throw new Error(`runCommand - Bot does not exist for user with id: ${userId}`);
+  }
+}
+
+function removeCommand(userId: any, command: ICommand) {
+  const bot = bots[userId];
+
+  if (bot) {
+    bot.removeCommand(command.name);
+  } else {
+    throw new Error(`removeCommand - Bot does not exist for user with id: ${userId}`);
   }
 }
 
@@ -83,8 +95,9 @@ function resetBot(userId: any) {
 export default {
   startBots: startBots,
   createBot: createBot,
-  addCommand: addCommand,
+  setCommand: setCommand,
   runCommand: runCommand,
+  removeCommand: removeCommand,
   addTimer: addTimer,
   resetBot: resetBot
 };

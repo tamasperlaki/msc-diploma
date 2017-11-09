@@ -91,7 +91,6 @@ const port = normalizePort(process.env.PORT || '4200');
 app.listen(port);
 
 User.find()
-  .populate('commands')
   .then((users) => {
     botManager.startBots(users);
   });

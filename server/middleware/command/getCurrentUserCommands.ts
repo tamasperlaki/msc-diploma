@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../../../models/user';
+import { Command } from '../../../models/command';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    User
-      .findById(req.session.userId)
-      .populate('commands')
-      .then((user) => {
-        res.send(JSON.stringify(user.commands));
-      });
+    Command.find({
+      user: req.session.userId
+    })
+    .then(commands => {
+      res.send(JSON.stringify(commands));
+    });
   };
 };

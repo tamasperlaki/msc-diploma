@@ -6,16 +6,12 @@ import { reject } from 'lodash';
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.command) {
-      let command;
-
       res.locals.command.remove()
-        .then(removedCommand => {
-          command = removedCommand;
-          res.locals.user.commands = reject(res.locals.user.commands, c => c.equals(removedCommand._id));
-          return res.locals.user.save();
+        .then(command => {
+          botManager.removeCommand(req.session.userId, command);
+          return command;
         })
-        .then(user => botManager.resetBot(user._id))
-        .then(() => res.send(command))
+        .then(command => res.send(command))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

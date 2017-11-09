@@ -10,7 +10,6 @@ export interface IUser extends mongoose.Document {
   email_verified: boolean;
   notifications: object;
   token: string;
-  commands: ICommand[];
 };
 
 const userSchema = new mongoose.Schema({
@@ -21,11 +20,7 @@ const userSchema = new mongoose.Schema({
   updated_at: String,
   email_verified: Boolean,
   notifications: Object,
-  token: String,
-  commands: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Command'
-  }]
+  token: String
 });
 
 const User = mongoose.model<IUser>('User', userSchema);
