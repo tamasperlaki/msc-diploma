@@ -17,6 +17,9 @@ import { CommandsEditorComponent } from './commands-editor/commands-editor.compo
 import { CommandTimersService } from './command-timers/command-timers.service';
 import { CommandTimersComponent } from './command-timers/command-timers.component';
 import { CommandsResolverGuard } from './commands-resolver.guard';
+import { TimersResolverGuard } from './timers-resolver.guard';
+
+console.log(CommandsEditorComponent);
 
 @NgModule({
   imports: [
@@ -40,7 +43,9 @@ import { CommandsResolverGuard } from './commands-resolver.guard';
   ],
   providers: [
     CommandsEditorService,
-    CommandsResolverGuard
+    CommandTimersService,
+    CommandsResolverGuard,
+    TimersResolverGuard
   ]
 })
-export class CommandModule { }
+export class CommandModule {}

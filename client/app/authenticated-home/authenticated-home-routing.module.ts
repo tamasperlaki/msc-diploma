@@ -9,6 +9,7 @@ import { CommandComponent } from '../command/command.component';
 import { AuthGuard } from './auth.guard';
 import { UserResolverGuard } from './user-resolver.guard';
 import { CommandsResolverGuard } from '../command/commands-resolver.guard';
+import { TimersResolverGuard } from '../command/timers-resolver.guard';
 
 const routes: Routes = [
   {
@@ -30,7 +31,8 @@ const routes: Routes = [
         path: 'command',
         component: CommandComponent,
         resolve: {
-          commands: CommandsResolverGuard
+          commands: CommandsResolverGuard,
+          timers: TimersResolverGuard
         }
       }
     ]

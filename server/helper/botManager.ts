@@ -1,6 +1,8 @@
+import { duration } from 'moment';
 import Bot from 'msc-diploma-bot';
 import { IUser } from '../../models/user';
 import { ICommand, Command } from '../../models/command';
+import { ITimer } from '../../models/timer';
 
 const bots = {};
 
@@ -41,6 +43,32 @@ function addUserCommands(userId: any) {
   .then(commands => commands.forEach(command => addCommand(userId, command)));
 }
 
+function runCommand(userId: any, commandName: string) {
+  const bot = bots[userId];
+
+  if (bot) {
+    bot.runCommand(commandName);
+  } else {
+    throw new Error(`runCommand - Bot does not exist for user with id: ${userId}`);
+  }
+}
+
+function addTimer(userId: any, timer: ITimer) {
+  const bot = bots[userId];
+
+  if (bot) {
+    const timeInMillis = duration(timer.timeInMinutes).asMilliseconds();
+
+    Command
+      .find({_id: timer.commands})
+      .then(commands => console.log(commands));
+
+    bot.addTimer(userId, );
+  } else {
+    throw new Error(`addTImer - Bot does not exist for user with id: ${userId}`);
+  }
+}
+
 function resetBot(userId: any) {
   const bot = bots[userId];
 
@@ -52,20 +80,11 @@ function resetBot(userId: any) {
   }
 }
 
-function runCommand(userId: any, commandName: string) {
-  const bot = bots[userId];
-
-  if (bot) {
-    bot.runCommand(commandName);
-  } else {
-    throw new Error(`runCommand - Bot does not exist for user with id: ${userId}`);
-  }
-}
-
 export default {
   startBots: startBots,
   createBot: createBot,
   addCommand: addCommand,
-  resetBot: resetBot,
-  runCommand: runCommand
+  runCommand: runCommand,
+  addTimer: addTimer,
+  resetBot: resetBot
 };

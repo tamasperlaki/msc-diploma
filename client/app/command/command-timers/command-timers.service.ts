@@ -25,4 +25,46 @@ export class CommandTimersService {
     });
   }
 
+  getTimers = () : Promise<ITimer[]> => {
+    return new Promise((resolve, reject) => {
+      this.http
+        .get(`${this.timersUrl}`)
+          .toPromise()
+          .then(response => response.json() as ITimer[])
+          .then(timers => resolve(timers))
+          .catch(error => {
+            console.log(error);
+            reject(error._body);
+          });
+    });
+  }
+
+  deleteTimer = (timerId: any) : Promise<ITimer> => {
+    return new Promise((resolve, reject) => {
+      this.http
+        .delete(`${this.timersUrl}/${timerId}`)
+          .toPromise()
+          .then(response => response.json() as ITimer)
+          .then(timer => resolve(timer))
+          .catch(error => {
+            console.log(error);
+            reject(error._body);
+          });
+    });
+  }
+
+  updateCommand = (timer: ITimer) : Promise<ITimer> => {
+    return new Promise((resolve, reject) => {
+      this.http
+        .put(`${this.timersUrl}/${timer._id}`, timer)
+          .toPromise()
+          .then(response => response.json() as ITimer)
+          .then(timer => resolve(timer))
+          .catch(error => {
+            console.log(error);
+            reject(error._body);
+          });
+    });
+  }
+
 }

@@ -4,7 +4,46 @@
       <mat-card-header>
         <mat-card-title>Timers</mat-card-title>
       </mat-card-header>
-      <mat-card-content></mat-card-content>
+      <mat-card-content>
+        <mat-table id="timers-table" [dataSource]="timerDataSource">
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let timer"> {{timer.name}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="time">
+            <mat-header-cell *matHeaderCellDef> Trigger Time </mat-header-cell>
+            <mat-cell *matCellDef="let timer"> {{timer.timeInMinutes}}:00 </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="commands">
+            <mat-header-cell *matHeaderCellDef> Number of Commands </mat-header-cell>
+            <mat-cell *matCellDef="let timer"> {{timer.commands.length}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="enabled">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let timer">
+              <mat-slide-toggle
+                color="primary"
+                (change)="onEnabledChanged(timer, $event.checked);"
+                [checked]="timer.enabled">
+              </mat-slide-toggle>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let timer">
+                <button mat-icon-button (click)="onTimerEdit(timer);">
+                  <mat-icon>create</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onTimerDelete(timer);">
+                  <mat-icon>clear</mat-icon>
+                </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </mat-card-content>
     </mat-card>
   </div>
 

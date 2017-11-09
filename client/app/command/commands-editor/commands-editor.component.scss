@@ -5,10 +5,12 @@
   }
 
   .mat-column-enabled {
-    flex: 0 0 10%;
-
     .mat-slide-toggle {
       padding-top: 10px;
     }
+  }
+
+  .mat-column-actions {
+    flex: 0 0 12%;
   }
 }

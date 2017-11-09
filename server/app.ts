@@ -58,12 +58,12 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// // catch 404 and forward to error handler
-// app.use((req, res, next) => {
-//   var err = new Error('Not Found');
-//   err['status'] = 404;
-//   next(err);
-// });
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err['status'] = 404;
+  next(err);
+});
 
 // // error handlers
 if (app.get('env') === 'development') {

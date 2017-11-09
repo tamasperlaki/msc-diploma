@@ -13,7 +13,7 @@ export class CommandsEditorService {
 
   getCommands = () : Promise<ICommand[]> => {
     return this.http
-      .get(`${this.commandsUrl}/currentUser`)
+      .get(`${this.commandsUrl}`)
         .toPromise()
         .then(response => response.json() as ICommand[])
         .catch(error => {

@@ -26,7 +26,7 @@ routing.put('/commands/:id',
   getCommandForUserByIdMW(),
   updateCommandMW());
 
-routing.get('/commands/currentUser',
+routing.get('/commands',
   getCurrentUserCommandsMW());
 
 routing.post('/commands/run/:id',

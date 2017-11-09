@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material';
 import { ICommand } from '../../../../models/command';
 import { CommandsEditorService } from './../commands-editor/commands-editor.service';
 import { CommandEditorDialogComponent as CommandEditorDialog } from './../command-editor-dialog/command-editor-dialog.component';
-import { CommandDataSource } from './../commandDataSource';
+import { CommandDataSource } from './commandDataSource';
 
 import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
 import { DeleteDialogComponent as DeleteDialog } from '../../shared/components/delete-dialog/delete-dialog.component';
@@ -54,13 +54,13 @@ export class CommandsEditorComponent implements OnInit {
         reason => this.alertDialogService.open('Error', reason)
       )
       .then(() => this.loadmask.stop())
-      .catch(error => console.error(error));
+      .catch(error => this.alertDialogService.open('Error', error));
   }
 
   onEnabledChanged(command: ICommand, checked: boolean) {
     command.enabled = checked;
     this.loadmask.start(this.CommandEditorService.updateCommand(command))
-      .catch(error => console.error(error));
+      .catch(error => this.alertDialogService.open('Error', error));
   }
 
   onCommandEdit(command: ICommand) {
@@ -82,11 +82,8 @@ export class CommandsEditorComponent implements OnInit {
       request.text = result;
 
       this.loadmask.start(this.CommandEditorService.updateCommand(command))
-        .then(response => command.text = request.text)
-        .catch(error => {
-          console.error(error);
-          this.alertDialogService.open('Error', error);
-        });
+        .then(response => command.text = request.text, reason => this.alertDialogService.open('Error', reason))
+        .catch(error => this.alertDialogService.open('Error', error));
     });
   }
 

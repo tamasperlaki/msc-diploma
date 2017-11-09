@@ -5,8 +5,8 @@ import botManager from '../../helper/botManager';
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.command) {
-      const paramCommand = req.body;
-      const storedCommand = <ICommand>res.locals.command;
+      const paramCommand : ICommand = req.body;
+      const storedCommand : ICommand = res.locals.command;
 
       storedCommand.enabled = paramCommand.enabled;
       storedCommand.text = paramCommand.text;
