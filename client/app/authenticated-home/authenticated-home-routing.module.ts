@@ -21,7 +21,7 @@ const routes: Routes = [
     },
     children: [
       {
-        path: '',
+        path: 'dashboard',
         component: DashboardComponent,
         resolve: {
           commands: CommandsResolverGuard
