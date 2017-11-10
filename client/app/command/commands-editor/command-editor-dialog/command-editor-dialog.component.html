@@ -10,7 +10,6 @@
         #name="ngModel"
         placeholder="Name"
         [ngModel]="data.name"
-        class="form-control"
         disabled
         tabindex="-1">
     </mat-form-field>
@@ -27,6 +26,6 @@
   </div>
   <div mat-dialog-actions>
     <button type="submit" mat-button (click)="onSubmit();" tabindex="2">Save</button>
-    <button mat-button [mat-dialog-close] tabindex="3">Cancel</button>
+    <button type="button" mat-button [mat-dialog-close] tabindex="3">Cancel</button>
   </div>
 </form>

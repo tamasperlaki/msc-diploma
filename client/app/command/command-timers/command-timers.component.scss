@@ -1,0 +1,30 @@
+#timers-table {
+  .mat-column-name {
+    flex: 0 0 45%;
+  }
+
+  .mat-column-time,
+  .mat-column-commands {
+    text-align: center;
+  }
+
+  .mat-column-time {
+    flex: 0 0 10%;
+  }
+
+  .mat-column-commands {
+    flex: 0 0 20%;
+  }
+
+  .mat-column-enabled {
+    padding-left: 20px;
+
+    .mat-slide-toggle {
+      padding-top: 10px;
+    }
+  }
+
+  .mat-column-actions {
+    flex: 0 0 12%;
+  }
+}

@@ -58,14 +58,14 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// // catch 404 and forward to error handler
-// app.use((req, res, next) => {
-//   var err = new Error('Not Found');
-//   err['status'] = 404;
-//   next(err);
-// });
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err['status'] = 404;
+  next(err);
+});
 
-// // error handlers
+// error handlers
 if (app.get('env') === 'development') {
   // development error handler
   // will print stacktrace
@@ -91,7 +91,6 @@ const port = normalizePort(process.env.PORT || '4200');
 app.listen(port);
 
 User.find()
-  .populate('commands')
   .then((users) => {
     botManager.startBots(users);
   });

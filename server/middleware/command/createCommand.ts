@@ -14,11 +14,10 @@ export default () => {
 
       command.save()
         .then(savedCommand => {
-          res.locals.user.commands.push(command._id);
-          return res.locals.user.save();
+          botManager.setCommand(req.session.userId, command);
+          return savedCommand;
         })
-        .then(user => botManager.addCommand(user._id, command))
-        .then(() => res.send(command))
+        .then(savedCommand => res.send(savedCommand))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);
