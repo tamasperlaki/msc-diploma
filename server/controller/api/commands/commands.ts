@@ -6,6 +6,7 @@ import getCommandForUserByIdMW from '../../../middleware/command/getCommandForUs
 import deleteCommandMW from '../../../middleware/command/deleteCommand';
 import updateCommandMW from '../../../middleware/command/updateCommand';
 import runCommandMW from '../../../middleware/command/runCommand';
+import updateTimersWithCommandMW from '../../../middleware/command/timer/updateTimersWithCommand';
 
 import getCurrentUserMW from '../../../middleware/user/getCurrentUser';
 
@@ -16,12 +17,10 @@ routing.post('/commands',
   createCommandMW());
 
 routing.delete('/commands/:id',
-  getCurrentUserMW(),
   getCommandForUserByIdMW(),
   deleteCommandMW());
 
 routing.put('/commands/:id',
-  getCurrentUserMW(),
   getCommandForUserByIdMW(),
   updateCommandMW());
 

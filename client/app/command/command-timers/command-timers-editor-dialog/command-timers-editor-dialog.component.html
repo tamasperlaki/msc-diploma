@@ -20,7 +20,12 @@
 
     Commands
     <mat-list>
-      <mat-list-item *ngFor="let command of addedCommands"> {{command.name}} </mat-list-item>
+      <mat-list-item *ngFor="let command of addedCommands">
+        <div class="mat-list-text">{{command.name}}</div>
+        <button mat-icon-button type="button" (click)="onCommandDelete(command);">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-list-item>
     </mat-list>
     <mat-form-field class="full-width-form-input">
       <mat-select
@@ -36,6 +41,6 @@
   </div>
   <div mat-dialog-actions>
     <button type="submit" mat-button (click)="onSubmit();" tabindex="3">Save</button>
-    <button mat-button [mat-dialog-close] tabindex="4">Cancel</button>
+    <button type="button" mat-button [mat-dialog-close] tabindex="4">Cancel</button>
   </div>
 </form>

@@ -5,7 +5,7 @@ import botManager from '../../helper/botManager';
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     botManager.runCommand(req.session.userId, res.locals.command.name);
-    res.send(200);
+    res.sendStatus(200);
   };
 
 };

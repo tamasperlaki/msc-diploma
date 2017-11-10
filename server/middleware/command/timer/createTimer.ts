@@ -11,7 +11,7 @@ export default () => {
       timer.user = req.session.userId;
 
       timer.save()
-        .then(timer => res.send(timer))
+        .then(savedTimer => res.send(savedTimer))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

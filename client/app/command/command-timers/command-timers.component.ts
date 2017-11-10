@@ -4,12 +4,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 
 import { ITimer } from '../../../../models/timer';
-import { ICommand } from '../../../../models/command';
 
 import { TimerDataSource } from './timerDataSource';
 import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
 import { CommandTimersService } from './command-timers.service';
 import { CommandTimersEditorDialogComponent } from './command-timers-editor-dialog/command-timers-editor-dialog.component';
+import { CommandCommunicatorService } from './../command-communicator.service';
 import { DeleteDialogComponent } from '../../shared/components/delete-dialog/delete-dialog.component';
 import { AlertDialogService } from '../../shared/components/alert-dialog/alert-dialog.service';
 
@@ -22,23 +22,33 @@ export class CommandTimersComponent implements OnInit {
   timerForm: FormGroup;
   timerDataSource: TimerDataSource;
   displayedColumns = ['name', 'time', 'commands', 'enabled', 'actions'];
-  commands: ICommand[];
 
   constructor(
-    private formBuilder: FormBuilder,
-    private loadmask: LoadmaskService,
-    private CommandTimersService : CommandTimersService,
-    private activatedRouter: ActivatedRoute,
-    private alertDialogService: AlertDialogService,
-    private dialog: MatDialog) {
+      private formBuilder: FormBuilder,
+      private loadmask: LoadmaskService,
+      private CommandTimersService: CommandTimersService,
+      private activatedRouter: ActivatedRoute,
+      private alertDialogService: AlertDialogService,
+      private CommandCommunicatorService: CommandCommunicatorService,
+      private dialog: MatDialog) {
 
     this.createForm();
+
+    CommandCommunicatorService.commandsDeleted$.subscribe(() => {
+      this.loadmask.start();
+      this.CommandTimersService.getTimers()
+        .then(
+          timers => this.timerDataSource.timers = timers,
+          reason => this.alertDialogService.open('Error', reason)
+        )
+        .then(() => this.loadmask.stop())
+        .catch(error => console.error(error));
+    });
   }
 
   ngOnInit() {
-    this.activatedRouter.data.subscribe((data: { timers: ITimer[], commands: ICommand[] }) => {
+    this.activatedRouter.data.subscribe((data: { timers: ITimer[] }) => {
       this.timerDataSource = new TimerDataSource(data.timers);
-      this.commands = data.commands;
     });
   }
 
@@ -80,8 +90,9 @@ export class CommandTimersComponent implements OnInit {
   onTimerEdit(timer: ITimer) {
     const dialogRef = this.dialog.open(CommandTimersEditorDialogComponent, {
       data: {
-        timer: timer,
-        commands: this.commands
+        name: timer.name,
+        timeInMinutes: timer.timeInMinutes,
+        commands: timer.commands.slice()
       }
     });
 
@@ -94,7 +105,7 @@ export class CommandTimersComponent implements OnInit {
         ...timer
       };
       request.timeInMinutes = result.timeInMinutes;
-      //request.commands = result.commands;
+      request.commands = result.commands;
 
       this.loadmask.start();
       this.CommandTimersService.updateCommand(request)

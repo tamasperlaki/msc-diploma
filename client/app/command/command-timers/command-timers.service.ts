@@ -59,7 +59,7 @@ export class CommandTimersService {
         .put(`${this.timersUrl}/${timer._id}`, timer)
           .toPromise()
           .then(response => response.json() as ITimer)
-          .then(timer => resolve(timer))
+          .then(returnedTimer => resolve(returnedTimer))
           .catch(error => {
             console.log(error);
             reject(error._body);

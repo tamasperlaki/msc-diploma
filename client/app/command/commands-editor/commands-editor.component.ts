@@ -7,6 +7,7 @@ import { ICommand } from '../../../../models/command';
 import { CommandsEditorService } from './../commands-editor/commands-editor.service';
 import { CommandEditorDialogComponent as CommandEditorDialog } from './command-editor-dialog/command-editor-dialog.component';
 import { CommandDataSource } from './commandDataSource';
+import { CommandCommunicatorService } from './../command-communicator.service';
 
 import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
 import { DeleteDialogComponent as DeleteDialog } from '../../shared/components/delete-dialog/delete-dialog.component';
@@ -30,7 +31,8 @@ export class CommandsEditorComponent implements OnInit {
       private CommandEditorService: CommandsEditorService,
       private dialog: MatDialog,
       private loadmask: LoadmaskService,
-      private alertDialogService: AlertDialogService) {
+      private alertDialogService: AlertDialogService,
+      private CommandCommunicatorService: CommandCommunicatorService) {
     this.newCommand = <ICommand>{};
   }
 
@@ -103,6 +105,7 @@ export class CommandsEditorComponent implements OnInit {
       this.CommandEditorService.deleteCommand(command._id)
         .then(() => this.CommandEditorService.getCommands())
         .then(commands => this.commandsDataSource.commands = commands)
+        .then(() => this.CommandCommunicatorService.onCommandDeleted())
         .then(() => this.loadmask.stop())
         .catch(error => {
           console.error(error);

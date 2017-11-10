@@ -7,7 +7,7 @@ export interface ITimer extends mongoose.Document {
   enabled: boolean;
   timeInMinutes: number;
   user: IUser;
-  commands: ICommand[]
+  commands: ICommand[];
 };
 
 const timerSchema = new mongoose.Schema({

@@ -1,8 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { find, remove } from 'lodash';
 
 import { ICommand } from '../../../../../models/command';
+
+import { LoadmaskService } from '../../../shared/components/loadmask/loadmask.service';
+import { CommandsEditorService } from '../../commands-editor/commands-editor.service';
 
 @Component({
   selector: 'app-command-timers-editor-dialog',
@@ -16,18 +20,23 @@ export class CommandTimersEditorDialogComponent {
 
   constructor(
     private formBuilder: FormBuilder,
+    private loadmask: LoadmaskService,
+    private CommandsEditorService: CommandsEditorService,
     public dialogRef: MatDialogRef<CommandTimersEditorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-      this.addedCommands = data.timer.commands;
-      this.commands = data.commands;
+      this.addedCommands = data.commands;
       this.createForm();
+      this.loadmask.start(CommandsEditorService.getCommands())
+        .then(commands => {
+          this.commands = commands;
+        });
   }
 
   createForm() {
     this.timerForm = this.formBuilder.group({
-      name: {value: this.data.timer.name, disabled: true},
-      timeInMinutes: [this.data.timer.timeInMinutes, [
+      name: {value: this.data.name, disabled: true},
+      timeInMinutes: [this.data.timeInMinutes, [
         Validators.required,
         Validators.min(1),
         Validators.max(120)]
@@ -39,17 +48,20 @@ export class CommandTimersEditorDialogComponent {
   onSubmit() {
     this.dialogRef.close({
       timeInMinutes: this.timerForm.value.timeInMinutes,
-      commands: this.timerForm.value.commands
+      commands: this.addedCommands
     });
   }
 
   onSelectCommand(command: ICommand) {
-    if(-1 < this.addedCommands.indexOf(command)) {
-      return;
+    if (!find(this.addedCommands, {_id: command._id})) {
+      this.addedCommands.push(command);
     }
 
-    this.addedCommands.push(command);
     this.timerForm.controls.commands.reset();
+  }
+
+  onCommandDelete(command: ICommand) {
+    remove(this.addedCommands, {_id: command._id});
   }
 
 }

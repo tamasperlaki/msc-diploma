@@ -1,8 +1,8 @@
-import { duration } from 'moment';
+import { map, isEmpty } from 'lodash';
 import Bot from 'msc-diploma-bot';
 import { IUser } from '../../models/user';
 import { ICommand, Command } from '../../models/command';
-import { ITimer } from '../../models/timer';
+import { ITimer, Timer } from '../../models/timer';
 
 const bots = {};
 
@@ -15,7 +15,8 @@ function createBot(user: IUser) {
 
   if (!bot) {
     bot = new Bot(user.name);
-    addUserCommands(user._id);
+    setUserCommands(user._id);
+    setUserTimers(user._id);
 
     bots[user._id] = bot;
   } else {
@@ -27,20 +28,21 @@ function setCommand(userId: any, command: ICommand) {
   const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`addCommand - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`setCommand - Bot does not exist for user with id: ${userId}`);
   }
 
   if (command.enabled) {
     const text = command.text ? command.text : '';
-    bot.addCommand(command.name, text);
+    bot.setCommand(command.name, text);
   } else {
     bot.removeCommand(command.name);
   }
 }
 
-function addUserCommands(userId: any) {
+function setUserCommands(userId: any) {
   Command.find({
-    user: userId
+    user: userId,
+    enabled: true
   })
   .then(commands => commands.forEach(command => setCommand(userId, command)));
 }
@@ -58,27 +60,52 @@ function runCommand(userId: any, commandName: string) {
 function removeCommand(userId: any, command: ICommand) {
   const bot = bots[userId];
 
-  if (bot) {
-    bot.removeCommand(command.name);
-  } else {
+  if (!bot) {
     throw new Error(`removeCommand - Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.removeCommand(command.name);
+}
+
+function setTimer(userId: any, timer: ITimer) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`setTimer - Bot does not exist for user with id: ${userId}`);
+  }
+
+  if (timer.enabled && !isEmpty(timer.commands)) {
+    Command
+      .find({
+        _id: timer.commands,
+        enabled: true
+      })
+      .then(commands => {
+        const commandNames = map(commands, 'name');
+
+        bot.setTimer(timer.name, timer.timeInMinutes, commandNames);
+      });
+  } else {
+    bot.removeTimer(timer.name);
   }
 }
 
-function addTimer(userId: any, timer: ITimer) {
+function setUserTimers(userId: any) {
+  Timer.find({
+    user: userId,
+    enabled: true
+  })
+  .then(timers => timers.forEach(timer => setTimer(userId, timer)));
+}
+
+function removeTimer(userId: any, timer: ITimer) {
   const bot = bots[userId];
 
-  if (bot) {
-    const timeInMillis = duration(timer.timeInMinutes).asMilliseconds();
-
-    Command
-      .find({_id: timer.commands})
-      .then(commands => console.log(commands));
-
-    bot.addTimer(userId, );
-  } else {
-    throw new Error(`addTImer - Bot does not exist for user with id: ${userId}`);
+  if (!bot) {
+    throw new Error(`removeTimer - Bot does not exist for user with id: ${userId}`);
   }
+
+  bot.removeTimer(timer.name);
 }
 
 function resetBot(userId: any) {
@@ -86,7 +113,7 @@ function resetBot(userId: any) {
 
   if (bot) {
     bot.resetCommands();
-    addUserCommands(userId);
+    setUserCommands(userId);
   } else {
     throw new Error(`resetBot - Bot does not exist for user with id: ${userId}`);
   }
@@ -98,6 +125,8 @@ export default {
   setCommand: setCommand,
   runCommand: runCommand,
   removeCommand: removeCommand,
-  addTimer: addTimer,
+  setTimer: setTimer,
+  setUserTimers: setUserTimers,
+  removeTimer: removeTimer,
   resetBot: resetBot
 };

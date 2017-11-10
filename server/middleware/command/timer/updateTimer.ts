@@ -5,14 +5,15 @@ import botManager from '../../../helper/botManager';
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.timer) {
-      const paramTimer : ITimer = req.body;
-      const storedTimer = <ITimer>res.locals.timer;
+      const paramTimer: ITimer = req.body;
+      const timer = <ITimer>res.locals.timer;
 
-      storedTimer.enabled = paramTimer.enabled;
-      storedTimer.timeInMinutes = paramTimer.timeInMinutes;
-      storedTimer.save()
+      timer.enabled = paramTimer.enabled;
+      timer.timeInMinutes = paramTimer.timeInMinutes;
+      timer.commands = paramTimer.commands;
+      timer.save()
         .then(savedTimer => {
-          //botManager.resetBot(res.locals.user._id);
+          botManager.setTimer(req.session.userId, savedTimer);
           return savedTimer;
         })
         .then(savedTimer => res.send(savedTimer))

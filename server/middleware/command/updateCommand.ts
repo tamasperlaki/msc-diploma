@@ -5,17 +5,20 @@ import botManager from '../../helper/botManager';
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.command) {
-      const paramCommand : ICommand = req.body;
-      const storedCommand : ICommand = res.locals.command;
+      const paramCommand: ICommand = req.body;
+      const storedCommand: ICommand = res.locals.command;
 
       storedCommand.enabled = paramCommand.enabled;
       storedCommand.text = paramCommand.text;
       storedCommand.save()
         .then(savedCommand => {
-          botManager.setCommand(res.locals.user._id, savedCommand);
+          botManager.setUserTimers(req.session.userId);
           return savedCommand;
         })
-        .then(savedCommand => res.send(savedCommand))
+        .then(savedCommand => {
+          botManager.setCommand(req.session.userId, savedCommand);
+          res.send(savedCommand);
+        })
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

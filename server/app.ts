@@ -60,12 +60,12 @@ app.use((req, res) => {
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  var err = new Error('Not Found');
+  const err = new Error('Not Found');
   err['status'] = 404;
   next(err);
 });
 
-// // error handlers
+// error handlers
 if (app.get('env') === 'development') {
   // development error handler
   // will print stacktrace

@@ -7,7 +7,7 @@ export default () => {
     if (res.locals.timer) {
       res.locals.timer.remove()
         .then(timer => {
-          //botManager.resetBot(res.locals.userId)
+          botManager.removeTimer(req.session.userId, timer);
           return timer;
         })
         .then(timer => res.send(timer))
