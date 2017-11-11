@@ -42,7 +42,7 @@ export class CommandsEditorComponent implements OnInit {
     });
   }
 
-  onCommandFormSubmit() {
+  onSubmit() {
     this.loadmask.start();
     this.CommandEditorService.createCommand(this.newCommand)
       .then(command => {
@@ -55,6 +55,7 @@ export class CommandsEditorComponent implements OnInit {
         commands => this.commandsDataSource.commands = commands,
         reason => this.alertDialogService.open('Error', reason)
       )
+      .then(() => this.CommandCommunicatorService.onCommandListChanged())
       .then(() => this.loadmask.stop())
       .catch(error => this.alertDialogService.open('Error', error));
   }
@@ -106,6 +107,7 @@ export class CommandsEditorComponent implements OnInit {
         .then(() => this.CommandEditorService.getCommands())
         .then(commands => this.commandsDataSource.commands = commands)
         .then(() => this.CommandCommunicatorService.onCommandDeleted())
+        .then(() => this.CommandCommunicatorService.onCommandListChanged())
         .then(() => this.loadmask.stop())
         .catch(error => {
           console.error(error);

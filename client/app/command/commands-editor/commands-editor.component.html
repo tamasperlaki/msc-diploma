@@ -10,7 +10,7 @@
         <mat-table id="commands-table" [dataSource]="commandsDataSource">
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-            <mat-cell *matCellDef="let command"> {{command.name}} </mat-cell>
+            <mat-cell *matCellDef="let command"> !{{command.name}} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="text">
             <mat-header-cell *matHeaderCellDef> Text </mat-header-cell>
@@ -55,7 +55,7 @@
         <mat-card-title>Add Command</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <form (ngSubmit)="onCommandFormSubmit();" #commandForm="ngForm" ngNativeValidate>
+        <form (ngSubmit)="onSubmit();" #commandForm="ngForm" ngNativeValidate>
           <mat-form-field class="full-width-form-input">
             <span matPrefix>!&nbsp;</span>
             <input

@@ -1,17 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import { Timer } from '../../../../models/timer';
+import { Command } from '../../../models/command';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    Timer
+    Command
       .findOne({
         '_id': req.params.id,
         'user': req.session.userId
       })
-      .then(timer => {
-        res.locals.timer = timer;
+      .then(command => {
+        res.locals.command = command;
         next();
       })
-      .catch(() => res.sendStatus(500));
+      .catch(error => {
+        console.error(error);
+        res.sendStatus(500);
+      });
   };
 };

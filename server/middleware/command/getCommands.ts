@@ -7,7 +7,11 @@ export default () => {
       user: req.session.userId
     })
     .then(commands => {
-      res.send(JSON.stringify(commands));
-    });
+      res.send(commands);
+    })
+    .catch(error => {
+      console.error(error);
+      res.sendStatus(500)
+    });;
   };
 };

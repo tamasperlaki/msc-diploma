@@ -9,7 +9,11 @@ export default () => {
       })
       .populate('commands')
       .then(timers => {
-        res.send(JSON.stringify(timers));
+        res.send(timers);
+      })
+      .catch(error => {
+        console.error(error);
+        res.sendStatus(500)
       });
   };
 };

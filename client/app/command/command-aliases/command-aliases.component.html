@@ -1,0 +1,65 @@
+<div fxLayout="row">
+  <div fxFlex="70">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Aliases</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-table id="aliases-table" [dataSource]="aliasDataSource">
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let alias"> !{{alias.name}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="command">
+            <mat-header-cell *matHeaderCellDef> Command </mat-header-cell>
+            <mat-cell *matCellDef="let alias"> !{{alias.command.name}} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let alias">
+                <button type="button" mat-icon-button (click)="onAliasDelete(alias);">
+                  <mat-icon>clear</mat-icon>
+                </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex></div>
+
+  <div fxFlex="28">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Add Alias</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit();" [formGroup]="aliasForm" novalidate>
+          <mat-form-field class="full-width-form-input">
+            <span matPrefix>!&nbsp;</span>
+            <input
+              matInput
+              formControlName="name"
+              placeholder="Alias"
+              required>
+          </mat-form-field>
+          <mat-form-field class="full-width-form-input">
+            <mat-select
+              placeholder="Command"
+              formControlName="command"
+              required>
+              <mat-option *ngFor="let command of commands" [value]="command">
+                {{ command.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button type="submit" [disabled]="aliasForm.invalid" mat-raised-button>Add</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

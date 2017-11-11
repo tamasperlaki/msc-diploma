@@ -18,9 +18,12 @@ import { CommandsEditorService } from './commands-editor/commands-editor.service
 import { CommandsEditorComponent } from './commands-editor/commands-editor.component';
 import { CommandTimersService } from './command-timers/command-timers.service';
 import { CommandTimersComponent } from './command-timers/command-timers.component';
+import { CommandAliasesService } from './command-aliases/command-aliases.service';
 import { CommandsResolverGuard } from './commands-resolver.guard';
 import { TimersResolverGuard } from './timers-resolver.guard';
+import { AliasesResolverGuard } from './aliases-resolver.guard';
 import { CommandTimersEditorDialogComponent } from './command-timers/command-timers-editor-dialog/command-timers-editor-dialog.component';
+import { CommandAliasesComponent } from './command-aliases/command-aliases.component';
 
 @NgModule({
   imports: [
@@ -40,7 +43,8 @@ import { CommandTimersEditorDialogComponent } from './command-timers/command-tim
     CommandEditorDialogComponent,
     CommandsEditorComponent,
     CommandTimersComponent,
-    CommandTimersEditorDialogComponent
+    CommandTimersEditorDialogComponent,
+    CommandAliasesComponent
   ],
   entryComponents: [
     CommandEditorDialogComponent,
@@ -49,8 +53,10 @@ import { CommandTimersEditorDialogComponent } from './command-timers/command-tim
   providers: [
     CommandsEditorService,
     CommandTimersService,
+    CommandAliasesService,
     CommandsResolverGuard,
-    TimersResolverGuard
+    TimersResolverGuard,
+    AliasesResolverGuard
   ]
 })
 export class CommandModule {}

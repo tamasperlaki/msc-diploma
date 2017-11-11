@@ -10,6 +10,7 @@ import { AuthGuard } from './auth.guard';
 import { UserResolverGuard } from './user-resolver.guard';
 import { CommandsResolverGuard } from '../command/commands-resolver.guard';
 import { TimersResolverGuard } from '../command/timers-resolver.guard';
+import { AliasesResolverGuard } from '../command/aliases-resolver.guard';
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
         component: CommandComponent,
         resolve: {
           commands: CommandsResolverGuard,
-          timers: TimersResolverGuard
+          timers: TimersResolverGuard,
+          aliases: AliasesResolverGuard
         }
       }
     ]

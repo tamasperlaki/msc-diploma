@@ -11,6 +11,10 @@ export class LoadmaskService {
   constructor(private dialog: MatDialog) { }
 
   start = <T>(promise?: Promise<T>) => {
+    if(this.dialogRef) {
+      return promise;
+    }
+
     this.dialogRef = this.dialog.open(LoadmaskComponent, {
       disableClose: true,
       panelClass: 'tankika-loadmask',
@@ -27,7 +31,12 @@ export class LoadmaskService {
   }
 
   stop = () => {
+    if(!this.dialogRef) {
+      return;
+    }
+
     this.dialogRef.close();
+    this.dialogRef = null;
   }
 
 }

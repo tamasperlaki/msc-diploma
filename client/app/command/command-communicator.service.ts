@@ -5,8 +5,11 @@ import { Subject } from 'rxjs/Subject';
 export class CommandCommunicatorService {
 
   private commandDeletedSource = new Subject<void>();
+  private commandListChangedSource = new Subject<void>();
 
-  commandsDeleted$ = this.commandDeletedSource.asObservable();
+  commandDeleted$ = this.commandDeletedSource.asObservable();
+  commandListChanged$ = this.commandListChangedSource.asObservable();
 
   onCommandDeleted() { this.commandDeletedSource.next(); }
+  onCommandListChanged() { this.commandListChangedSource.next(); }
 }
