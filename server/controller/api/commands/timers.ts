@@ -1,26 +1,28 @@
 import { Router } from 'express';
-import getTimerForUserByNameMW from '../../../middleware/command/timer/getTimerForUserByName';
-import getTimerForUserByIdMW from '../../../middleware/command/timer/getTimerForUserById';
+import getTimerByNameMW from '../../../middleware/command/timer/getTimerByName';
+import getTimerByIdMW from '../../../middleware/command/timer/getTimerById';
 import createTimerMW from '../../../middleware/command/timer/createTimer';
 import updateTimerMW from '../../../middleware/command/timer/updateTimer';
 import deleteTimerMW from '../../../middleware/command/timer/deleteTimer';
-import getCurrentUserTimersMW from '../../../middleware/command/timer/getCurrentUserTimers';
+import getTimersMW from '../../../middleware/command/timer/getTimers';
+
+const url = '/timers';
 
 const routing = Router();
 
-routing.post('/timers',
-  getTimerForUserByNameMW(),
+routing.post(`${url}`,
+  getTimerByNameMW(),
   createTimerMW());
 
-routing.put('/timers/:id',
-  getTimerForUserByIdMW(),
+routing.put(`${url}/:id`,
+  getTimerByIdMW(),
   updateTimerMW());
 
-routing.delete('/timers/:id',
-  getTimerForUserByIdMW(),
+routing.delete(`${url}/:id`,
+  getTimerByIdMW(),
   deleteTimerMW());
 
-routing.get('/timers',
-  getCurrentUserTimersMW());
+routing.get(`${url}`,
+  getTimersMW());
 
 export default routing;

@@ -36,7 +36,7 @@ export class CommandsEditorService {
     });
   }
 
-  deleteCommand = (id: string): Promise<ICommand> => {
+  deleteCommand = (id: any): Promise<ICommand> => {
     return new Promise((resolve, reject) => {
       this.http
         .delete(`${this.commandsUrl}/${id}`)

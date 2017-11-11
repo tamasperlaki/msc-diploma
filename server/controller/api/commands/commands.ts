@@ -1,34 +1,35 @@
 import { Router } from 'express';
 import createCommandMW from '../../../middleware/command/createCommand';
-import getCommandForUserByNameMW from '../../../middleware/command/getCommandForUserByName';
-import getCurrentUserCommandsMW from '../../../middleware/command/getCurrentUserCommands';
-import getCommandForUserByIdMW from '../../../middleware/command/getCommandForUserById';
+import getCommandByNameMW from '../../../middleware/command/getCommandByName';
+import getCommandsMW from '../../../middleware/command/getCommands';
+import getCommandByIdMW from '../../../middleware/command/getCommandById';
 import deleteCommandMW from '../../../middleware/command/deleteCommand';
 import updateCommandMW from '../../../middleware/command/updateCommand';
 import runCommandMW from '../../../middleware/command/runCommand';
-import updateTimersWithCommandMW from '../../../middleware/command/timer/updateTimersWithCommand';
 
 import getCurrentUserMW from '../../../middleware/user/getCurrentUser';
 
+const url = '/commands';
+
 const routing = Router();
 
-routing.post('/commands',
-  getCommandForUserByNameMW(),
+routing.post(`${url}`,
+  getCommandByNameMW(),
   createCommandMW());
 
-routing.delete('/commands/:id',
-  getCommandForUserByIdMW(),
+routing.delete(`${url}/:id`,
+  getCommandByIdMW(),
   deleteCommandMW());
 
-routing.put('/commands/:id',
-  getCommandForUserByIdMW(),
+routing.put(`${url}/:id`,
+  getCommandByIdMW(),
   updateCommandMW());
 
-routing.get('/commands',
-  getCurrentUserCommandsMW());
+routing.get(`${url}`,
+  getCommandsMW());
 
-routing.post('/commands/run/:id',
-  getCommandForUserByIdMW(),
+routing.post(`${url}/run/:id`,
+  getCommandByIdMW(),
   runCommandMW());
 
 export default routing;

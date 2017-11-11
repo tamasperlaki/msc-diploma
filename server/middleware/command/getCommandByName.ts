@@ -5,13 +5,16 @@ export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     Command
       .findOne({
-        'user': req.session.userId,
-        'name': req.body.name
-       })
+        'name': req.body.name,
+        'user': req.session.userId
+      })
       .then(command => {
         res.locals.command = command;
         next();
       })
-      .catch(() => res.sendStatus(500));
+      .catch(error => {
+        console.error(error);
+        res.sendStatus(500);
+      });
   };
 };

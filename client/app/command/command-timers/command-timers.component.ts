@@ -34,7 +34,7 @@ export class CommandTimersComponent implements OnInit {
 
     this.createForm();
 
-    CommandCommunicatorService.commandsDeleted$.subscribe(() => {
+    CommandCommunicatorService.commandDeleted$.subscribe(() => {
       this.loadmask.start();
       this.CommandTimersService.getTimers()
         .then(
@@ -68,7 +68,7 @@ export class CommandTimersComponent implements OnInit {
 
     this.loadmask.start();
     this.CommandTimersService.createTimer(newTimer)
-      .then(command => {
+      .then(alias => {
         this.timerForm.reset();
 
         return this.CommandTimersService.getTimers();

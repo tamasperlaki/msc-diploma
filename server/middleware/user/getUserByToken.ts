@@ -39,7 +39,7 @@ export default () => {
         })
         .then((user: IUser) => {
           botManager.createBot(user);
-          res.send(JSON.stringify(user));
+          res.send(user);
         })
         .catch((errorCode) => {
           if (errorCode === 401) {

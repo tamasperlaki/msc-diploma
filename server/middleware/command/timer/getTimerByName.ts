@@ -12,6 +12,9 @@ export default () => {
         res.locals.timer = timer;
         next();
       })
-      .catch(() => res.sendStatus(500));
+      .catch(error => {
+        console.error(error);
+        res.sendStatus(500)
+      });
   };
 };

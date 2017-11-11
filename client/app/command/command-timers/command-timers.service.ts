@@ -39,10 +39,10 @@ export class CommandTimersService {
     });
   }
 
-  deleteTimer = (timerId: any) : Promise<ITimer> => {
+  deleteTimer = (id: any) : Promise<ITimer> => {
     return new Promise((resolve, reject) => {
       this.http
-        .delete(`${this.timersUrl}/${timerId}`)
+        .delete(`${this.timersUrl}/${id}`)
           .toPromise()
           .then(response => response.json() as ITimer)
           .then(timer => resolve(timer))

@@ -32,11 +32,13 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.activatedRouter.data.subscribe((data: { user: IUser, commands: ICommand[] }) => {
-        this.chatSource = this.domSanitizer.bypassSecurityTrustResourceUrl(`https://www.twitch.tv/${data.user.name}/chat`);
-        this.user = data.user;
-        this.commands = data.commands.filter(command => command.enabled);
-      });
+    this.activatedRouter.parent.data.subscribe((data: { user: IUser }) => {
+      this.chatSource = this.domSanitizer.bypassSecurityTrustResourceUrl(`https://www.twitch.tv/${data.user.name}/chat`);
+      this.user = data.user;
+    });
+    this.activatedRouter.data.subscribe((data: { commands: ICommand[] }) => {
+      this.commands = data.commands.filter(command => command.enabled);
+    });
   }
 
   filterCommands(name: string) {

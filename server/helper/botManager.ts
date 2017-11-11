@@ -3,6 +3,7 @@ import Bot from 'msc-diploma-bot';
 import { IUser } from '../../models/user';
 import { ICommand, Command } from '../../models/command';
 import { ITimer, Timer } from '../../models/timer';
+import { IAlias, Alias } from '../../models/alias';
 
 const bots = {};
 
@@ -17,10 +18,11 @@ function createBot(user: IUser) {
     bot = new Bot(user.name);
     setUserCommands(user._id);
     setUserTimers(user._id);
+    setUserAliases(user._id);
 
     bots[user._id] = bot;
   } else {
-    resetBot(user);
+    throw new Error('Bot was already created for user with id: ${userId}');
   }
 }
 
@@ -108,15 +110,36 @@ function removeTimer(userId: any, timer: ITimer) {
   bot.removeTimer(timer.name);
 }
 
-function resetBot(userId: any) {
+function setAlias(userId: any, alias: IAlias) {
   const bot = bots[userId];
 
-  if (bot) {
-    bot.resetCommands();
-    setUserCommands(userId);
-  } else {
-    throw new Error(`resetBot - Bot does not exist for user with id: ${userId}`);
+  if (!bot) {
+    throw new Error(`setAlias - Bot does not exist for user with id: ${userId}`);
   }
+
+  if(alias.command.enabled) {
+    bot.setAlias(alias.name, alias.command.name);
+  } else {
+    bot.removeAlias(alias.name);
+  }
+}
+
+function setUserAliases(userId: any) {
+  Alias.find({
+    user: userId
+  })
+  .populate('command')
+  .then(aliases => aliases.forEach(alias => setAlias(userId, alias)));
+}
+
+function removeAlias(userId: any, alias: IAlias) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`removeAlias - Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.removeAlias(alias.name);
 }
 
 export default {
@@ -128,5 +151,7 @@ export default {
   setTimer: setTimer,
   setUserTimers: setUserTimers,
   removeTimer: removeTimer,
-  resetBot: resetBot
+  setAlias: setAlias,
+  removeAlias: removeAlias,
+  setUserAliases: setUserAliases
 };

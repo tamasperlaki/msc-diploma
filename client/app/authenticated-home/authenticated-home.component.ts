@@ -13,7 +13,7 @@ export class AuthenticatedHomeComponent implements OnInit {
   user: IUser;
 
   routeLinks = [
-    {label: 'Dashboard', link: ''},
+    {label: 'Dashboard', link: 'dashboard'},
     {label: 'Command', link: 'command'}
   ];
 

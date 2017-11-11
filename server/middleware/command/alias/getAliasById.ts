@@ -1,21 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import { isNumber } from 'lodash';
-import { Command } from '../../../models/command';
+import { Alias } from '../../../../models/alias';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    Command
+    Alias
       .findOne({
         '_id': req.params.id,
         'user': req.session.userId
       })
-      .then(command => {
-        res.locals.command = command;
+      .then(alias => {
+        res.locals.alias = alias;
         next();
       })
       .catch(error => {
         console.error(error);
-        res.sendStatus(500);
+        res.sendStatus(500)
       });
   };
 };

@@ -7,18 +7,16 @@ export default () => {
     if (res.locals.command) {
       const paramCommand: ICommand = req.body;
       const storedCommand: ICommand = res.locals.command;
+      let savedCommand: ICommand;
 
       storedCommand.enabled = paramCommand.enabled;
       storedCommand.text = paramCommand.text;
       storedCommand.save()
-        .then(savedCommand => {
-          botManager.setUserTimers(req.session.userId);
-          return savedCommand;
-        })
-        .then(savedCommand => {
-          botManager.setCommand(req.session.userId, savedCommand);
-          res.send(savedCommand);
-        })
+        .then(command => savedCommand = command)
+        .then(() => botManager.setUserTimers(req.session.userId))
+        .then(() => botManager.setUserAliases(req.session.userId))
+        .then(() => botManager.setCommand(req.session.userId, savedCommand))
+        .then(() => res.send(savedCommand))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);
