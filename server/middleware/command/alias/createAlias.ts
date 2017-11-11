@@ -4,9 +4,9 @@ import botManager from '../../../helper/botManager';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    if(res.locals.alias) {
+    if (res.locals.alias) {
       return res.status(400).send('An alias was already defined with this name');
-    } else if(res.locals.command) {
+    } else if (res.locals.command) {
       return res.status(400).send('A command was already defined with this name');
     }
 

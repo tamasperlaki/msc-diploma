@@ -117,7 +117,7 @@ function setAlias(userId: any, alias: IAlias) {
     throw new Error(`setAlias - Bot does not exist for user with id: ${userId}`);
   }
 
-  if(alias.command.enabled) {
+  if (alias.command.enabled) {
     bot.setAlias(alias.name, alias.command.name);
   } else {
     bot.removeAlias(alias.name);

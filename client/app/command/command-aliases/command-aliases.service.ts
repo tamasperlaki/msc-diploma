@@ -39,7 +39,7 @@ export class CommandAliasesService {
   deleteAlias = (id: any): Promise<IAlias> => {
     return new Promise((resolve, reject) => {
       this.http
-        .delete(`${this.aliasesUrl}/${id}`,)
+        .delete(`${this.aliasesUrl}/${id}`)
           .toPromise()
           .then(response => response.json() as IAlias)
           .then(alias => resolve(alias))

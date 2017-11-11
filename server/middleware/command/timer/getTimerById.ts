@@ -14,7 +14,7 @@ export default () => {
       })
       .catch(error => {
         console.error(error);
-        res.sendStatus(500)
+        res.sendStatus(500);
       });
   };
 };

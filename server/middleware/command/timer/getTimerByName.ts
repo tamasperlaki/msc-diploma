@@ -7,14 +7,14 @@ export default () => {
       .findOne({
         'user': req.session.userId,
         'name': req.body.name
-       })
+      })
       .then(timer => {
         res.locals.timer = timer;
         next();
       })
       .catch(error => {
         console.error(error);
-        res.sendStatus(500)
+        res.sendStatus(500);
       });
   };
 };

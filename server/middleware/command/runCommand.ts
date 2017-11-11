@@ -7,7 +7,7 @@ export default () => {
     try {
       botManager.runCommand(req.session.userId, res.locals.command.name);
       res.sendStatus(200);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       res.sendStatus(500);
     }

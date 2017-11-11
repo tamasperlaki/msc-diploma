@@ -11,7 +11,7 @@ export class LoadmaskService {
   constructor(private dialog: MatDialog) { }
 
   start = <T>(promise?: Promise<T>) => {
-    if(this.dialogRef) {
+    if (this.dialogRef) {
       return promise;
     }
 
@@ -31,7 +31,7 @@ export class LoadmaskService {
   }
 
   stop = () => {
-    if(!this.dialogRef) {
+    if (!this.dialogRef) {
       return;
     }
 

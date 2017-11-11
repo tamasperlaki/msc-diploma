@@ -45,8 +45,8 @@ export class CommandAliasesComponent implements OnInit {
       )
       .then(
         response => {
-          this.aliasDataSource.aliases = response[0],
-          this.commands = response[1]
+          this.aliasDataSource.aliases = response[0];
+          this.commands = response[1];
         },
         reason => this.alertDialogService.open('Error', reason)
       )
