@@ -1,5 +1,6 @@
 import { map, isEmpty } from 'lodash';
 import Bot from 'msc-diploma-bot';
+import eventLogger from '../logger/eventLogger';
 import { IUser } from '../../models/user';
 import { ICommand, Command } from '../../models/command';
 import { ITimer, Timer } from '../../models/timer';
@@ -15,7 +16,7 @@ function createBot(user: IUser) {
   let bot = bots[user._id];
 
   if (!bot) {
-    bot = new Bot(user.name);
+    bot = new Bot(user.name[0].toUpperCase() + user.name.slice(1), eventLogger);
     setUserCommands(user._id);
     setUserTimers(user._id);
     setUserAliases(user._id);
