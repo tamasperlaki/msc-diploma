@@ -11,6 +11,25 @@ html, body {
   height: 100%;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(240,240,240,0.8);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(240,240,240,0.4);
+}
+
 .full-width-form-input {
   width: 100%;
   margin-bottom: 10px;
@@ -49,4 +68,41 @@ html, body {
 
 .tankika-loadmask-backdrop {
   background: rgba(0,0,0,1);
+}
+
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+
+  &.label-default {
+    background-color: #777;
+  }
+
+  &.label-primary {
+    background-color: #337ab7;
+  }
+
+  &.label-success {
+    background-color: #5cb85c;
+  }
+
+  &.label-info {
+    background-color: #5bc0de;
+  }
+
+  &.label-warning {
+    background-color: #f0ad4e;
+  }
+
+  &.label-danger {
+    background-color: #d9534f;
+  }
 }

@@ -4,11 +4,15 @@ import {
   MatCardModule,
   MatAutocompleteModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatListModule
 } from '@angular/material';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardService } from './dashboard.service';
+import { EventsResolverGuard } from './events-resolver.guard';
+import { DashboardChatComponent } from './dashboard-chat/dashboard-chat.component';
+import { DashboardEventsComponent } from './dashboard-events/dashboard-events.component';
 
 @NgModule({
   imports: [
@@ -16,9 +20,17 @@ import { DashboardService } from './dashboard.service';
     MatCardModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule
   ],
-  declarations: [DashboardComponent],
-  providers: [DashboardService]
+  declarations: [
+    DashboardComponent,
+    DashboardChatComponent,
+    DashboardEventsComponent
+  ],
+  providers: [
+    DashboardService,
+    EventsResolverGuard
+  ]
 })
 export class DashboardModule { }

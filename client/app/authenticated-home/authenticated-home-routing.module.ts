@@ -11,6 +11,7 @@ import { UserResolverGuard } from './user-resolver.guard';
 import { CommandsResolverGuard } from '../command/commands-resolver.guard';
 import { TimersResolverGuard } from '../command/timers-resolver.guard';
 import { AliasesResolverGuard } from '../command/aliases-resolver.guard';
+import { EventsResolverGuard } from '../dashboard/events-resolver.guard';
 
 const routes: Routes = [
   {
@@ -30,7 +31,8 @@ const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         resolve: {
-          commands: CommandsResolverGuard
+          commands: CommandsResolverGuard,
+          events: EventsResolverGuard
         }
       },
       {

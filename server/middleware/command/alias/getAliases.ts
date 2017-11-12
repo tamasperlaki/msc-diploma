@@ -7,9 +7,7 @@ export default () => {
       user: req.session.userId
     })
     .populate('command')
-    .then(aliases => {
-      res.send(aliases);
-    })
+    .then(aliases => res.send(aliases))
     .catch(error => {
       console.error(error);
       res.sendStatus(500);

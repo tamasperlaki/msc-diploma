@@ -1,0 +1,20 @@
+.events-card {
+  #events-container {
+    height: 300px;
+    overflow-y: scroll;
+    font-weight: 100;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 10px;
+
+        span {
+          margin-right: 3px;
+        }
+      }
+    }
+  }
+}

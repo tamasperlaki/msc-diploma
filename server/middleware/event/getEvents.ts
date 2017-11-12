@@ -1,14 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { Timer } from '../../../../models/timer';
+import { Event } from '../../../models/event';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    Timer
+    Event
       .find({
-        user: req.session.userId
+        "meta.channel": req.session.channel
       })
-      .populate('commands')
-      .then(timers => res.send(timers))
+      .then(events => res.send(events))
       .catch(error => {
         console.error(error);
         res.sendStatus(500);

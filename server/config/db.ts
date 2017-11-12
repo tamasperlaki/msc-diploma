@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGODB, {
 (<any>mongoose).Promise = global.Promise;
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', () => {
-  console.log('MongoDB connected');
+  console.log(`MongoDB connected to ${process.env.MONGODB}`);
 });
 
 export default mongoose;

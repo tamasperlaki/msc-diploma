@@ -10,7 +10,7 @@ const eventLogger = new (winston.Logger)({
       }),
       new (winston.transports.MongoDB)({
           db: process.env.MONGODB,
-          collection: 'event'
+          collection: 'events'
       })
   ]
 });

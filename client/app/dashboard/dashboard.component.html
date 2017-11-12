@@ -1,52 +1,8 @@
-<div fxLayout="row">
+<div fxLayout="column">
 
-  <div fxFlex="70" fxLayout="column">
+  <app-dashboard-events fxFlex></app-dashboard-events>
 
-    <mat-card class="card-chat">
-      <mat-card-header>
-        <mat-card-title>Chat</mat-card-title>
-      </mat-card-header>
+  <div fxFlex="40px"></div>
 
-      <iframe frameborder="0"
-              scrolling="no"
-              [src]="chatSource">
-      </iframe>
-    </mat-card>
-
-    <mat-card style="display: none">
-    </mat-card>
-
-  </div>
-
-  <div fxFlex></div>
-
-  <div fxFlex="28" fxLayout="column">
-
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Quick Controls</mat-card-title>
-      </mat-card-header>
-
-      <form>
-        <mat-form-field class="full-width-form-input">
-          <input
-            type="text"
-            matInput
-            placeholder="Run Command"
-            [formControl]="commandCtrl"
-            [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCommandSelected($event.option.value);">
-            <mat-option *ngFor="let command of filteredCommands | async" [value]="command">
-              {{ command.name }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </form>
-    </mat-card>
-
-    <mat-card style="display: none">
-    </mat-card>
-
-  </div>
-
+  <app-dashboard-chat fxFlex></app-dashboard-chat>
 </div>
