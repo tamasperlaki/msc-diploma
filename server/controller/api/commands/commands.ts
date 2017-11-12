@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import createCommandMW from '../../../middleware/command/createCommand';
 import getCommandByNameMW from '../../../middleware/command/getCommandByName';
+import getAliasByNameMW from '../../../middleware/command/alias/getAliasByName';
 import getCommandsMW from '../../../middleware/command/getCommands';
 import getCommandByIdMW from '../../../middleware/command/getCommandById';
 import deleteCommandMW from '../../../middleware/command/deleteCommand';
@@ -15,6 +16,7 @@ const routing = Router();
 
 routing.post(`${url}`,
   getCommandByNameMW(),
+  getAliasByNameMW(),
   createCommandMW());
 
 routing.delete(`${url}/:id`,
