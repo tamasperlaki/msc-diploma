@@ -16,7 +16,7 @@ function createBot(user: IUser) {
   let bot = bots[user._id];
 
   if (!bot) {
-    bot = new Bot(user.name[0].toUpperCase() + user.name.slice(1), eventLogger);
+    bot = new Bot(user.name, eventLogger);
     setUserCommands(user._id);
     setUserTimers(user._id);
     setUserAliases(user._id);

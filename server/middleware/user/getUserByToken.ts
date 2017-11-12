@@ -39,7 +39,7 @@ export default () => {
         })
         .then((user: IUser) => {
           req.session.userId = user._id;
-          req.session.channel = user.name[0].toUpperCase() + user.name.slice(1);
+          req.session.channel = user.name;
           return user;
         })
         .then((user: IUser) => {
