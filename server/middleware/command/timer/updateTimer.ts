@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ITimer } from '../../../../models/timer';
 import botManager from '../../../helper/botManager';
-import eventLogger from '../../../logger/eventLogger';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -16,7 +16,7 @@ export default () => {
       storedTimer.save()
         .then(timer => savedTimer = timer)
         .then(() => botManager.setTimer(req.session.userId, savedTimer))
-        .then(() => eventLogger.info('Updated timer', {channel: req.session.channel, timer: savedTimer.name}))
+        .then(() => eventLogger.info('Updated timer', {channel: req.session.channel, userId: req.session.userId, timer: savedTimer.name}))
         .then(() => res.send(savedTimer))
         .catch(error => {
           console.error(error);

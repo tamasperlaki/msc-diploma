@@ -81,6 +81,7 @@ html, body {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em;
+  background-color: #777;
 
   &.label-default {
     background-color: #777;
@@ -91,18 +92,18 @@ html, body {
   }
 
   &.label-success {
-    background-color: #5cb85c;
+    background-color: #468847;
   }
 
   &.label-info {
-    background-color: #5bc0de;
+    background-color: #3a87ad;
   }
 
   &.label-warning {
-    background-color: #f0ad4e;
+    background-color: #f89406;
   }
 
   &.label-danger {
-    background-color: #d9534f;
+    background-color: #b94a48;
   }
 }

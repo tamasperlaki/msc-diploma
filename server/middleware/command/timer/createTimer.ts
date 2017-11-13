@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Timer, ITimer } from '../../../../models/timer';
-import eventLogger from '../../../logger/eventLogger';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +14,7 @@ export default () => {
       timer.user = req.session.userId;
       timer.save()
         .then(result => savedTimer = result)
-        .then(() => eventLogger.info('Added timer', {channel: req.session.channel, timer: savedTimer.name}))
+        .then(() => eventLogger.info('Added timer', {channel: req.session.channel, userId: req.session.userId, timer: savedTimer.name}))
         .then(() => res.send(savedTimer))
         .catch(error => {
           console.error(error);

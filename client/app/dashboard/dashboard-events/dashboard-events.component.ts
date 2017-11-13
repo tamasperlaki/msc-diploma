@@ -1,8 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import * as moment from 'moment';
 
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 
@@ -23,13 +25,18 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
   filteredCommands: Observable<ICommand[]>;
 
   @ViewChild('eventContainer') private eventContainer: ElementRef;
-  private prevCommandsLength = 0;
+  private prevEventsLength = 0;
 
   constructor(private activatedRouter: ActivatedRoute, private dashboardService: DashboardService) {
     this.commandCtrl = new FormControl();
     this.filteredCommands = this.commandCtrl.valueChanges
         .startWith(null)
         .map(commandName => typeof commandName === 'string' ? this.filterCommands(commandName) : this.commands.slice());
+
+    this.dashboardService.connectToEventSocket().subscribe(event => {
+      this.events.shift();
+      this.events.push(event);
+    });
   }
 
   ngOnInit() {
@@ -40,9 +47,21 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if(this.commands.length !== this.prevCommandsLength) {
+    if(this.eventContainer.nativeElement.scrollTop !== this.eventContainer.nativeElement.scrollHeight) {
       this.eventContainer.nativeElement.scrollTop = this.eventContainer.nativeElement.scrollHeight;
-      this.prevCommandsLength = this.commands.length;
+    }
+  }
+
+  isToday(timestamp: string)  {
+    return moment(timestamp).isSame(moment(), 'day');
+  }
+
+  getEventLabel(level: string) {
+    switch(level) {
+      case 'error': return 'label-danger';
+      case 'warn': return 'label-warning';
+      case 'info': return 'label-success';
+      default: return '';
     }
   }
 

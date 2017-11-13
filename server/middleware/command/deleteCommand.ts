@@ -3,7 +3,7 @@ import { Command, ICommand } from '../../../models/command';
 import { Timer } from '../../../models/timer';
 import { Alias } from '../../../models/alias';
 import botManager from '../../helper/botManager';
-import eventLogger from '../../logger/eventLogger';
+import eventLogger from '../../helper/eventLogger';
 import { reject } from 'lodash';
 
 export default () => {
@@ -24,7 +24,7 @@ export default () => {
         .then(() => botManager.setUserTimers(req.session.userId))
         .then(() => botManager.setUserAliases(req.session.userId))
         .then(() => botManager.removeCommand(req.session.userId, removedCommand))
-        .then(() => eventLogger.info('Removed command', {channel: req.session.channel, command: removedCommand.name}))
+        .then(() => eventLogger.info('Removed command', {channel: req.session.channel, userId: req.session.userId, command: removedCommand.name}))
         .then(() => res.send(removedCommand))
         .catch(error => {
           console.error(error);

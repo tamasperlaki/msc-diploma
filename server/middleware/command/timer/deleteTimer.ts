@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Timer, ITimer } from '../../../../models/timer';
 import botManager from '../../../helper/botManager';
-import eventLogger from '../../../logger/eventLogger';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -11,7 +11,7 @@ export default () => {
       res.locals.timer.remove()
         .then(timer => removedTimer = timer)
         .then(() => botManager.removeTimer(req.session.userId, removedTimer))
-        .then(() => eventLogger.info('Removed timer', {channel: req.session.channel, timer: name}))
+        .then(() => eventLogger.info('Removed timer', {channel: req.session.channel, userId: req.session.userId, timer: name}))
         .then(() => res.send(removedTimer))
         .catch(error => {
           console.error(error);

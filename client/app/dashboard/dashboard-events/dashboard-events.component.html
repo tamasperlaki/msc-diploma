@@ -8,7 +8,14 @@
       <mat-card-content #eventContainer id="events-container">
         <ul>
           <li *ngFor="let event of events">
-            <span class="event-time">{{event.timestamp | date:'y. MM. dd. HH:mm'}}</span>
+            <span class="event-time">
+              <span *ngIf="!isToday(event.timestamp)">{{event.timestamp | date:'y. MM. dd. HH:mm'}}</span>
+              <span *ngIf="isToday(event.timestamp)">{{event.timestamp | date:'HH:mm'}}</span>
+            </span>
+            <span *ngIf="event.meta.channel" class="label" [ngClass]="getEventLabel(event.level)">{{event.meta.channel}}</span>
+            <span *ngIf="event.meta.command" class="label" [ngClass]="getEventLabel(event.level)">!{{event.meta.command}}</span>
+            <span *ngIf="event.meta.timer" class="label" [ngClass]="getEventLabel(event.level)">{{event.meta.timer}}</span>
+            <span *ngIf="event.meta.alias" class="label" [ngClass]="getEventLabel(event.level)">!{{event.meta.alias}}</span>
             <span>{{event.message}}</span>
           </li>
         </ul>

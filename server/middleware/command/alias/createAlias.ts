@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Alias, IAlias } from '../../../../models/alias';
 import botManager from '../../../helper/botManager';
-import eventLogger from '../../../logger/eventLogger';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +19,7 @@ export default () => {
     alias.save()
       .then(response => savedAlias = response)
       .then(() => botManager.setAlias(req.session.userId, alias))
-      .then(() => eventLogger.info('Added alias', {channel: req.session.channel, alias: savedAlias.name}))
+      .then(() => eventLogger.info('Added alias', {channel: req.session.channel, userId: req.session.userId, alias: savedAlias.name}))
       .then(() => res.send(savedAlias))
       .catch(error => {
         console.error(error);

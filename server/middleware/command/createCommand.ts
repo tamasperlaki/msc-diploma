@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Command, ICommand } from '../../../models/command';
 import { User } from '../../../models/user';
 import botManager from '../../helper/botManager';
-import eventLogger from '../../logger/eventLogger';
+import eventLogger from '../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -24,7 +24,7 @@ export default () => {
         savedCommand = result;
         botManager.setCommand(req.session.userId, result);
       })
-      .then(() => eventLogger.info('Added command', {channel: req.session.channel, command: savedCommand.name}))
+      .then(() => eventLogger.info('Added command', {channel: req.session.channel, userId: req.session.userId, command: savedCommand.name}))
       .then(() => res.send(savedCommand))
       .catch(error => {
         console.error(error);
