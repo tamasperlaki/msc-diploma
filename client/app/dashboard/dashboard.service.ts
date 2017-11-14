@@ -44,8 +44,11 @@ export class DashboardService {
     Observable.fromEvent(socket, 'connect').subscribe(() => {
       console.log('Connected to websocket!');
     });
-    Observable.fromEvent(socket, 'error', err => {
-      console.error(err);
+    Observable.fromEvent(socket, 'error', error => {
+      console.error(error);
+    });
+    Observable.fromEvent(socket, 'disconnect', reason => {
+      console.log(reason);
     });
 
     return Observable.fromEvent(socket, 'event');

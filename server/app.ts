@@ -7,7 +7,8 @@ import * as http from 'http';
 import { User } from '../models/user';
 import botManager from './helper/botManager';
 import mongoStore from './config/mongoStore';
-import { io } from './config/socket';
+import { io } from './helper/socket';
+import redis from './config/redis';
 
 const app: express.Express = express();
 
@@ -95,6 +96,10 @@ server.listen(port);
 User.find()
   .then((users) => {
     botManager.startBots(users);
+  })
+  .catch(error => {
+    console.error(error);
+    process.abort();
   });
 
 /**

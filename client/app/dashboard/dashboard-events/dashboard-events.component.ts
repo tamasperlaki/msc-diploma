@@ -34,7 +34,7 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
         .map(commandName => typeof commandName === 'string' ? this.filterCommands(commandName) : this.commands.slice());
 
     this.dashboardService.connectToEventSocket().subscribe(event => {
-      if(50 <= this.events.length) {
+      if (50 <= this.events.length) {
         this.events.shift();
       }
 

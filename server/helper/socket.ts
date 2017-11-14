@@ -1,6 +1,6 @@
 import * as Server from 'socket.io';
 import * as cookie from 'cookie';
-import mongoStore from './mongoStore';
+import mongoStore from '../config/mongoStore';
 
 const socketsByUserId = new Map<string, string>();
 const io = Server();
@@ -11,7 +11,7 @@ io.on('connection', socket => {
   const sessionSid = getSessionSidFromRaw(rawSessionSid);
   let userId;
 
-  console.log(`User connected with sid: ${sessionSid}`);
+  console.log(`User connected to websocket with sid: ${sessionSid}`);
 
   mongoStore.get(sessionSid, (error, session) => {
     userId = session.userId;
@@ -20,7 +20,7 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     socketsByUserId.delete(userId);
-    console.log(`User disconnected with sid: ${sessionSid}`);
+    console.log(`User disconnected from websocket with sid: ${sessionSid}`);
   });
 
   socket.on('error', error => {
