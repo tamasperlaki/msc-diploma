@@ -1,0 +1,24 @@
+.actions {
+  .action {
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+    padding: 5px;
+
+    &:hover {
+      background-color: rgba(75, 75, 75, 0.5);
+    }
+
+    .mat-icon-button {
+      width: 56px;
+      height: 56px;
+
+      .mat-icon {
+        font-size: 35px;
+        line-height: 35px;
+        width: 35px;
+        height: 35px;
+      }
+    }
+  }
+}
