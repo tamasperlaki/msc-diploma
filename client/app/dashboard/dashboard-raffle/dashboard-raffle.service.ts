@@ -28,6 +28,15 @@ export class DashboardRaffleService {
       });
   }
 
+  drawRaffler = () => {
+    return this.http.get(`${this.rafflesUrl}/draw`)
+      .toPromise()
+      .catch(error => {
+        console.log(error);
+        return error;
+      });
+  }
+
   resetRaffle = () => {
     return this.http.delete(`${this.rafflesUrl}/reset`)
       .toPromise()

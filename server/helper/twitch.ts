@@ -2,27 +2,44 @@ import { IncomingMessage } from 'http';
 import * as https from 'https';
 import * as _ from 'lodash';
 
+function getToken(authCode: string): Promise<any> {
+  const tokenAuthPath =
+          '/oauth2/token'
+          + `?client_id=${process.env.TWITCH_CLIENT_ID}`
+          + `&client_secret=${process.env.TWITCH_CLIENT_SECRET}`
+          + `&code=${authCode}`
+          + `&redirect_uri=${process.env.TWITCH_REDIRECT_URI}`
+          + `&grant_type=authorization_code`;
+
+  return callTwitchApi('POST', tokenAuthPath);
+}
+
+function getUser(token: string): Promise<any> {
+  return callTwitchApi('GET', '/user', token);
+}
+
+function getChannel(token: string): Promise<any> {
+  return callTwitchApi('GET', '/channel', token);
+}
+
+function getUsers(users: string[], token: string): Promise<any> {
+  return callTwitchApi('GET', `/users?login=${users.concat(',')}`);
+}
+
+function checkUserFollowsChannel(userId: string, channelId: string): Promise<any> {
+  return callTwitchApi('GET', `/users/${userId}/follows/channels/${channelId}`);
+}
+
 export default {
-
-  getToken(authCode): Promise<any> {
-      const tokenAuthPath =
-              '/oauth2/token'
-              + `?client_id=${process.env.TWITCH_CLIENT_ID}`
-              + `&client_secret=${process.env.TWITCH_CLIENT_SECRET}`
-              + `&code=${authCode}`
-              + `&redirect_uri=${process.env.TWITCH_REDIRECT_URI}`
-              + `&grant_type=authorization_code`;
-
-      return callTwitchApi('POST', tokenAuthPath);
-  },
-
-  getUser(token): Promise<any> {
-      return callTwitchApi('GET', '/user', token);
-  }
+  getToken: getToken,
+  getUser: getUser,
+  getChannel: getChannel,
+  getUsers: getUsers,
+  checkUserFollowsChannel: checkUserFollowsChannel
 };
 
-function callTwitchApi(method, path, token = null): Promise<any> {
-  console.error(`Twitch API call - ${path}`);
+function callTwitchApi(method: string, path: string, token: string = null): Promise<any> {
+  console.log(`Twitch API call - ${path}`);
 
   return new Promise((resolve, reject) => {
     const requestOptions = {

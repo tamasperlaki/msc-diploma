@@ -173,7 +173,7 @@ function openRaffle(userId: any) {
 
       if (isMemberReply === 1) {
         redis.sadd(`rafflers:${userId}`, raffler, (addError, addReply) => {
-          if(addError) {
+          if (addError) {
             console.error(addError);
           }
         });

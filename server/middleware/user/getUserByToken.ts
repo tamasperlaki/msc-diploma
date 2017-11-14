@@ -13,24 +13,31 @@ export default () => {
         })
         .then(user => res.send(user));
     } else {
-      twitch.getUser(req.session.twitchToken)
-        .then(response => {
+      Promise.all([
+        twitch.getUser(req.session.twitchToken),
+        twitch.getChannel(req.session.twitchToken)
+      ])
+        .then(responses => {
+          const getUserResponse = responses[0];
+          const getChannelResponse = responses[1];
+
+          req.session.channelId = getChannelResponse._id;
           return new Promise((resolve, reject) => {
             User.findOne({
-              name: response.name
+              name: getUserResponse.name
             }).then(user => {
               if (user) {
                 resolve(user);
               } else {
                 const newUser = new User();
                 newUser.token = req.session.twitchToken;
-                newUser.name = response.name;
-                newUser.display_name = response.display_name;
-                newUser.email = response.email;
-                newUser.created_at = response.created_at;
-                newUser.updated_at = response.updated_at;
-                newUser.email_verified = response.email_verified;
-                newUser.notifications = response.notifications;
+                newUser.name = getUserResponse.name;
+                newUser.display_name = getUserResponse.display_name;
+                newUser.email = getUserResponse.email;
+                newUser.created_at = getUserResponse.created_at;
+                newUser.updated_at = getUserResponse.updated_at;
+                newUser.email_verified = getUserResponse.email_verified;
+                newUser.notifications = getUserResponse.notifications;
 
                 resolve(newUser.save());
               }

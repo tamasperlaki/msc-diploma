@@ -27,7 +27,7 @@
           </div>
 
           <div *ngIf="isRaffleOpen" fxLayout="column">
-            <div fxFlex class="action">
+            <div fxFlex class="action" (click)="drawRaffler();">
               <button mat-icon-button disableRipple>
                 <mat-icon>cake</mat-icon>
               </button>

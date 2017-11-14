@@ -38,9 +38,14 @@ export class DashboardRaffleComponent implements OnInit {
       .catch(error => this.alertDialog.open('Error', error));
   }
 
+  drawRaffler() {
+    this.loadmask.start(this.DashboardRaffleService.drawRaffler())
+      .then(console.log)
+      .catch(error => this.alertDialog.open('Error', error));
+  }
+
   resetRaffle() {
     this.loadmask.start(this.DashboardRaffleService.resetRaffle())
-      .then(() => this.isRaffleOpen = true)
       .then(() => this.snackBar.open('Raffle reset!', 'OK', {
         duration: 2000
       }))
