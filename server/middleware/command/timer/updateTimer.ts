@@ -1,22 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
 import { ITimer } from '../../../../models/timer';
 import botManager from '../../../helper/botManager';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.timer) {
+      let savedTimer: ITimer;
       const paramTimer: ITimer = req.body;
-      const timer = <ITimer>res.locals.timer;
+      const storedTimer: ITimer = res.locals.timer;
 
-      timer.enabled = paramTimer.enabled;
-      timer.timeInMinutes = paramTimer.timeInMinutes;
-      timer.commands = paramTimer.commands;
-      timer.save()
-        .then(savedTimer => {
-          botManager.setTimer(req.session.userId, savedTimer);
-          return savedTimer;
-        })
-        .then(savedTimer => res.send(savedTimer))
+      storedTimer.enabled = paramTimer.enabled;
+      storedTimer.timeInMinutes = paramTimer.timeInMinutes;
+      storedTimer.commands = paramTimer.commands;
+      storedTimer.save()
+        .then(timer => savedTimer = timer)
+        .then(() => botManager.setTimer(req.session.userId, savedTimer))
+        .then(() => eventLogger.info('Updated timer', {channel: req.session.channel, userId: req.session.userId, timer: savedTimer.name}))
+        .then(() => res.send(savedTimer))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

@@ -1,0 +1,53 @@
+<div fxLayout="row">
+  <div fxFlex="70">
+    <mat-card class="events-card">
+      <mat-card-header>
+        <mat-card-title>Events</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content #eventContainer id="events-container">
+        <ul>
+          <li *ngFor="let event of events">
+            <span class="event-time">
+              <span *ngIf="!isToday(event.timestamp)">{{event.timestamp | date:'y. MM. dd. HH:mm'}}</span>
+              <span *ngIf="isToday(event.timestamp)">{{event.timestamp | date:'HH:mm'}}</span>
+            </span>
+            <span *ngIf="event.meta.channel" class="label" [ngClass]="getEventLabel(event.level)">{{event.meta.channel}}</span>
+            <span *ngIf="event.meta.command" class="label" [ngClass]="getEventLabel(event.level)">!{{event.meta.command}}</span>
+            <span *ngIf="event.meta.timer" class="label" [ngClass]="getEventLabel(event.level)">{{event.meta.timer}}</span>
+            <span *ngIf="event.meta.alias" class="label" [ngClass]="getEventLabel(event.level)">!{{event.meta.alias}}</span>
+            <span>{{event.message}}</span>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex></div>
+
+  <div fxFlex="28">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Quick Controls</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form>
+          <mat-form-field class="full-width-form-input">
+            <input
+              type="text"
+              matInput
+              placeholder="Run Command"
+              [formControl]="commandCtrl"
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCommandSelected($event.option.value);">
+              <mat-option *ngFor="let command of filteredCommands | async" [value]="command">
+                {{ command.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

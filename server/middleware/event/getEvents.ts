@@ -1,14 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { Timer } from '../../../../models/timer';
+import { Event } from '../../../models/event';
+import { sortBy } from 'lodash';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    Timer
+    Event
       .find({
-        user: req.session.userId
+        'meta.channel': req.session.channel
       })
-      .populate('commands')
-      .then(timers => res.send(timers))
+      .sort('-timestamp')
+      .limit(50)
+      .then(events => sortBy(events, 'timestamp'))
+      .then(events => res.send(events))
       .catch(error => {
         console.error(error);
         res.sendStatus(500);

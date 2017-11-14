@@ -1,17 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import { Timer } from '../../../../models/timer';
+import { Timer, ITimer } from '../../../../models/timer';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (!res.locals.timer) {
+      let savedTimer: ITimer;
+
       const timer = new Timer();
       timer.name = req.body.name;
       timer.timeInMinutes = req.body.time;
       timer.enabled = true;
       timer.user = req.session.userId;
-
       timer.save()
-        .then(savedTimer => res.send(savedTimer))
+        .then(result => savedTimer = result)
+        .then(() => eventLogger.info('Added timer', {channel: req.session.channel, userId: req.session.userId, timer: savedTimer.name}))
+        .then(() => res.send(savedTimer))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { Alias } from '../../../../models/alias';
+import { Alias, IAlias } from '../../../../models/alias';
 import botManager from '../../../helper/botManager';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -10,17 +11,16 @@ export default () => {
       return res.status(400).send('A command was already defined with this name');
     }
 
+    let savedAlias: IAlias;
     const alias = new Alias();
     alias.name = req.body.name;
     alias.command = req.body.command;
     alias.user = req.session.userId;
-
     alias.save()
-      .then(savedAlias => {
-        botManager.setAlias(req.session.userId, alias);
-        return savedAlias;
-      })
-      .then(savedAlias => res.send(savedAlias))
+      .then(response => savedAlias = response)
+      .then(() => botManager.setAlias(req.session.userId, alias))
+      .then(() => eventLogger.info('Added alias', {channel: req.session.channel, userId: req.session.userId, alias: savedAlias.name}))
+      .then(() => res.send(savedAlias))
       .catch(error => {
         console.error(error);
         res.sendStatus(500);

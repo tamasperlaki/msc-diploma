@@ -1,16 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import { Timer } from '../../../../models/timer';
+import { Timer, ITimer } from '../../../../models/timer';
 import botManager from '../../../helper/botManager';
+import eventLogger from '../../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.timer) {
+      let removedTimer: ITimer;
+
       res.locals.timer.remove()
-        .then(timer => {
-          botManager.removeTimer(req.session.userId, timer);
-          return timer;
-        })
-        .then(timer => res.send(timer))
+        .then(timer => removedTimer = timer)
+        .then(() => botManager.removeTimer(req.session.userId, removedTimer))
+        .then(() => eventLogger.info('Removed timer', {channel: req.session.channel, userId: req.session.userId, timer: name}))
+        .then(() => res.send(removedTimer))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

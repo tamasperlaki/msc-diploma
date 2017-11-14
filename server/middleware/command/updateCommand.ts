@@ -1,22 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
 import { ICommand } from '../../../models/command';
 import botManager from '../../helper/botManager';
+import eventLogger from '../../helper/eventLogger';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (res.locals.command) {
+      let updatedCommand: ICommand;
       const paramCommand: ICommand = req.body;
       const storedCommand: ICommand = res.locals.command;
-      let savedCommand: ICommand;
 
       storedCommand.enabled = paramCommand.enabled;
       storedCommand.text = paramCommand.text;
       storedCommand.save()
-        .then(command => savedCommand = command)
+        .then(command => updatedCommand = command)
         .then(() => botManager.setUserTimers(req.session.userId))
         .then(() => botManager.setUserAliases(req.session.userId))
-        .then(() => botManager.setCommand(req.session.userId, savedCommand))
-        .then(() => res.send(savedCommand))
+        .then(() => botManager.setCommand(req.session.userId, updatedCommand))
+        .then(() => eventLogger.info('Updated command', {
+          channel: req.session.channel,
+          userId: req.session.userId,
+          command: updatedCommand.name
+        }))
+        .then(() => res.send(updatedCommand))
         .catch(error => {
           console.error(error);
           res.sendStatus(500);

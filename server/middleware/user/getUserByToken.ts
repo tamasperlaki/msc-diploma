@@ -6,7 +6,11 @@ import { User, IUser } from '../../../models/user';
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     if (req.session.userId) {
-      User.findById(req.session.userId)
+      User
+        .findById(req.session.userId, {
+          name: 1,
+          display_name: 1
+        })
         .then(user => res.send(user));
     } else {
       twitch.getUser(req.session.twitchToken)
@@ -35,13 +39,14 @@ export default () => {
         })
         .then((user: IUser) => {
           req.session.userId = user._id;
+          req.session.channel = user.name;
           return user;
         })
         .then((user: IUser) => {
           botManager.createBot(user);
           res.send(user);
         })
-        .catch((errorCode) => {
+        .catch(errorCode => {
           if (errorCode === 401) {
             res.sendStatus(404);
           } else {

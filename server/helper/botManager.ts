@@ -1,5 +1,6 @@
 import { map, isEmpty } from 'lodash';
 import Bot from 'msc-diploma-bot';
+import eventLogger from '../helper/eventLogger';
 import { IUser } from '../../models/user';
 import { ICommand, Command } from '../../models/command';
 import { ITimer, Timer } from '../../models/timer';
@@ -15,7 +16,7 @@ function createBot(user: IUser) {
   let bot = bots[user._id];
 
   if (!bot) {
-    bot = new Bot(user.name);
+    bot = new Bot(user.name, user._id, eventLogger);
     setUserCommands(user._id);
     setUserTimers(user._id);
     setUserAliases(user._id);
@@ -117,11 +118,16 @@ function setAlias(userId: any, alias: IAlias) {
     throw new Error(`setAlias - Bot does not exist for user with id: ${userId}`);
   }
 
-  if (alias.command.enabled) {
-    bot.setAlias(alias.name, alias.command.name);
-  } else {
-    bot.removeAlias(alias.name);
-  }
+  alias
+    .populate('command')
+    .execPopulate()
+    .then(populatedAlias => {
+      if (populatedAlias.command.enabled) {
+        bot.setAlias(populatedAlias.name, populatedAlias.command.name);
+      } else {
+        bot.removeAlias(populatedAlias.name);
+      }
+    });
 }
 
 function setUserAliases(userId: any) {

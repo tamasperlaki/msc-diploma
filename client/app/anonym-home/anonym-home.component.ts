@@ -19,7 +19,7 @@ export class AnonymHomeComponent implements OnInit {
     window.location.href =
       'https://api.twitch.tv/kraken/oauth2/authorize'
         + `?client_id=${environment.clientId}`
-        + `&redirect_uri=${environment.twitchRedirectUri}`
+        + `&redirect_uri=${environment.deployURi}/api/twitchAuth/callback`
         + '&response_type=code'
         + '&scope=user_read';
   };

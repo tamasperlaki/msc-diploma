@@ -3,13 +3,13 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as logger from 'morgan';
 import * as session from 'express-session';
+import * as http from 'http';
 import { User } from '../models/user';
 import botManager from './helper/botManager';
-import mongoose from './config/db';
-import * as connectMongo from 'connect-mongo';
+import mongoStore from './config/mongoStore';
+import { io } from './config/socket';
 
 const app: express.Express = express();
-const MongoStore = connectMongo(session);
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -21,7 +21,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+  store: mongoStore
 }));
 
 // routes
@@ -87,8 +87,10 @@ if (app.get('env') === 'development') {
 }
 
 const port = normalizePort(process.env.PORT || '4200');
+const server = http.createServer(app);
 
-app.listen(port);
+io.attach(server);
+server.listen(port);
 
 User.find()
   .then((users) => {
