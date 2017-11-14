@@ -17,11 +17,11 @@ function createBot(user: IUser) {
 
   if (!bot) {
     bot = new Bot(user.name, user._id, eventLogger);
+    bots[user._id] = bot;
+
     setUserCommands(user._id);
     setUserTimers(user._id);
     setUserAliases(user._id);
-
-    bots[user._id] = bot;
   } else {
     throw new Error('Bot was already created for user with id: ${userId}');
   }
@@ -131,6 +131,13 @@ function setAlias(userId: any, alias: IAlias) {
 }
 
 function setUserAliases(userId: any) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`setUserAliases - Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.resetAliases();
   Alias.find({
     user: userId
   })
