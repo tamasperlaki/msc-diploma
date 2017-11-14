@@ -25,7 +25,7 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
   filteredCommands: Observable<ICommand[]>;
 
   @ViewChild('eventContainer') private eventContainer: ElementRef;
-  private prevEventsLength = 0;
+  private eventsChanged = false;
 
   constructor(private activatedRouter: ActivatedRoute, private dashboardService: DashboardService) {
     this.commandCtrl = new FormControl();
@@ -36,6 +36,7 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
     this.dashboardService.connectToEventSocket().subscribe(event => {
       this.events.shift();
       this.events.push(event);
+      this.eventsChanged = true;
     });
   }
 
@@ -43,12 +44,16 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
     this.activatedRouter.data.subscribe((data: { commands: ICommand[], events: IEvent[] }) => {
       this.commands = data.commands.filter(command => command.enabled);
       this.events = data.events;
+      this.eventsChanged = true;
     });
   }
 
   ngAfterViewChecked() {
-    if(this.eventContainer.nativeElement.scrollTop !== this.eventContainer.nativeElement.scrollHeight) {
+    if(this.eventsChanged
+      && this.eventContainer.nativeElement.scrollTop !== this.eventContainer.nativeElement.scrollHeight) {
+
       this.eventContainer.nativeElement.scrollTop = this.eventContainer.nativeElement.scrollHeight;
+      this.eventsChanged = false;
     }
   }
 
