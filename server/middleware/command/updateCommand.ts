@@ -17,7 +17,11 @@ export default () => {
         .then(() => botManager.setUserTimers(req.session.userId))
         .then(() => botManager.setUserAliases(req.session.userId))
         .then(() => botManager.setCommand(req.session.userId, updatedCommand))
-        .then(() => eventLogger.info('Updated command', {channel: req.session.channel, userId: req.session.userId, command: updatedCommand.name}))
+        .then(() => eventLogger.info('Updated command', {
+          channel: req.session.channel,
+          userId: req.session.userId,
+          command: updatedCommand.name
+        }))
         .then(() => res.send(updatedCommand))
         .catch(error => {
           console.error(error);

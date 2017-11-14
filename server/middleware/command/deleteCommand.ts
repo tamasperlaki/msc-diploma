@@ -24,7 +24,11 @@ export default () => {
         .then(() => botManager.setUserTimers(req.session.userId))
         .then(() => botManager.setUserAliases(req.session.userId))
         .then(() => botManager.removeCommand(req.session.userId, removedCommand))
-        .then(() => eventLogger.info('Removed command', {channel: req.session.channel, userId: req.session.userId, command: removedCommand.name}))
+        .then(() => eventLogger.info('Removed command', {
+          channel: req.session.channel,
+          userId: req.session.userId,
+          command: removedCommand.name
+        }))
         .then(() => res.send(removedCommand))
         .catch(error => {
           console.error(error);

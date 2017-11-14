@@ -49,7 +49,7 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if(this.eventsChanged
+    if (this.eventsChanged
       && this.eventContainer.nativeElement.scrollTop !== this.eventContainer.nativeElement.scrollHeight) {
 
       this.eventContainer.nativeElement.scrollTop = this.eventContainer.nativeElement.scrollHeight;
@@ -62,7 +62,7 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
   }
 
   getEventLabel(level: string) {
-    switch(level) {
+    switch (level) {
       case 'error': return 'label-danger';
       case 'warn': return 'label-warning';
       case 'info': return 'label-success';

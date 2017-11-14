@@ -23,9 +23,9 @@ io.on('connection', socket => {
     console.log(`User disconnected with sid: ${sessionSid}`);
   });
 
-  socket.on('error', () => {
+  socket.on('error', error => {
     socketsByUserId.delete(userId);
-    error => console.error(error);
+    console.error(error);
   });
 });
 

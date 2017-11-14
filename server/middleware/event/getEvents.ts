@@ -6,7 +6,7 @@ export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
     Event
       .find({
-        "meta.channel": req.session.channel
+        'meta.channel': req.session.channel
       })
       .sort('-timestamp')
       .limit(50)

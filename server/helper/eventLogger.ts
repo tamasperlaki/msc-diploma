@@ -24,7 +24,7 @@ const eventLogger = new (winston.Logger)({
         io.clients((error, clients) => {
           const socket = io.sockets.connected[getSocketIdByUserId(userId)];
 
-          if(socket) {
+          if (socket) {
             const event = <IEvent>{
               timestamp: new Date(),
               level: level,
