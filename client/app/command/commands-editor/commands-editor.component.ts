@@ -51,10 +51,7 @@ export class CommandsEditorComponent implements OnInit {
 
         return this.CommandEditorService.getCommands();
       })
-      .then(
-        commands => this.commandsDataSource.commands = commands,
-        reason => this.alertDialogService.open('Error', reason)
-      )
+      .then(commands => this.commandsDataSource.commands = commands)
       .then(() => this.CommandCommunicatorService.onCommandListChanged())
       .then(() => this.loadmask.stop())
       .catch(error => this.alertDialogService.open('Error', error));
@@ -71,7 +68,8 @@ export class CommandsEditorComponent implements OnInit {
       data: {
         name: command.name,
         text: command.text
-      }
+      },
+      width: '25vw'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -85,7 +83,7 @@ export class CommandsEditorComponent implements OnInit {
       request.text = result;
 
       this.loadmask.start(this.CommandEditorService.updateCommand(request))
-        .then(response => command.text = response.text, reason => this.alertDialogService.open('Error', reason))
+        .then(response => command.text = response.text)
         .catch(error => this.alertDialogService.open('Error', error));
     });
   }

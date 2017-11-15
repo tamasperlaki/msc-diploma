@@ -37,12 +37,9 @@ export class CommandTimersComponent implements OnInit {
     CommandCommunicatorService.commandDeleted$.subscribe(() => {
       this.loadmask.start();
       this.CommandTimersService.getTimers()
-        .then(
-          timers => this.timerDataSource.timers = timers,
-          reason => this.alertDialogService.open('Error', reason)
-        )
+        .then(timers => this.timerDataSource.timers = timers)
         .then(() => this.loadmask.stop())
-        .catch(error => console.error(error));
+        .catch(error => this.alertDialogService.open('Error', error));
     });
   }
 
@@ -73,12 +70,9 @@ export class CommandTimersComponent implements OnInit {
 
         return this.CommandTimersService.getTimers();
       })
-      .then(
-        timers => this.timerDataSource.timers = timers,
-        reason => this.alertDialogService.open('Error', reason)
-      )
+      .then(timers => this.timerDataSource.timers = timers)
       .then(() => this.loadmask.stop())
-      .catch(error => console.error(error));
+      .catch(error => this.alertDialogService.open('Error', error));
   }
 
   onEnabledChanged(timer: ITimer, checked: boolean) {
@@ -93,7 +87,8 @@ export class CommandTimersComponent implements OnInit {
         name: timer.name,
         timeInMinutes: timer.timeInMinutes,
         commands: timer.commands.slice()
-      }
+      },
+      width: '25vw'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -110,10 +105,7 @@ export class CommandTimersComponent implements OnInit {
       this.loadmask.start();
       this.CommandTimersService.updateCommand(request)
         .then(() => this.CommandTimersService.getTimers())
-        .then(
-          timers => this.timerDataSource.timers = timers,
-          reason => this.alertDialogService.open('Error', reason)
-        )
+        .then(timers => this.timerDataSource.timers = timers)
         .then(() => this.loadmask.stop())
         .catch(error => this.alertDialogService.open('Error', error));
     });
@@ -134,15 +126,9 @@ export class CommandTimersComponent implements OnInit {
       this.loadmask.start();
       this.CommandTimersService.deleteTimer(timer._id)
         .then(() => this.CommandTimersService.getTimers())
-        .then(
-          timers => this.timerDataSource.timers = timers,
-          reason => this.alertDialogService.open('Error', reason)
-        )
+        .then(timers => this.timerDataSource.timers = timers)
         .then(() => this.loadmask.stop())
-        .catch(error => {
-          console.error(error);
-          this.alertDialogService.open('Error', error);
-        });
+        .catch(error => this.alertDialogService.open('Error', error));
     });
   }
 

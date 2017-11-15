@@ -43,15 +43,12 @@ export class CommandAliasesComponent implements OnInit {
         this.CommandAliasesService.getAliases(),
         this.CommandsEditorService.getCommands()]
       )
-      .then(
-        response => {
-          this.aliasDataSource.aliases = response[0];
-          this.commands = response[1];
-        },
-        reason => this.alertDialogService.open('Error', reason)
-      )
+      .then(response => {
+        this.aliasDataSource.aliases = response[0];
+        this.commands = response[1];
+      })
       .then(() => this.loadmask.stop())
-      .catch(error => console.error(error));
+      .catch(error => this.alertDialogService.open('Error', error));
     });
   }
 
@@ -79,12 +76,9 @@ export class CommandAliasesComponent implements OnInit {
 
         return this.CommandAliasesService.getAliases();
       })
-      .then(
-        aliases => this.aliasDataSource.aliases = aliases,
-        reason => this.alertDialogService.open('Error', reason)
-      )
+      .then(aliases => this.aliasDataSource.aliases = aliases)
       .then(() => this.loadmask.stop())
-      .catch(error => console.error(error));
+      .catch(error => this.alertDialogService.open('Error', error));
   }
 
   onAliasDelete(alias: IAlias) {
