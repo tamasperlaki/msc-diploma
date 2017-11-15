@@ -8,7 +8,8 @@ import {
   MatListModule,
   MatButtonModule,
   MatIconModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatDialogModule
 } from '@angular/material';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
@@ -19,6 +20,8 @@ import { DashboardChatComponent } from './dashboard-chat/dashboard-chat.componen
 import { DashboardEventsComponent } from './dashboard-events/dashboard-events.component';
 import { DashboardRaffleComponent } from './dashboard-raffle/dashboard-raffle.component';
 import { DashboardRaffleService } from './dashboard-raffle/dashboard-raffle.service';
+import { DashboardPollComponent } from './dashboard-poll/dashboard-poll.component';
+import { DashboardPollOpenDialogComponent } from './dashboard-poll/dashboard-poll-open-dialog/dashboard-poll-open-dialog.component';
 
 @NgModule({
   imports: [
@@ -30,19 +33,25 @@ import { DashboardRaffleService } from './dashboard-raffle/dashboard-raffle.serv
     MatListModule,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ],
   declarations: [
     DashboardComponent,
     DashboardChatComponent,
     DashboardEventsComponent,
-    DashboardRaffleComponent
+    DashboardRaffleComponent,
+    DashboardPollComponent,
+    DashboardPollOpenDialogComponent
   ],
   providers: [
     DashboardService,
     DashboardRaffleService,
     EventsResolverGuard,
     RafflesResolverGuard
+  ],
+  entryComponents: [
+    DashboardPollOpenDialogComponent
   ]
 })
 export class DashboardModule { }

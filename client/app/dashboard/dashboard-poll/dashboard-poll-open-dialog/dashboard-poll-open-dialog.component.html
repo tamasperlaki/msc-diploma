@@ -1,0 +1,24 @@
+<form (ngSubmit)="onSubmit();" [formGroup]="pollForm">
+    <h1 mat-dialog-title>Options</h1>
+    <div mat-dialog-content>
+      <mat-list>
+        <mat-list-item *ngFor="let option of addedOptions">
+          <div class="mat-list-text">{{option}}</div>
+          <button mat-icon-button type="button" (click)="onOptionDelete(option);">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+      <mat-form-field class="full-width-form-input">
+          <input
+            matInput
+            formControlName="option"
+            placeholder="Option"
+            tabindex="1">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button type="submit" mat-button (click)="onSubmit();" tabindex="2">Open</button>
+      <button type="button" mat-button [mat-dialog-close] tabindex="3">Cancel</button>
+    </div>
+  </form>

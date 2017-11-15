@@ -1,0 +1,59 @@
+<div fxLayout="row">
+    <div fxFlex="70">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Poll</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content fxLayout="row">
+
+          <div fxFlex="25">
+
+            <div *ngIf="!isPollOpen" fxLayout="column">
+              <div fxFlex class="action" (click)="openPoll();">
+                <button mat-icon-button disableRipple>
+                  <mat-icon>lock_open</mat-icon>
+                </button>
+                <br>
+                <span>Open</span>
+              </div>
+            </div>
+
+            <div *ngIf="isPollOpen" fxLayout="column">
+              <div fxFlex class="action" (click)="refreshPollResults();">
+                <button mat-icon-button disableRipple>
+                  <mat-icon>loop</mat-icon>
+                </button>
+                <br>
+                <span>Refresh</span>
+              </div>
+              <div fxFlex class="action" (click)="resetPoll();">
+                <button mat-icon-button disableRipple>
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <br>
+                <span>Reset</span>
+              </div>
+              <div fxFlex class="action" (click)="closePoll();">
+                <button mat-icon-button disableRipple>
+                  <mat-icon>lock</mat-icon>
+                </button>
+                <br>
+                <span>Close</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div fxFlex>
+            poll results
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div fxFlex></div>
+
+    <div fxFlex="28">
+    </div>
+  </div>
