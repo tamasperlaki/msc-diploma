@@ -30,29 +30,51 @@ function checkUserFollowsChannel(userId: string, channelId: string): Promise<any
   return callTwitchApi('GET', `/users/${userId}/follows/channels/${channelId}`);
 }
 
+function getChatters(channelName: string): Promise<any> {
+  return callTwitchPublicApi('GET', `/${channelName}/chatters`);
+}
+
 export default {
   getToken: getToken,
   getUser: getUser,
   getChannel: getChannel,
   getUsers: getUsers,
-  checkUserFollowsChannel: checkUserFollowsChannel
+  checkUserFollowsChannel: checkUserFollowsChannel,
+  getChatters: getChatters
 };
+
+function callTwitchPublicApi(method: string, path: string): Promise<any> {
+  console.log(`Twitch Public API call - ${path}`);
+
+  const requestOptions = {
+    method: method,
+    hostname: 'tmi.twitch.tv',
+    path: `/group/user${path}`
+  };
+
+  return callTwitchApiCore(requestOptions);
+}
 
 function callTwitchApi(method: string, path: string, token: string = null): Promise<any> {
   console.log(`Twitch API call - ${path}`);
 
+  const requestOptions = {
+    method: method,
+    hostname: 'api.twitch.tv',
+    path: `/kraken${path}`,
+    headers: {
+      'Accept': 'application/vnd.twitchtv.v5+json',
+      'Client-ID': process.env.TWITCH_CLIENT_ID,
+      'Authorization': `OAuth ${token}`
+    }
+  };
+
+  return callTwitchApiCore(requestOptions);
+}
+
+function callTwitchApiCore(requestOptions): Promise<any> {
   return new Promise((resolve, reject) => {
-    const requestOptions = {
-      method: method,
-      hostname: 'api.twitch.tv',
-      path: `/kraken${path}`,
-      headers: {
-        'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': process.env.TWITCH_CLIENT_ID,
-        'Authorization': `OAuth ${token}`
-      }
-    },
-    request = https.request(requestOptions, responseHandler);
+    const request = https.request(requestOptions, responseHandler);
 
     request.on('error', (e) => {
       console.error(`Twitch API call - problem with request: ${e.message}`);
@@ -64,7 +86,7 @@ function callTwitchApi(method: string, path: string, token: string = null): Prom
       let data = '';
 
       console.log(`Twitch API call - response STATUS: ${response.statusCode}`);
-      console.log(`Twitch API call - response HEADERS: ${JSON.stringify(response.headers)}`);
+      console.log(`Twitch API call - response HEADERS: ${response.headers}`);
       response.setEncoding('utf8');
       response.on('data', chunk => {
         console.log(`Twitch API call - response CHUNK: ${chunk}`);

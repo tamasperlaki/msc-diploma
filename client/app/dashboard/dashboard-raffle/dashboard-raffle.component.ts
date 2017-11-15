@@ -34,6 +34,7 @@ export class DashboardRaffleComponent implements OnInit {
 
   openRaffle() {
     this.loadmask.start(this.DashboardRaffleService.openRaffle())
+      .then(() => this.raffleWinner = null)
       .then(() => this.isRaffleOpen = true)
       .then(() => this.snackBar.open('Raffle opened!', 'OK', {
         duration: 2000
@@ -42,18 +43,11 @@ export class DashboardRaffleComponent implements OnInit {
   }
 
   drawRaffler() {
-    this.loadmask.start(this.DashboardRaffleService.drawRaffler())
-      .then(raffleWinner => {
-        if (!isEmpty(raffleWinner)) {
-          this.raffleWinner = raffleWinner;
-          this.isWinnerAnnounced = false;
-        } else {
-          this.snackBar.open('Could not draw, no more rafflers!', 'OK', {
-            duration: 2000
-          });
-        }
-      })
-      .catch(error => this.alertDialog.open('Error', error));
+    this.drawCore(this.DashboardRaffleService.drawRaffler, 'Could not draw, no more rafflers!');
+  }
+
+  drawImmediately() {
+    this.drawCore(this.DashboardRaffleService.drawImmediately, 'Could not draw, there are no viewers!');
   }
 
   resetRaffle() {
@@ -87,6 +81,21 @@ export class DashboardRaffleComponent implements OnInit {
 
   writePrivateToWinner(userName: string) {
     window.open(`https://www.twitch.tv/message/compose?to=${userName}`, '_blank');
+  }
+
+  private drawCore(serviceMethod: () => Promise<any>, cantDrawMessage: string) {
+    this.loadmask.start(serviceMethod())
+      .then(raffleWinner => {
+        if (!isEmpty(raffleWinner)) {
+          this.raffleWinner = raffleWinner;
+          this.isWinnerAnnounced = false;
+        } else {
+          this.snackBar.open(cantDrawMessage, 'OK', {
+            duration: 2000
+          });
+        }
+      })
+      .catch(error => this.alertDialog.open('Error', error));
   }
 
 }

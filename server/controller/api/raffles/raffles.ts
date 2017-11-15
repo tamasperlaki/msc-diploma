@@ -2,6 +2,8 @@ import { Router } from 'express';
 import isRaffleOpenMW from '../../../middleware/raffle/isRaffleOpen';
 import openRaffleMW from '../../../middleware/raffle/openRaffle';
 import drawRafflerMW from '../../../middleware/raffle/drawRaffler';
+import drawImmediatelyMW from '../../../middleware/raffle/drawImmediately';
+import getRaffleWinnerDataMW from '../../../middleware/raffle/getRaffleWinnerData';
 import resetRaffleMW from '../../../middleware/raffle/resetRaffle';
 import closeRaffleMW from '../../../middleware/raffle/closeRaffle';
 import announceRaffleWinnerMW from '../../../middleware/raffle/announceRaffleWinner';
@@ -15,7 +17,12 @@ routing.post('/open',
   openRaffleMW());
 
 routing.get('/draw',
-  drawRafflerMW());
+  drawRafflerMW(),
+  getRaffleWinnerDataMW());
+
+routing.get('/drawimmediately',
+  drawImmediatelyMW(),
+  getRaffleWinnerDataMW());
 
 routing.delete('/reset',
   resetRaffleMW());

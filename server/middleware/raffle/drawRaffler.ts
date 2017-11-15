@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import twitch from '../../helper/twitch';
 import redis from '../../config/redis';
 
 export default () => {
@@ -23,27 +22,8 @@ export default () => {
           return res.send({});
         }
 
-        let raffleWinner;
-        twitch.getUsers([raffleWinnerName], req.session.twitchToken)
-          .then(getUsersResponse => {
-            raffleWinner = getUsersResponse.users.shift();
-            return twitch.checkUserFollowsChannel(raffleWinner._id, req.session.channelId);
-          })
-          .then(
-            checkUserFollowsChannelResponse => raffleWinner.following = true,
-            checkUserFollowsChannelResponseStatus => {
-              if (checkUserFollowsChannelResponseStatus === 404) {
-                raffleWinner.following = false;
-              } else {
-                console.error(`checkUserFollowsChannel failed with status: ${checkUserFollowsChannelResponseStatus}`);
-                res.sendStatus(500);
-              }
-            })
-          .then(() => res.send(raffleWinner))
-          .catch(error => {
-            console.error(error);
-            res.sendStatus(500);
-          });
+        res.locals.raffleWinnerName = raffleWinnerName;
+        next();
       });
     });
   };

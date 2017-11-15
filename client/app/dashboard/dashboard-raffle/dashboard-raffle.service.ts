@@ -12,57 +12,39 @@ export class DashboardRaffleService {
     return this.http
     .get(`${this.rafflesUrl}/isopen`)
       .toPromise()
-      .then(response => response.json() as boolean)
-      .catch(error => {
-        console.log(error);
-        return error;
-      });
+      .then(response => response.json() as boolean);
   }
 
   openRaffle = () => {
     return this.http.post(`${this.rafflesUrl}/open`, {})
-      .toPromise()
-      .catch(error => {
-        console.log(error);
-        return error;
-      });
+      .toPromise();
   }
 
   drawRaffler = () => {
     return this.http.get(`${this.rafflesUrl}/draw`)
       .toPromise()
-      .then(response => response.json())
-      .catch(error => {
-        console.log(error);
-        return error;
-      });
+      .then(response => response.json());
+  }
+
+  drawImmediately = () => {
+    return this.http.get(`${this.rafflesUrl}/drawImmediately`)
+      .toPromise()
+      .then(response => response.json());
   }
 
   resetRaffle = () => {
     return this.http.delete(`${this.rafflesUrl}/reset`)
-      .toPromise()
-      .catch(error => {
-        console.log(error);
-        return error;
-      });
+      .toPromise();
   }
 
   closeRaffle = () => {
     return this.http.delete(`${this.rafflesUrl}/close`)
-      .toPromise()
-      .catch(error => {
-        console.log(error);
-        return error;
-      });
+      .toPromise();
   }
 
   announceRaffleWinner = (name: string) => {
     return this.http.put(`${this.rafflesUrl}/announce/${name}`, {})
-      .toPromise()
-      .catch(error => {
-        console.log(error);
-        return error;
-      });
+      .toPromise();
   }
 
 }
