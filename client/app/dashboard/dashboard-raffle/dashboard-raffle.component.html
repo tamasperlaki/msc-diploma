@@ -7,7 +7,7 @@
 
       <mat-card-content fxLayout="row">
 
-        <div fxFlex="25" class="actions">
+        <div fxFlex="25">
 
           <div *ngIf="!isRaffleOpen" fxLayout="column">
             <div fxFlex class="action" (click)="openRaffle();">
@@ -52,7 +52,43 @@
 
         </div>
 
-        <div fxFlex></div>
+        <div fxFlex *ngIf="raffleWinner" class="raffle-winner">
+          <div fxLayout="row" class="header">
+            <div fxFlex="90px">
+              <img *ngIf="raffleWinner.logo" [src]="raffleWinner.logo" [alt]="raffleWinner.name" height="70" width="70">
+              <img *ngIf="!raffleWinner.logo" src="https://twitch.moobot.tv/r/58/img/404_user_70x70.jpg" [alt]="raffleWinner.name" height="70" width="70">
+            </div>
+            <h2 fxFlex>{{raffleWinner.display_name}}</h2>
+          </div>
+          <div class="raffle-following alert" [ngClass]="{'alert-success': raffleWinner.following, 'alert-danger': !raffleWinner.following}">
+            <span *ngIf="raffleWinner.following">
+                <mat-icon>favorite</mat-icon> is following
+            </span>
+            <span *ngIf="!raffleWinner.following">
+                <mat-icon>favorite_border</mat-icon> is not following
+            </span>
+          </div>
+          <div class="member-since alert alert-info">
+              <mat-icon>exit_to_app</mat-icon> twitch member since {{raffleWinner.created_at | date:'y. MM. dd.'}}
+          </div>
+          <div fxLayout="row">
+            <div fxFlex="45" class="action" (click)="announceRaffleWinner(raffleWinner.display_name);" [attr.disabled]="isWinnerAnnounced ? true : null">
+              <button mat-icon-button disableRipple [disabled]="isWinnerAnnounced">
+                <mat-icon>chat</mat-icon>
+              </button>
+              <br>
+              <span>Announce winner in chat!</span>
+            </div>
+            <div fxFlex="10"></div>
+            <div fxFlex="45" class="action" (click)="writePrivateToWinner(raffleWinner.name);">
+              <button mat-icon-button disableRipple>
+                <mat-icon>mail</mat-icon>
+              </button>
+              <br>
+              <span>Write private message on Twitch!</span>
+            </div>
+          </div>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

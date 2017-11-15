@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {MatSnackBar} from '@angular/material';
+import { isEmpty } from 'lodash';
 
 import { DashboardRaffleService } from './dashboard-raffle.service';
 import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
@@ -13,6 +14,8 @@ import { AlertDialogService } from '../../shared/components/alert-dialog/alert-d
 })
 export class DashboardRaffleComponent implements OnInit {
   isRaffleOpen: boolean;
+  isWinnerAnnounced: boolean;
+  raffleWinner: any;
 
   constructor(
     private activatedRouter: ActivatedRoute,
@@ -40,11 +43,21 @@ export class DashboardRaffleComponent implements OnInit {
 
   drawRaffler() {
     this.loadmask.start(this.DashboardRaffleService.drawRaffler())
-      .then(console.log)
+      .then(raffleWinner => {
+        if (!isEmpty(raffleWinner)) {
+          this.raffleWinner = raffleWinner;
+          this.isWinnerAnnounced = false;
+        } else {
+          this.snackBar.open('Could not draw, no more rafflers!', 'OK', {
+            duration: 2000
+          });
+        }
+      })
       .catch(error => this.alertDialog.open('Error', error));
   }
 
   resetRaffle() {
+    this.raffleWinner = null;
     this.loadmask.start(this.DashboardRaffleService.resetRaffle())
       .then(() => this.snackBar.open('Raffle reset!', 'OK', {
         duration: 2000
@@ -53,12 +66,27 @@ export class DashboardRaffleComponent implements OnInit {
   }
 
   closeRaffle() {
+    this.raffleWinner = null;
     this.loadmask.start(this.DashboardRaffleService.closeRaffle())
       .then(() => this.isRaffleOpen = false)
       .then(() => this.snackBar.open('Raffle closed!', 'OK', {
         duration: 2000
       }))
       .catch(error => this.alertDialog.open('Error', error));
+  }
+
+  announceRaffleWinner(userName: string) {
+    if (this.isWinnerAnnounced) {
+      return;
+    }
+
+    this.DashboardRaffleService.announceRaffleWinner(userName)
+      .then(() => this.isWinnerAnnounced = true)
+      .catch(error => this.alertDialog.open('Error', error));
+  }
+
+  writePrivateToWinner(userName: string) {
+    window.open(`https://www.twitch.tv/message/compose?to=${userName}`, '_blank');
   }
 
 }

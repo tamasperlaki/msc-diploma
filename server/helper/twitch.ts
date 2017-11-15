@@ -23,7 +23,7 @@ function getChannel(token: string): Promise<any> {
 }
 
 function getUsers(users: string[], token: string): Promise<any> {
-  return callTwitchApi('GET', `/users?login=${users.concat(',')}`);
+  return callTwitchApi('GET', `/users?login=${users.join()}`);
 }
 
 function checkUserFollowsChannel(userId: string, channelId: string): Promise<any> {

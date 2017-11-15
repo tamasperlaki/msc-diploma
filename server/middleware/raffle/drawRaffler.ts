@@ -13,17 +13,37 @@ export default () => {
         res.status(400).send(`Raffle is not open!`);
       }
 
-      redis.spop(`rafflers:${req.session.userId}`, (popRafflerError, popRafflerReply) => {
+      redis.spop(`rafflers:${req.session.userId}`, (popRafflerError, raffleWinnerName) => {
         if (popRafflerError) {
           console.error(popRafflerError);
-          res.sendStatus(500);
+          return res.sendStatus(500);
         }
 
-        if(!popRafflerReply) {
-          return res.send(popRafflerReply);
+        if (!raffleWinnerName) {
+          return res.send({});
         }
 
-        //twitch.callTwitchApi
+        let raffleWinner;
+        twitch.getUsers([raffleWinnerName], req.session.twitchToken)
+          .then(getUsersResponse => {
+            raffleWinner = getUsersResponse.users.shift();
+            return twitch.checkUserFollowsChannel(raffleWinner._id, req.session.channelId);
+          })
+          .then(
+            checkUserFollowsChannelResponse => raffleWinner.following = true,
+            checkUserFollowsChannelResponseStatus => {
+              if (checkUserFollowsChannelResponseStatus === 404) {
+                raffleWinner.following = false;
+              } else {
+                console.error(`checkUserFollowsChannel failed with status: ${checkUserFollowsChannelResponseStatus}`);
+                res.sendStatus(500);
+              }
+            })
+          .then(() => res.send(raffleWinner))
+          .catch(error => {
+            console.error(error);
+            res.sendStatus(500);
+          });
       });
     });
   };

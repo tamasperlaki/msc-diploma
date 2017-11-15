@@ -12,7 +12,7 @@ export class DashboardRaffleService {
     return this.http
     .get(`${this.rafflesUrl}/isopen`)
       .toPromise()
-      .then(reply => reply.json() as boolean)
+      .then(response => response.json() as boolean)
       .catch(error => {
         console.log(error);
         return error;
@@ -31,6 +31,7 @@ export class DashboardRaffleService {
   drawRaffler = () => {
     return this.http.get(`${this.rafflesUrl}/draw`)
       .toPromise()
+      .then(response => response.json())
       .catch(error => {
         console.log(error);
         return error;
@@ -48,6 +49,15 @@ export class DashboardRaffleService {
 
   closeRaffle = () => {
     return this.http.delete(`${this.rafflesUrl}/close`)
+      .toPromise()
+      .catch(error => {
+        console.log(error);
+        return error;
+      });
+  }
+
+  announceRaffleWinner = (name: string) => {
+    return this.http.put(`${this.rafflesUrl}/announce/${name}`, {})
       .toPromise()
       .catch(error => {
         console.log(error);

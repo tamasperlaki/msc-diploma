@@ -23,6 +23,10 @@ function createBot(user: IUser) {
     setUserCommands(user._id);
     setUserTimers(user._id);
     setUserAliases(user._id);
+
+    redis.sismember('raffles', `${user._id}`, (isMemberError, isMemberReply) => {
+      openRaffle(user._id);
+    });
   } else {
     throw new Error('Bot was already created for user with id: ${userId}');
   }
@@ -192,6 +196,16 @@ function closeRaffle(userId: any) {
   bot.closeRaffle();
 }
 
+function sendMessage(userId: any, message: string) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.sendMessage(message);
+}
+
 export default {
   startBots: startBots,
   createBot: createBot,
@@ -205,5 +219,6 @@ export default {
   removeAlias: removeAlias,
   setUserAliases: setUserAliases,
   openRaffle: openRaffle,
-  closeRaffle: closeRaffle
+  closeRaffle: closeRaffle,
+  sendMessage: sendMessage
 };
