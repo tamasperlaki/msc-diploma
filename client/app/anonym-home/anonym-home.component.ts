@@ -21,7 +21,7 @@ export class AnonymHomeComponent implements OnInit {
         + `?client_id=${environment.clientId}`
         + `&redirect_uri=${environment.deployURi}/api/twitchAuth/callback`
         + '&response_type=code'
-        + '&scope=user_read';
+        + '&scope=user_read+channel_read';
   };
 
 }

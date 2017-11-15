@@ -1,0 +1,47 @@
+.action {
+  text-align: center;
+  margin: 5px;
+  cursor: pointer;
+  padding: 5px;
+
+  &[disabled] {
+    opacity: .65;
+    cursor: default;
+  }
+
+  &:not([disabled]):hover {
+    background-color: rgba(75, 75, 75, 0.5);
+  }
+
+  .mat-icon-button {
+    width: 56px;
+    height: 56px;
+
+    .mat-icon {
+      font-size: 35px;
+      line-height: 35px;
+      width: 35px;
+      height: 35px;
+    }
+  }
+}
+
+.raffle-winner {
+  padding: 7px 20px;
+
+  .alert {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .header {
+    margin-bottom: 10px;
+  }
+
+  .raffle-following,
+  .member-since {
+    mat-icon {
+      vertical-align: middle;
+    }
+  }
+}

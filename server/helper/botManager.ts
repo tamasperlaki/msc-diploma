@@ -1,6 +1,7 @@
 import { map, isEmpty } from 'lodash';
 import Bot from 'msc-diploma-bot';
 import eventLogger from '../helper/eventLogger';
+import redis from '../config/redis';
 import { IUser } from '../../models/user';
 import { ICommand, Command } from '../../models/command';
 import { ITimer, Timer } from '../../models/timer';
@@ -17,11 +18,15 @@ function createBot(user: IUser) {
 
   if (!bot) {
     bot = new Bot(user.name, user._id, eventLogger);
+    bots[user._id] = bot;
+
     setUserCommands(user._id);
     setUserTimers(user._id);
     setUserAliases(user._id);
 
-    bots[user._id] = bot;
+    redis.sismember('raffles', `${user._id}`, (isMemberError, isMemberReply) => {
+      openRaffle(user._id);
+    });
   } else {
     throw new Error('Bot was already created for user with id: ${userId}');
   }
@@ -31,7 +36,7 @@ function setCommand(userId: any, command: ICommand) {
   const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`setCommand - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
   if (command.enabled) {
@@ -56,7 +61,7 @@ function runCommand(userId: any, commandName: string) {
   if (bot) {
     bot.runCommand(commandName);
   } else {
-    throw new Error(`runCommand - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 }
 
@@ -64,7 +69,7 @@ function removeCommand(userId: any, command: ICommand) {
   const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`removeCommand - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
   bot.removeCommand(command.name);
@@ -74,7 +79,7 @@ function setTimer(userId: any, timer: ITimer) {
   const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`setTimer - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
   if (timer.enabled && !isEmpty(timer.commands)) {
@@ -105,7 +110,7 @@ function removeTimer(userId: any, timer: ITimer) {
   const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`removeTimer - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
   bot.removeTimer(timer.name);
@@ -115,7 +120,7 @@ function setAlias(userId: any, alias: IAlias) {
   const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`setAlias - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
   alias
@@ -131,6 +136,13 @@ function setAlias(userId: any, alias: IAlias) {
 }
 
 function setUserAliases(userId: any) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.resetAliases();
   Alias.find({
     user: userId
   })
@@ -142,10 +154,56 @@ function removeAlias(userId: any, alias: IAlias) {
   const bot = bots[userId];
 
   if (!bot) {
-    throw new Error(`removeAlias - Bot does not exist for user with id: ${userId}`);
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
   bot.removeAlias(alias.name);
+}
+
+function openRaffle(userId: any) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.openRaffle();
+
+  bot.on(bot.NEW_RAFFLER_EVENT, raffler => {
+    redis.sismember('raffles', `${userId}`, (isMemberError, isMemberReply) => {
+      if (isMemberError) {
+        console.error(isMemberError);
+      }
+
+      if (isMemberReply === 1) {
+        redis.sadd(`rafflers:${userId}`, raffler, (addError, addReply) => {
+          if (addError) {
+            console.error(addError);
+          }
+        });
+      }
+    });
+  });
+}
+
+function closeRaffle(userId: any) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.closeRaffle();
+}
+
+function sendMessage(userId: any, message: string) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.sendMessage(message);
 }
 
 export default {
@@ -159,5 +217,8 @@ export default {
   removeTimer: removeTimer,
   setAlias: setAlias,
   removeAlias: removeAlias,
-  setUserAliases: setUserAliases
+  setUserAliases: setUserAliases,
+  openRaffle: openRaffle,
+  closeRaffle: closeRaffle,
+  sendMessage: sendMessage
 };

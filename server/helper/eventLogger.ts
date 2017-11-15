@@ -1,4 +1,4 @@
-import { io, getSocketIdByUserId } from '../config/socket';
+import { io, getSocketIdByUserId } from './socket';
 import { IEvent } from '../../models/event';
 const winston = require('winston');
 require('winston-mongodb');

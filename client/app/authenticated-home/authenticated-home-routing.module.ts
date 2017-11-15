@@ -12,6 +12,7 @@ import { CommandsResolverGuard } from '../command/commands-resolver.guard';
 import { TimersResolverGuard } from '../command/timers-resolver.guard';
 import { AliasesResolverGuard } from '../command/aliases-resolver.guard';
 import { EventsResolverGuard } from '../dashboard/events-resolver.guard';
+import { RafflesResolverGuard } from '../dashboard/raffles-resolver.guard';
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
         component: DashboardComponent,
         resolve: {
           commands: CommandsResolverGuard,
-          events: EventsResolverGuard
+          events: EventsResolverGuard,
+          isRaffleOpen: RafflesResolverGuard
         }
       },
       {
