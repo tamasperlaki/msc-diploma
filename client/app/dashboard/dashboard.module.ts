@@ -20,6 +20,7 @@ import { DashboardChatComponent } from './dashboard-chat/dashboard-chat.componen
 import { DashboardEventsComponent } from './dashboard-events/dashboard-events.component';
 import { DashboardRaffleComponent } from './dashboard-raffle/dashboard-raffle.component';
 import { DashboardRaffleService } from './dashboard-raffle/dashboard-raffle.service';
+import { DashboardPollService } from './dashboard-poll/dashboard-poll.service';
 import { DashboardPollComponent } from './dashboard-poll/dashboard-poll.component';
 import { DashboardPollOpenDialogComponent } from './dashboard-poll/dashboard-poll-open-dialog/dashboard-poll-open-dialog.component';
 
@@ -47,6 +48,7 @@ import { DashboardPollOpenDialogComponent } from './dashboard-poll/dashboard-pol
   providers: [
     DashboardService,
     DashboardRaffleService,
+    DashboardPollService,
     EventsResolverGuard,
     RafflesResolverGuard
   ],

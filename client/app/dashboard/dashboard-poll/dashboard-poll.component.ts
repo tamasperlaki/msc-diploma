@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardPollOpenDialogComponent } from './dashboard-poll-open-dialog/dashboard-poll-open-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { isEmpty } from 'lodash';
+
+import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
+import { AlertDialogService } from '../../shared/components/alert-dialog/alert-dialog.service';
+import { DashboardPollService } from './dashboard-poll.service';
 
 @Component({
   selector: 'app-dashboard-poll',
@@ -11,7 +16,11 @@ export class DashboardPollComponent implements OnInit {
   isPollOpen: boolean;
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loadmask: LoadmaskService,
+    private dashboardPollService: DashboardPollService,
+    private alertDialog: AlertDialogService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -19,10 +28,21 @@ export class DashboardPollComponent implements OnInit {
   }
 
   openPoll() {
-    this.isPollOpen = true;
-
-    this.dialog.open(DashboardPollOpenDialogComponent, {
+    const dialogRef = this.dialog.open(DashboardPollOpenDialogComponent, {
       width: '25vw'
+    });
+
+    dialogRef.afterClosed().subscribe((result: string[]) => {
+      if (isEmpty(result)) {
+        return;
+      }
+
+      this.loadmask.start(this.dashboardPollService.openPoll(result))
+        .then(() => this.isPollOpen = true)
+        .then(() => this.snackBar.open('Poll opened!', 'OK', {
+          duration: 2000
+        }))
+        .catch(error => this.alertDialog.open('Error', error));
     });
   }
 

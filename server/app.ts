@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as logger from 'morgan';
 import * as session from 'express-session';
 import * as http from 'http';
+import { isEmpty } from 'lodash';
 import { User } from '../models/user';
 import botManager from './helper/botManager';
 import mongoStore from './config/mongoStore';
@@ -72,18 +73,22 @@ if (app.get('env') === 'development') {
   // will print stacktrace
   app.use((error: any, req, res, next) => {
     console.error(error);
-    res.status(error['status'] || 500);
-    res.send(error);
+    res.status(error['status'] || res.statusCode || 500);
+
+    const json = JSON.stringify(error);
+    if(isEmpty(JSON.parse(json))) {
+      return res.send(error.message);
+    } else {
+      return res.send(error);
+    }
   });
 } else {
   // production error handler
   // no stacktraces leaked to user
   app.use((error: any, req, res, next) => {
     console.error(error);
-    res.status(error['status'] || 500);
-    res.send(error.message);
-
-    return null;
+    res.status(error['status'] || res.statusCode || 500);
+    return res.send(error.message);
   });
 }
 
