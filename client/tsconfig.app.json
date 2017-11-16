@@ -5,9 +5,6 @@
     "module": "es2015",
     "baseUrl": ""
   },
-  "types": [
-    "socket.io-client"
-  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"
