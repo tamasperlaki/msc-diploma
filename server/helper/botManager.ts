@@ -196,7 +196,7 @@ function closeRaffle(userId: any) {
     throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
-  bot.removeAllListener(bot.NEW_RAFFLER_EVENT);
+  bot.removeAllListeners(bot.NEW_RAFFLER_EVENT);
   bot.closeRaffle();
 }
 

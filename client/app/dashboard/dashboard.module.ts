@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import {
   MatCardModule,
   MatAutocompleteModule,
@@ -11,6 +10,7 @@ import {
   MatSnackBarModule,
   MatDialogModule
 } from '@angular/material';
+import { PieChartModule } from '@swimlane/ngx-charts';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardService } from './dashboard.service';
@@ -36,7 +36,8 @@ import { DashboardPollOpenDialogComponent } from './dashboard-poll/dashboard-pol
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    PieChartModule
   ],
   declarations: [
     DashboardComponent,

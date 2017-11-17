@@ -15,6 +15,7 @@ import { DashboardPollService } from './dashboard-poll.service';
 })
 export class DashboardPollComponent implements OnInit {
   isPollOpen: boolean;
+  pollResults: any[];
 
   constructor(
     private activatedRouter: ActivatedRoute,
@@ -28,6 +29,20 @@ export class DashboardPollComponent implements OnInit {
   ngOnInit() {
     this.activatedRouter.data.subscribe((data: { isPollOpen: boolean }) => {
       this.isPollOpen = data.isPollOpen;
+      this.pollResults = [
+        {
+          "name": "Germany",
+          "value": 8940000
+        },
+        {
+          "name": "USA",
+          "value": 5000000
+        },
+        {
+          "name": "France",
+          "value": 7200000
+        }
+      ];
     });
   }
 

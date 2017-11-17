@@ -33,7 +33,15 @@ export default () => {
 
         botManager.openPoll(req.session.userId, options);
         eventLogger.info('Opened Poll', {channel: req.session.channel, userId: req.session.userId});
-        return res.sendStatus(200);
+
+        redis.zrange(`poll:${req.session.userId}`, 0, -1, 'WITHSCORES', (error, reply) => {
+          if (error) {
+            return next(error);
+          }
+
+          res.locals.pollResults = reply;
+          return next();
+        })
       });
   };
 };

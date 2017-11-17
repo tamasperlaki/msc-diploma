@@ -46,7 +46,12 @@
           </div>
 
           <div fxFlex>
-            poll results
+            <ngx-charts-pie-chart
+              *ngIf="isPollOpen"
+              [view]="[undefined, 300]"
+              [results]="pollResults"
+              [legend]="true"
+            ></ngx-charts-pie-chart>
           </div>
         </mat-card-content>
       </mat-card>
