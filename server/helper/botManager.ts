@@ -25,7 +25,10 @@ function createBot(user: IUser) {
     setUserAliases(user._id);
 
     redis.sismember('raffles', `${user._id}`, (isMemberError, isMemberReply) => {
-      openRaffle(user._id);
+      openRaffle(user._id, false);
+    });
+    redis.sismember('polls', `${user._id}`, (isMemberError, isMemberReply) => {
+      openPoll(user._id);
     });
   } else {
     throw new Error('Bot was already created for user with id: ${userId}');
@@ -160,19 +163,19 @@ function removeAlias(userId: any, alias: IAlias) {
   bot.removeAlias(alias.name);
 }
 
-function openRaffle(userId: any) {
+function openRaffle(userId: any, announceStart: boolean) {
   const bot = bots[userId];
 
   if (!bot) {
     throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
-  bot.openRaffle();
+  bot.openRaffle(announceStart);
 
   bot.on(bot.NEW_RAFFLER_EVENT, raffler => {
     redis.sismember('raffles', `${userId}`, (isMemberError, isMemberReply) => {
       if (isMemberError) {
-        console.error(isMemberError);
+        return console.error(isMemberError);
       }
 
       if (isMemberReply === 1) {
@@ -193,8 +196,61 @@ function closeRaffle(userId: any) {
     throw new Error(`Bot does not exist for user with id: ${userId}`);
   }
 
+  bot.removeAllListener(bot.NEW_RAFFLER_EVENT);
   bot.closeRaffle();
 }
+
+function openPoll(userId: any, options: string[] = []) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.openPoll(options);
+
+  bot.on(bot.VOTE_EVENT, (voter, option) => {
+    redis.batch()
+      .sismember('polls', `${userId}`)
+      .sismember(`poll:voters:${userId}`, voter)
+      .zscore(`poll:${userId}`, option)
+      .exec((error, replies) => {
+        const isPollOpen = replies[0];
+        const hasVotedAlready = replies[1];
+        const isOptionExist = replies[2];
+
+        if (error) {
+          return console.error(error);
+        } else if(isPollOpen.code === "ERR") {
+          return console.error(isPollOpen);
+        } else if(hasVotedAlready.code === "ERR") {
+          return console.error(hasVotedAlready);
+        } else if(isOptionExist.code === "ERR") {
+          return console.error(isOptionExist);
+        }
+
+        if(isPollOpen === 1 && hasVotedAlready === 0 && isOptionExist !== null) {
+          redis.multi()
+            .sadd(`poll:voters:${userId}`, voter)
+            .zincrby(`poll:${userId}`, 1, option)
+            .exec((error, addVoteReplies) => {
+              const addVoterReply = addVoteReplies[0];
+              const increaseOptionVotesReply = addVoteReplies[1];
+
+              if (error) {
+                return console.error(error);
+              } else if(addVoterReply.code === "ERR") {
+                return console.error(addVoterReply);
+              } else if(increaseOptionVotesReply.code === "ERR") {
+                return console.error(increaseOptionVotesReply);
+              }
+            });
+        }
+    });
+  });
+}
+
+function closePoll() {}
 
 function sendMessage(userId: any, message: string) {
   const bot = bots[userId];
@@ -220,5 +276,7 @@ export default {
   setUserAliases: setUserAliases,
   openRaffle: openRaffle,
   closeRaffle: closeRaffle,
+  openPoll: openPoll,
+  closePoll: closePoll,
   sendMessage: sendMessage
 };

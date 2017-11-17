@@ -31,7 +31,7 @@ export default () => {
           return next(new Error('Poll was already opened!'));
         }
 
-        // botManager.openPoll(req.session.userId);
+        botManager.openPoll(req.session.userId, options);
         eventLogger.info('Opened Poll', {channel: req.session.channel, userId: req.session.userId});
         return res.sendStatus(200);
       });

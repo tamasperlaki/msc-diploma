@@ -14,7 +14,7 @@ export default () => {
         res.status(500).send(`Raffle was already opened`);
       }
 
-      botManager.openRaffle(req.session.userId);
+      botManager.openRaffle(req.session.userId, true);
       eventLogger.info('Opened Raffle', {channel: req.session.channel, userId: req.session.userId});
       res.sendStatus(200);
     });

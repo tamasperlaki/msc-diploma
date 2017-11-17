@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DashboardPollOpenDialogComponent } from './dashboard-poll-open-dialog/dashboard-poll-open-dialog.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { isEmpty } from 'lodash';
+import { isArray } from 'lodash';
 
 import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
 import { AlertDialogService } from '../../shared/components/alert-dialog/alert-dialog.service';
@@ -16,6 +17,7 @@ export class DashboardPollComponent implements OnInit {
   isPollOpen: boolean;
 
   constructor(
+    private activatedRouter: ActivatedRoute,
     private dialog: MatDialog,
     private loadmask: LoadmaskService,
     private dashboardPollService: DashboardPollService,
@@ -24,7 +26,9 @@ export class DashboardPollComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.isPollOpen = false;
+    this.activatedRouter.data.subscribe((data: { isPollOpen: boolean }) => {
+      this.isPollOpen = data.isPollOpen;
+    });
   }
 
   openPoll() {
@@ -33,8 +37,12 @@ export class DashboardPollComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: string[]) => {
-      if (isEmpty(result)) {
+      if (!isArray(result)) {
         return;
+      } else if(result.length < 2) {
+        return this.snackBar.open('Please provide at least two options!', 'OK', {
+          duration: 2000
+        });
       }
 
       this.loadmask.start(this.dashboardPollService.openPoll(result))

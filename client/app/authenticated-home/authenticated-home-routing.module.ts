@@ -13,6 +13,7 @@ import { TimersResolverGuard } from '../command/timers-resolver.guard';
 import { AliasesResolverGuard } from '../command/aliases-resolver.guard';
 import { EventsResolverGuard } from '../dashboard/events-resolver.guard';
 import { RafflesResolverGuard } from '../dashboard/raffles-resolver.guard';
+import { IsPollOpenResolverGuard } from '../dashboard/is-poll-open-resolver.guard';
 
 const routes: Routes = [
   {
@@ -34,7 +35,8 @@ const routes: Routes = [
         resolve: {
           commands: CommandsResolverGuard,
           events: EventsResolverGuard,
-          isRaffleOpen: RafflesResolverGuard
+          isRaffleOpen: RafflesResolverGuard,
+          isPollOpen: IsPollOpenResolverGuard
         }
       },
       {
