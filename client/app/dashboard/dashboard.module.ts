@@ -16,7 +16,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardService } from './dashboard.service';
 import { EventsResolverGuard } from './events-resolver.guard';
 import { RafflesResolverGuard } from './raffles-resolver.guard';
-import { IsPollOpenResolverGuard } from './is-poll-open-resolver.guard';
+import { PollResolverGuard } from './poll-resolver.guard';
 import { DashboardChatComponent } from './dashboard-chat/dashboard-chat.component';
 import { DashboardEventsComponent } from './dashboard-events/dashboard-events.component';
 import { DashboardRaffleComponent } from './dashboard-raffle/dashboard-raffle.component';
@@ -53,7 +53,7 @@ import { DashboardPollOpenDialogComponent } from './dashboard-poll/dashboard-pol
     DashboardPollService,
     EventsResolverGuard,
     RafflesResolverGuard,
-    IsPollOpenResolverGuard
+    PollResolverGuard
   ],
   entryComponents: [
     DashboardPollOpenDialogComponent

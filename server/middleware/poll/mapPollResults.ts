@@ -4,7 +4,7 @@ import redis from '../../config/redis';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    if(!isArray(res.locals.pollResults)) {
+    if (!isArray(res.locals.pollResults)) {
       return next(new Error('Poll results should be in the locals!'));
     }
 

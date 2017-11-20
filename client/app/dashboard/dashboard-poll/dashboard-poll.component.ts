@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DashboardPollOpenDialogComponent } from './dashboard-poll-open-dialog/dashboard-poll-open-dialog.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { isArray } from 'lodash';
+import { isArray, map } from 'lodash';
 
 import { LoadmaskService } from '../../shared/components/loadmask/loadmask.service';
 import { AlertDialogService } from '../../shared/components/alert-dialog/alert-dialog.service';
@@ -27,22 +27,9 @@ export class DashboardPollComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRouter.data.subscribe((data: { isPollOpen: boolean }) => {
-      this.isPollOpen = data.isPollOpen;
-      this.pollResults = [
-        {
-          "name": "Germany",
-          "value": 8940000
-        },
-        {
-          "name": "USA",
-          "value": 5000000
-        },
-        {
-          "name": "France",
-          "value": 7200000
-        }
-      ];
+    this.activatedRouter.data.subscribe((data: { pollData: {isOpen: boolean, pollResults: any[]} }) => {
+      this.isPollOpen = data.pollData.isOpen;
+      this.setPollResults(data.pollData.pollResults);
     });
   }
 
@@ -54,13 +41,14 @@ export class DashboardPollComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: string[]) => {
       if (!isArray(result)) {
         return;
-      } else if(result.length < 2) {
+      } else if (result.length < 2) {
         return this.snackBar.open('Please provide at least two options!', 'OK', {
           duration: 2000
         });
       }
 
       this.loadmask.start(this.dashboardPollService.openPoll(result))
+        .then(this.setPollResults)
         .then(() => this.isPollOpen = true)
         .then(() => this.snackBar.open('Poll opened!', 'OK', {
           duration: 2000
@@ -69,12 +57,23 @@ export class DashboardPollComponent implements OnInit {
     });
   }
 
-  refreshPollResults() {}
+  refreshPollResults() {
+    this.loadmask.start(this.dashboardPollService.getPollResults())
+      .then(this.setPollResults)
+      .catch(error => this.alertDialog.open('Error', error));
+  }
 
   resetPoll() {}
 
   closePoll() {
     this.isPollOpen = false;
+  }
+
+  private setPollResults = (rawPollResults) => {
+    this.pollResults = map(rawPollResults, (value, key) => ({
+      'name': key,
+      'value': value
+    }));
   }
 
 }

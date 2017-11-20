@@ -8,6 +8,13 @@ export class DashboardPollService {
 
   constructor(private http: Http) { }
 
+  getPollResults = () => {
+    return this.http
+    .get(`${this.pollsUrl}/`)
+      .toPromise()
+      .then(response => response.json());
+  }
+
   isOpen = () => {
     return this.http
     .get(`${this.pollsUrl}/isopen`)
@@ -19,7 +26,8 @@ export class DashboardPollService {
     return this.http.post(`${this.pollsUrl}/open`, {
       options: options
     })
-      .toPromise();
+      .toPromise()
+      .then(response => response.json());
   }
 
 }

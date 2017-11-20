@@ -32,7 +32,7 @@ export class DashboardPollOpenDialogComponent implements OnInit {
   addOption() {
     const option = this.pollForm.controls.option.value;
 
-    if(!option) {
+    if (!option) {
       return;
     }
 

@@ -221,27 +221,27 @@ function openPoll(userId: any, options: string[] = []) {
 
         if (error) {
           return console.error(error);
-        } else if(isPollOpen.code === "ERR") {
+        } else if (isPollOpen.code === 'ERR') {
           return console.error(isPollOpen);
-        } else if(hasVotedAlready.code === "ERR") {
+        } else if (hasVotedAlready.code === 'ERR') {
           return console.error(hasVotedAlready);
-        } else if(isOptionExist.code === "ERR") {
+        } else if (isOptionExist.code === 'ERR') {
           return console.error(isOptionExist);
         }
 
-        if(isPollOpen === 1 && hasVotedAlready === 0 && isOptionExist !== null) {
+        if (isPollOpen === 1 && hasVotedAlready === 0 && isOptionExist !== null) {
           redis.multi()
             .sadd(`poll:voters:${userId}`, voter)
             .zincrby(`poll:${userId}`, 1, option)
-            .exec((error, addVoteReplies) => {
+            .exec((updateVotesError, addVoteReplies) => {
               const addVoterReply = addVoteReplies[0];
               const increaseOptionVotesReply = addVoteReplies[1];
 
-              if (error) {
-                return console.error(error);
-              } else if(addVoterReply.code === "ERR") {
+              if (updateVotesError) {
+                return console.error(updateVotesError);
+              } else if (addVoterReply.code === 'ERR') {
                 return console.error(addVoterReply);
-              } else if(increaseOptionVotesReply.code === "ERR") {
+              } else if (increaseOptionVotesReply.code === 'ERR') {
                 return console.error(increaseOptionVotesReply);
               }
             });

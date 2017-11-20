@@ -76,7 +76,7 @@ if (app.get('env') === 'development') {
     res.status(error['status'] || res.statusCode || 500);
 
     const json = JSON.stringify(error);
-    if(isEmpty(JSON.parse(json))) {
+    if (isEmpty(JSON.parse(json))) {
       return res.send(error.message);
     } else {
       return res.send(error);
