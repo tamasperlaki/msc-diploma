@@ -60,13 +60,29 @@ export class DashboardPollComponent implements OnInit {
   refreshPollResults() {
     this.loadmask.start(this.dashboardPollService.getPollResults())
       .then(this.setPollResults)
+      .then(() => this.snackBar.open('Poll refreshed!', 'OK', {
+        duration: 2000
+      }))
       .catch(error => this.alertDialog.open('Error', error));
   }
 
-  resetPoll() {}
+  resetPoll() {
+    this.loadmask.start(this.dashboardPollService.resetPoll())
+      .then(this.setPollResults)
+      .then(() => this.snackBar.open('Poll reset!', 'OK', {
+        duration: 2000
+      }))
+      .catch(error => this.alertDialog.open('Error', error));
+  }
 
   closePoll() {
-    this.isPollOpen = false;
+    this.loadmask.start(this.dashboardPollService.closePoll())
+      .then(() => this.isPollOpen = false)
+      .then(() => this.snackBar.open('Poll closed!', 'OK', {
+        duration: 2000
+      }))
+      .catch(error => this.alertDialog.open('Error', error));
+
   }
 
   private setPollResults = (rawPollResults) => {

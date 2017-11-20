@@ -225,7 +225,7 @@ function openPoll(userId: any, options: string[] = []) {
           return console.error(isPollOpen);
         } else if (hasVotedAlready.code === 'ERR') {
           return console.error(hasVotedAlready);
-        } else if (isOptionExist.code === 'ERR') {
+        } else if (!isEmpty(isOptionExist) && isOptionExist.code === 'ERR') {
           return console.error(isOptionExist);
         }
 
@@ -250,7 +250,16 @@ function openPoll(userId: any, options: string[] = []) {
   });
 }
 
-function closePoll() {}
+function closePoll(userId: any) {
+  const bot = bots[userId];
+
+  if (!bot) {
+    throw new Error(`Bot does not exist for user with id: ${userId}`);
+  }
+
+  bot.removeAllListeners(bot.VOTE_EVENT);
+  bot.closePoll();
+}
 
 function sendMessage(userId: any, message: string) {
   const bot = bots[userId];

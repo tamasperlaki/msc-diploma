@@ -14,23 +14,15 @@ export default () => {
         return res.status(500).send(`Raffle was already closed!`);
       }
 
-      const raffleKey = `rafflers:${req.session.userId}`;
-      redis.scard(raffleKey, (countRafflersError, countRafflersReply) => {
-        if (countRafflersError) {
-          console.error(countRafflersError);
+      redis.del(`rafflers:${req.session.userId}`, (delRafflersError, delRafflersReply) => {
+        if (delRafflersError) {
+          console.error(delRafflersError);
           return res.sendStatus(500);
         }
 
-        redis.spop(raffleKey, countRafflersReply, (popRafflersError, popRafflersReply) => {
-          if (popRafflersError) {
-            console.error(popRafflersError);
-            return res.sendStatus(500);
-          }
-
-          botManager.closeRaffle(req.session.userId);
-          eventLogger.info('Closed Raffle', {channel: req.session.channel, userId: req.session.userId});
-          return res.sendStatus(200);
-        });
+        botManager.closeRaffle(req.session.userId);
+        eventLogger.info('Closed Raffle', {channel: req.session.channel, userId: req.session.userId});
+        return res.sendStatus(200);
       });
     });
   };

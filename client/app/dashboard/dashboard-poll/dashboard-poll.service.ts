@@ -30,4 +30,15 @@ export class DashboardPollService {
       .then(response => response.json());
   }
 
+  resetPoll = () => {
+    return this.http.post(`${this.pollsUrl}/reset`, {})
+      .toPromise()
+      .then(response => response.json());
+  }
+
+  closePoll = () => {
+    return this.http.post(`${this.pollsUrl}/close`, {})
+      .toPromise();
+  }
+
 }

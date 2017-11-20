@@ -3,7 +3,6 @@ import { chain } from 'lodash';
 import redis from '../../config/redis';
 import botManager from '../../helper/botManager';
 import eventLogger from '../../helper/eventLogger';
-import {  } from 'redis';
 
 export default () => {
   return (req: Request, res: Response, next: NextFunction) => {
