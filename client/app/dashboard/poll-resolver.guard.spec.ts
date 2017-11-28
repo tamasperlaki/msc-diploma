@@ -1,15 +1,19 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
-import { IsPollOpenResolverGuard } from './is-poll-open-resolver.guard';
+import { DashboardPollService } from './dashboard-poll/dashboard-poll.service';
+import { PollResolverGuard } from './poll-resolver.guard';
 
-describe('IsPollOpenResolverGuard', () => {
+describe('PollResolverGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [IsPollOpenResolverGuard]
+      providers: [
+        { provide: DashboardPollService, useValue: {} },
+        PollResolverGuard
+      ]
     });
   });
 
-  it('should ...', inject([IsPollOpenResolverGuard], (guard: IsPollOpenResolverGuard) => {
+  it('should ...', inject([PollResolverGuard], (guard: PollResolverGuard) => {
     expect(guard).toBeTruthy();
   }));
 });

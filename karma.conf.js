@@ -16,6 +16,7 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     files: [
+      { pattern: 'node_modules/@angular/material/prebuilt-themes/purple-green.css', included: true, watched: true },
       { pattern: './client/test.ts', watched: false }
     ],
     preprocessors: {

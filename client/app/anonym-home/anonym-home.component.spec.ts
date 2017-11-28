@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatToolbarModule } from '@angular/material';
 
 import { AnonymHomeComponent } from './anonym-home.component';
 
@@ -8,6 +9,7 @@ describe('AnonymHomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ MatToolbarModule ],
       declarations: [ AnonymHomeComponent ]
     })
     .compileComponents()

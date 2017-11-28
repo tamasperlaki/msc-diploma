@@ -1,11 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { MatDialog } from '@angular/material';
 
 import { LoadmaskService } from './loadmask.service';
 
 describe('LoadmaskService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LoadmaskService]
+      providers: [
+        { provide: MatDialog, useValue: {} },
+        LoadmaskService
+      ]
     });
   });
 

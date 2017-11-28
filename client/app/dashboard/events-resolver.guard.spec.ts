@@ -1,11 +1,15 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
+import { DashboardService} from './dashboard.service';
 import { EventsResolverGuard } from './events-resolver.guard';
 
 describe('EventsResolverGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [EventsResolverGuard]
+      providers: [
+        { provide: DashboardService, useValue: {} },
+        EventsResolverGuard
+      ]
     });
   });
 

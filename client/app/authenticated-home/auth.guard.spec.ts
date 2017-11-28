@@ -1,11 +1,17 @@
 import { TestBed, async, inject } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
+import { AuthService } from '../shared/auth/auth.service';
 import { AuthGuard } from './auth.guard';
 
 describe('AuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthGuard]
+      providers: [
+        { provide: AuthService, useValue: {} },
+        { provide: Router, useValue: {} },
+        AuthGuard
+      ]
     });
   });
 

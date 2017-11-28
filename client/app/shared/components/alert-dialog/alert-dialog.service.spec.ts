@@ -1,11 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { MatDialog } from '@angular/material';
 
 import { AlertDialogService } from './alert-dialog.service';
 
 describe('AlertDialogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AlertDialogService]
+      providers: [
+        { provide: MatDialog, useValue: {} },
+        AlertDialogService
+      ]
     });
   });
 
