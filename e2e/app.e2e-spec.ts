@@ -9,6 +9,6 @@ describe('msc-diploma App', () => {
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getTitle()).toBe('Welcome to Tankika Bot!');
   });
 });
