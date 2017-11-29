@@ -19,7 +19,7 @@
     "test-ng:once": "ng test -sr",
     "test-server:once": "cd server && jasmine-ts **/*[!.api].spec.ts",
     "test-api:once": "cd server && jasmine-ts **/*.api.spec.ts",
-    "lint": "ng lint",
+    "lint": "ng lint -t verbose",
     "e2e": "ng e2e"
   },
   "private": true,
