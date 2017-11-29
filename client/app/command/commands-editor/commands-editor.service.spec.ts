@@ -1,11 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CommandsEditorService } from './commands-editor.service';
+import { HttpModule, XHRBackend } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 describe('CommandEditorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CommandsEditorService]
+      imports: [
+        HttpModule
+      ],
+      providers: [
+        { provide: XHRBackend, useClass: MockBackend },
+        CommandsEditorService
+      ]
     });
   });
 

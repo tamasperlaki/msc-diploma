@@ -1,11 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CommandAliasesService } from './command-aliases.service';
+import { HttpModule, XHRBackend } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 describe('CommandAliasesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CommandAliasesService]
+      imports: [
+        HttpModule
+      ],
+      providers: [
+        { provide: XHRBackend, useClass: MockBackend },
+        CommandAliasesService
+      ]
     });
   });
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 
 import { Observable } from 'rxjs/Observable';
@@ -19,27 +19,38 @@ import { IEvent } from '../../../../models/event';
   styleUrls: ['./dashboard-events.component.scss']
 })
 export class DashboardEventsComponent implements OnInit, AfterViewChecked {
-  commandCtrl: FormControl;
+  quickControlForm: FormGroup;
   commands: ICommand[];
-  events: IEvent[];
+  events: IEvent[] = [];
   filteredCommands: Observable<ICommand[]>;
 
   @ViewChild('eventContainer') private eventContainer: ElementRef;
   private eventsChanged = false;
 
-  constructor(private activatedRouter: ActivatedRoute, private dashboardService: DashboardService) {
-    this.commandCtrl = new FormControl();
-    this.filteredCommands = this.commandCtrl.valueChanges
-        .startWith(null)
-        .map(commandName => typeof commandName === 'string' ? this.filterCommands(commandName) : this.commands.slice());
+  constructor(
+      private activatedRouter: ActivatedRoute,
+      private dashboardService: DashboardService,
+      private formBuilder: FormBuilder
+    ) {
+      this.createForm();
 
-    this.dashboardService.connectToEventSocket().subscribe(event => {
-      if (50 <= this.events.length) {
-        this.events.shift();
-      }
+      this.filteredCommands = this.quickControlForm.controls.command.valueChanges
+          .startWith(null)
+          .map(commandName => typeof commandName === 'string' ? this.filterCommands(commandName) : this.commands.slice());
 
-      this.events.push(event);
-      this.eventsChanged = true;
+      this.dashboardService.connectToEventSocket().subscribe(event => {
+        if (50 <= this.events.length) {
+          this.events.shift();
+        }
+
+        this.events.push(event);
+        this.eventsChanged = true;
+      });
+  }
+
+  private createForm() {
+    this.quickControlForm = this.formBuilder.group({
+      command: ''
     });
   }
 
@@ -79,7 +90,7 @@ export class DashboardEventsComponent implements OnInit, AfterViewChecked {
   }
 
   onCommandSelected(command: ICommand) {
-    this.commandCtrl.setValue('');
+    this.quickControlForm.controls.command.setValue('');
     this.dashboardService.runCommand(command._id);
   }
 }

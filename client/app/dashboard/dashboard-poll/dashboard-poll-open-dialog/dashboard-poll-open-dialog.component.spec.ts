@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatListModule,
   MatFormFieldModule,
@@ -8,11 +8,11 @@ import {
   MatDialogModule,
   MatInputModule
 } from '@angular/material';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations/src/module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DashboardPollOpenDialogComponent } from './dashboard-poll-open-dialog.component';
 
-fdescribe('PollOpenDialogComponent', () => {
+describe('PollOpenDialogComponent', () => {
   let component: DashboardPollOpenDialogComponent;
   let fixture: ComponentFixture<DashboardPollOpenDialogComponent>;
 
@@ -28,8 +28,7 @@ fdescribe('PollOpenDialogComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
-        { provide: MatDialogRef, useValue: {} },
-        FormBuilder
+        { provide: MatDialogRef, useValue: {} }
       ],
       declarations: [ DashboardPollOpenDialogComponent ]
     })
