@@ -1,11 +1,15 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 
 import { UserResolverGuard } from './user-resolver.guard';
+import { AuthService } from '../shared/auth/auth.service';
 
 describe('UserResolverGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UserResolverGuard]
+      providers: [
+        { provide: AuthService, useValue: {} },
+        UserResolverGuard
+      ]
     });
   });
 

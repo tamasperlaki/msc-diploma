@@ -1,7 +1,10 @@
 import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
-import { Http, ConnectionBackend } from '@angular/http';
-import { RequestOptions, BaseRequestOptions } from '@angular/http';
-import { Response, ResponseOptions, ResponseOptionsArgs } from '@angular/http';
+import {
+  HttpModule,
+  XHRBackend,
+  Response,
+  ResponseOptions,
+  ResponseOptionsArgs } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { AuthService } from './auth.service';
@@ -9,12 +12,10 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ HttpModule ],
       providers: [
-        MockBackend,
-        { provide: ConnectionBackend, useClass: MockBackend },
-        { provide: RequestOptions, useClass: BaseRequestOptions },
-        AuthService,
-        Http
+        { provide: XHRBackend, useClass: MockBackend },
+        AuthService
       ]
     });
   });
@@ -23,7 +24,7 @@ describe('AuthService', () => {
     expect(authService).toBeTruthy();
   }));
 
-  it('should be created', fakeAsync(inject([AuthService, MockBackend], (authService: AuthService, backend: MockBackend) => {
+  it('should be created', fakeAsync(inject([AuthService, XHRBackend], (authService: AuthService, backend: MockBackend) => {
     authService.getUser().then(user => console.log(user));
     mockRespond(backend, {
       body: JSON.stringify({data: {}})

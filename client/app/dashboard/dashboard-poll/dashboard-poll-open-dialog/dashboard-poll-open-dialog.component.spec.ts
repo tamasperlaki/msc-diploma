@@ -1,4 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import {
+  MatListModule,
+  MatFormFieldModule,
+  MatDialogRef,
+  MatIconModule,
+  MatDialogModule,
+  MatInputModule
+} from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DashboardPollOpenDialogComponent } from './dashboard-poll-open-dialog.component';
 
@@ -8,6 +18,18 @@ describe('PollOpenDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatListModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatDialogModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        NoopAnimationsModule
+      ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} }
+      ],
       declarations: [ DashboardPollOpenDialogComponent ]
     })
     .compileComponents();

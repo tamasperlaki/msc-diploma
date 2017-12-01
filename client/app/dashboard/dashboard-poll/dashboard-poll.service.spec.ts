@@ -1,11 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { HttpModule, XHRBackend } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 import { DashboardPollService } from './dashboard-poll.service';
 
 describe('DashboardPollService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DashboardPollService]
+      imports: [ HttpModule ],
+      providers: [
+        { provide: XHRBackend, useClass: MockBackend },
+        DashboardPollService
+      ]
     });
   });
 
