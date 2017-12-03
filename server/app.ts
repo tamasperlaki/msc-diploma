@@ -29,13 +29,14 @@ if (app.get('env') === 'production') {
   app.use(express_enforce_ssl());
   app.use(helmet());
 
-  sessionConfig.secure = true;
-  sessionConfig.httpOnly = true;
-  sessionConfig.expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  sessionConfig.cookie = {
+    secure: true,
+    httpOnly:  true,
+    maxAge: 24 * 60 * 60 * 1000
+  };
 }
 
 // uncomment after placing your favicon in /public
-// app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
