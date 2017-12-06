@@ -7,7 +7,7 @@ const io = Server();
 
 io.on('connection', socket => {
   const parsedCookie = cookie.parse(socket.handshake.headers['cookie']);
-  const rawSessionSid = parsedCookie['connect.sid'];
+  const rawSessionSid = parsedCookie['sessionId'];
   const sessionSid = getSessionSidFromRaw(rawSessionSid);
   let userId;
 

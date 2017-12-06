@@ -3,6 +3,9 @@ import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as logger from 'morgan';
 import * as session from 'express-session';
+import * as express_enforce_ssl from 'express-enforces-ssl';
+import * as helmet from 'helmet';
+import * as csurf from 'csurf';
 import * as http from 'http';
 import { isEmpty } from 'lodash';
 import { User } from '../models/user';
@@ -13,18 +16,38 @@ import redis from './config/redis';
 
 const app: express.Express = express();
 
+const sessionConfig: any = {
+  name: 'sessionId',
+  secret: 'tlnuFR7IGubYWKW05PGnQ$~VP',
+  resave: false,
+  saveUninitialized: true,
+  store: mongoStore
+};
+
+if (app.get('env') === 'production') {
+  app.enable('trust proxy');
+  app.use(express_enforce_ssl());
+  app.use(helmet());
+
+  sessionConfig.cookie = {
+    secure: true,
+    httpOnly:  true,
+    maxAge: 24 * 60 * 60 * 1000
+  };
+}
+
 // uncomment after placing your favicon in /public
-// app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  store: mongoStore
-}));
+app.use(session(sessionConfig));
+app.use(csurf());
+
+app.use((req, res, next) => {
+  res.cookie('XSRF-TOKEN', req.csrfToken());
+  return next();
+});
 
 // routes
 const routeModules = require('require-all')({
