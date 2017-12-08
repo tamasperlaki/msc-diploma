@@ -11,7 +11,7 @@ export default () => {
       res.locals.timer.remove()
         .then(timer => removedTimer = timer)
         .then(() => botManager.removeTimer(req.session.userId, removedTimer))
-        .then(() => eventLogger.info('Removed timer', {channel: req.session.channel, userId: req.session.userId, timer: name}))
+        .then(() => eventLogger.info('Removed timer', {channel: req.session.channel, userId: req.session.userId, timer: removedTimer.name}))
         .then(() => res.send(removedTimer))
         .catch(error => {
           console.error(error);
