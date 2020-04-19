@@ -60,7 +60,7 @@
     "helmet": "^3.9.0",
     "moment": "^2.19.1",
     "mongo-sanitize": "^1.0.0",
-    "mongoose": "^4.9.8",
+    "mongoose": "^5.7.5",
     "morgan": "^1.8.1",
     "msc-diploma-bot": "github:Tankika/msc-diploma-bot",
     "pm2": "^2.7.0",
